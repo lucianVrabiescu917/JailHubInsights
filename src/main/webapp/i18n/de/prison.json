@@ -1,0 +1,29 @@
+{
+  "jailHubInsightsApp": {
+    "prison": {
+      "home": {
+        "title": "Prisons",
+        "refreshListLabel": "Liste aktualisieren",
+        "createLabel": "Prison erstellen",
+        "createOrEditLabel": "Prison erstellen oder bearbeiten",
+        "notFound": "Keine Prisons gefunden"
+      },
+      "created": "Prison erstellt mit ID {{ param }}",
+      "updated": "Prison aktualisiert mit ID {{ param }}",
+      "deleted": "Prison gelöscht mit ID {{ param }}",
+      "delete": {
+        "question": "Soll Prison {{ id }} wirklich dauerhaft gelöscht werden?"
+      },
+      "detail": {
+        "title": "Prison"
+      },
+      "id": "ID",
+      "name": "Name",
+      "location": "Location",
+      "inmate": "Inmate",
+      "area": "Area",
+      "activity": "Activity",
+      "staff": "Staff"
+    }
+  }
+}

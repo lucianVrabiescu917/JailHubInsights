@@ -1,0 +1,46 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="activity">
+      <h2 data-cy="activityDetailsHeading"><span jhiTranslate="jailHubInsightsApp.activity.detail.title">Activity</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ activity.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="jailHubInsightsApp.activity.type">Type</span></dt>
+        <dd>
+          <span jhiTranslate="{{ 'jailHubInsightsApp.ActivityType.' + activity.type }}">{{ activity.type }}</span>
+        </dd>
+        <dt><span jhiTranslate="jailHubInsightsApp.activity.title">Title</span></dt>
+        <dd>
+          <span>{{ activity.title }}</span>
+        </dd>
+        <dt><span jhiTranslate="jailHubInsightsApp.activity.description">Description</span></dt>
+        <dd>
+          <span>{{ activity.description }}</span>
+        </dd>
+        <dt><span jhiTranslate="jailHubInsightsApp.activity.prison">Prison</span></dt>
+        <dd>
+          <div *ngIf="activity.prison">
+            <a [routerLink]="['/prison', activity.prison.id, 'view']">{{ activity.prison.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/activity', activity.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

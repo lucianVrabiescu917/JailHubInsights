@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <!--
+        Added the constraints for entity Area.
+    -->
+    <changeSet id="20230520190453-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="prison_id"
+                                 baseTableName="area"
+                                 constraintName="fk_area__prison_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="prison"/>
+
+        <addForeignKeyConstraint baseColumnNames="area_id"
+                                 baseTableName="rel_area__assigned_staff_areas"
+                                 constraintName="fk_rel_area__assigned_staff_areas__area_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="area"/>
+
+        <addForeignKeyConstraint baseColumnNames="assigned_staff_areas_id"
+                                 baseTableName="rel_area__assigned_staff_areas"
+                                 constraintName="fk_rel_area__assigned_staff_areas__assigned_staff_areas_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="staff"/>
+
+        <addForeignKeyConstraint baseColumnNames="area_id"
+                                 baseTableName="rel_area__composed_of_areas"
+                                 constraintName="fk_rel_area__composed_of_areas__area_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="area"/>
+
+        <addForeignKeyConstraint baseColumnNames="composed_of_areas_id"
+                                 baseTableName="rel_area__composed_of_areas"
+                                 constraintName="fk_rel_area__composed_of_areas__composed_of_areas_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="area"/>
+    </changeSet>
+</databaseChangeLog>

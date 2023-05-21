@@ -1,0 +1,63 @@
+{
+  "applications": "*",
+  "changelogDate": "20230520190453",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "area",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "areaSize",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "areaType",
+      "fieldType": "AreaType",
+      "fieldValues": "CELL,CELL_BLOCK,DINING,RECREATIONAL,LABOR_SITE,CLASS"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": true,
+  "name": "Area",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "prison",
+      "otherEntityRelationshipName": "area",
+      "relationshipName": "prison",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "staff",
+      "otherEntityRelationshipName": "assignedAreas",
+      "ownerSide": true,
+      "relationshipName": "assignedStaffAreas",
+      "relationshipType": "many-to-many"
+    },
+    {
+      "otherEntityName": "area",
+      "otherEntityRelationshipName": "composingAreas",
+      "ownerSide": true,
+      "relationshipName": "composedOfAreas",
+      "relationshipType": "many-to-many"
+    },
+    {
+      "otherEntityName": "inmate",
+      "otherEntityRelationshipName": "assignedCell",
+      "relationshipName": "inmate",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "area",
+      "otherEntityRelationshipName": "composedOfAreas",
+      "ownerSide": false,
+      "relationshipName": "composingAreas",
+      "relationshipType": "many-to-many"
+    }
+  ],
+  "service": "serviceClass"
+}

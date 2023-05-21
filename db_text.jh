@@ -1,0 +1,69 @@
+entity Prison {
+    name String,
+    location String
+}
+
+entity Inmate {
+firstName String,
+lastName String,
+dateOfBirth LocalDate,
+dateOfIncarceration LocalDate,
+dateOfExpectedRelease LocalDate
+}
+
+entity Staff{
+staffType StaffType,
+firstName String,
+lastName String
+}
+
+entity Area {
+name String,
+areaSize Double,
+areaType AreaType
+}
+
+entity Activity {
+type ActivityType,
+title String,
+description String
+}
+
+enum StaffType {
+DIRECTOR, GUARD, OFFICER, MEDIC, PSYCHOLOGIST
+}
+enum ActivityType {
+LABOR, RECREATION, CELL_TIME, REHABILITATION
+}
+enum AreaType {
+CELL, CELL_BLOCK, DINING, RECREATIONAL, LABOR_SITE, CLASS 
+}
+
+relationship ManyToOne {
+Inmate{prison} to Prison{inmate}
+Area{prison} to Prison{area}
+Activity{prison} to Prison{activity}
+Staff{prison} to Prison{staff}
+Inmate{assignedCell} to Area{inmate}
+}
+
+relationship ManyToMany {
+Area{assignedStaffAreas} to Staff{assignedAreas}
+Area{composedOfAreas} to Area{composingAreas}
+Inmate{activity} to Activity{inmate}
+Staff{activity} to Activity{staff}
+}
+
+
+
+
+
+
+service * with serviceClass
+paginate * with pagination
+dto * with mapstruct
+filter *
+
+
+
+

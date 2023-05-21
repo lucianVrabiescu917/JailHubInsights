@@ -1,0 +1,29 @@
+{
+  "jailHubInsightsApp": {
+    "activity": {
+      "home": {
+        "title": "Activities",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau Activity",
+        "createOrEditLabel": "Créer ou éditer un Activity",
+        "notFound": "Aucun Activity trouvé"
+      },
+      "created": "Un nouveau Activity a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Activity avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Activity avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Êtes-vous certain de vouloir supprimer le Activity {{ id }} ?"
+      },
+      "detail": {
+        "title": "Activity"
+      },
+      "id": "ID",
+      "type": "Type",
+      "title": "Title",
+      "description": "Description",
+      "prison": "Prison",
+      "inmate": "Inmate",
+      "staff": "Staff"
+    }
+  }
+}

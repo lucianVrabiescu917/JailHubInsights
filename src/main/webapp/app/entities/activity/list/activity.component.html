@@ -1,0 +1,163 @@
+<div>
+  <h2 id="page-heading" data-cy="ActivityHeading">
+    <span jhiTranslate="jailHubInsightsApp.activity.home.title">Activities</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="jailHubInsightsApp.activity.home.refreshListLabel">Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-activity"
+        [routerLink]="['/activity/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="jailHubInsightsApp.activity.home.createLabel"> Create a new Activity </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <jhi-filter [filters]="filters"></jhi-filter>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="activities?.length === 0">
+    <span jhiTranslate="jailHubInsightsApp.activity.home.notFound">No Activities found</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="activities && activities.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span jhiTranslate="global.field.id">ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="type">
+            <div class="d-flex">
+              <span jhiTranslate="jailHubInsightsApp.activity.type">Type</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="title">
+            <div class="d-flex">
+              <span jhiTranslate="jailHubInsightsApp.activity.title">Title</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="description">
+            <div class="d-flex">
+              <span jhiTranslate="jailHubInsightsApp.activity.description">Description</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="prison.id">
+            <div class="d-flex">
+              <span jhiTranslate="jailHubInsightsApp.activity.prison">Prison</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let activity of activities; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/activity', activity.id, 'view']">{{ activity.id }}</a>
+          </td>
+          <td jhiTranslate="{{ 'jailHubInsightsApp.ActivityType.' + activity.type }}">{{ activity.type }}</td>
+          <td>{{ activity.title }}</td>
+          <td>{{ activity.description }}</td>
+          <td>
+            <div *ngIf="activity.prison">
+              <a [routerLink]="['/prison', activity.prison.id, 'view']">{{ activity.prison.id }}</a>
+            </div>
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/inmate']"
+                [queryParams]="{ 'filter[activityId.in]': activity.id }"
+                class="btn btn-info btn-sm"
+                data-cy="filterOtherEntityButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span
+                  class="d-none d-md-inline"
+                  jhiTranslate="entity.action.show"
+                  [translateValues]="{ otherEntity: ('jailHubInsightsApp.activity.inmate' | translate) }"
+                  >Show Inmate</span
+                >
+              </button>
+              <button
+                type="submit"
+                [routerLink]="['/staff']"
+                [queryParams]="{ 'filter[activityId.in]': activity.id }"
+                class="btn btn-info btn-sm"
+                data-cy="filterOtherEntityButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span
+                  class="d-none d-md-inline"
+                  jhiTranslate="entity.action.show"
+                  [translateValues]="{ otherEntity: ('jailHubInsightsApp.activity.staff' | translate) }"
+                  >Show Staff</span
+                >
+              </button>
+              <button
+                type="submit"
+                [routerLink]="['/activity', activity.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/activity', activity.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(activity)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="activities && activities.length > 0">
+    <div class="d-flex justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [page]="page"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="navigateToPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>

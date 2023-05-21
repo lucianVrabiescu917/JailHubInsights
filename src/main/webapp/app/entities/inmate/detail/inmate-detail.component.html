@@ -1,0 +1,67 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="inmate">
+      <h2 data-cy="inmateDetailsHeading"><span jhiTranslate="jailHubInsightsApp.inmate.detail.title">Inmate</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ inmate.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="jailHubInsightsApp.inmate.firstName">First Name</span></dt>
+        <dd>
+          <span>{{ inmate.firstName }}</span>
+        </dd>
+        <dt><span jhiTranslate="jailHubInsightsApp.inmate.lastName">Last Name</span></dt>
+        <dd>
+          <span>{{ inmate.lastName }}</span>
+        </dd>
+        <dt><span jhiTranslate="jailHubInsightsApp.inmate.dateOfBirth">Date Of Birth</span></dt>
+        <dd>
+          <span>{{ inmate.dateOfBirth | formatMediumDate }}</span>
+        </dd>
+        <dt><span jhiTranslate="jailHubInsightsApp.inmate.dateOfIncarceration">Date Of Incarceration</span></dt>
+        <dd>
+          <span>{{ inmate.dateOfIncarceration | formatMediumDate }}</span>
+        </dd>
+        <dt><span jhiTranslate="jailHubInsightsApp.inmate.dateOfExpectedRelease">Date Of Expected Release</span></dt>
+        <dd>
+          <span>{{ inmate.dateOfExpectedRelease | formatMediumDate }}</span>
+        </dd>
+        <dt><span jhiTranslate="jailHubInsightsApp.inmate.prison">Prison</span></dt>
+        <dd>
+          <div *ngIf="inmate.prison">
+            <a [routerLink]="['/prison', inmate.prison.id, 'view']">{{ inmate.prison.id }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="jailHubInsightsApp.inmate.assignedCell">Assigned Cell</span></dt>
+        <dd>
+          <div *ngIf="inmate.assignedCell">
+            <a [routerLink]="['/area', inmate.assignedCell.id, 'view']">{{ inmate.assignedCell.id }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="jailHubInsightsApp.inmate.activity">Activity</span></dt>
+        <dd>
+          <span *ngFor="let activity of inmate.activities; let last = last">
+            <a [routerLink]="['/activity', activity.id, 'view']">{{ activity.id }}</a
+            >{{ last ? '' : ', ' }}
+          </span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/inmate', inmate.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

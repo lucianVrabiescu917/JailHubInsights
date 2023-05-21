@@ -1,0 +1,50 @@
+{
+  "applications": "*",
+  "changelogDate": "20230520190452",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "staff",
+  "fields": [
+    {
+      "fieldName": "staffType",
+      "fieldType": "StaffType",
+      "fieldValues": "DIRECTOR,GUARD,OFFICER,MEDIC,PSYCHOLOGIST"
+    },
+    {
+      "fieldName": "firstName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "lastName",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": true,
+  "name": "Staff",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "prison",
+      "otherEntityRelationshipName": "staff",
+      "relationshipName": "prison",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "activity",
+      "otherEntityRelationshipName": "staff",
+      "ownerSide": true,
+      "relationshipName": "activity",
+      "relationshipType": "many-to-many"
+    },
+    {
+      "otherEntityName": "area",
+      "otherEntityRelationshipName": "assignedStaffAreas",
+      "ownerSide": false,
+      "relationshipName": "assignedAreas",
+      "relationshipType": "many-to-many"
+    }
+  ],
+  "service": "serviceClass"
+}

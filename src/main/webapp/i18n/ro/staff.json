@@ -1,0 +1,29 @@
+{
+  "jailHubInsightsApp": {
+    "staff": {
+      "home": {
+        "title": "Staff",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Creeare o nouă entitate Staff",
+        "createOrEditLabel": "Creeare sau editare Staff",
+        "notFound": "No Staff found"
+      },
+      "created": "A fost creată o nouă entitate Staff cu identificatorul {{ param }}",
+      "updated": "Staff cu identificatorul {{ param }} a fost actualizată",
+      "deleted": "Staff cu identificatorul {{ param }} a fost ștearsă",
+      "delete": {
+        "question": "Sunteți sigur că doriți să ștergeți Staff {{ id }}?"
+      },
+      "detail": {
+        "title": "Staff"
+      },
+      "id": "ID",
+      "staffType": "Staff Type",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "prison": "Prison",
+      "activity": "Activity",
+      "assignedAreas": "Assigned Areas"
+    }
+  }
+}

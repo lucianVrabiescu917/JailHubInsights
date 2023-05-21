@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <!--
+        Added the constraints for entity Inmate.
+    -->
+    <changeSet id="20230520190451-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="prison_id"
+                                 baseTableName="inmate"
+                                 constraintName="fk_inmate__prison_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="prison"/>
+
+        <addForeignKeyConstraint baseColumnNames="assigned_cell_id"
+                                 baseTableName="inmate"
+                                 constraintName="fk_inmate__assigned_cell_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="area"/>
+
+        <addForeignKeyConstraint baseColumnNames="inmate_id"
+                                 baseTableName="rel_inmate__activity"
+                                 constraintName="fk_rel_inmate__activity__inmate_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="inmate"/>
+
+        <addForeignKeyConstraint baseColumnNames="activity_id"
+                                 baseTableName="rel_inmate__activity"
+                                 constraintName="fk_rel_inmate__activity__activity_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="activity"/>
+    </changeSet>
+</databaseChangeLog>

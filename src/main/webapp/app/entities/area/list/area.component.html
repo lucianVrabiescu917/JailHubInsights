@@ -1,0 +1,153 @@
+<div>
+  <h2 id="page-heading" data-cy="AreaHeading">
+    <span jhiTranslate="jailHubInsightsApp.area.home.title">Areas</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="jailHubInsightsApp.area.home.refreshListLabel">Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-area"
+        [routerLink]="['/area/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="jailHubInsightsApp.area.home.createLabel"> Create a new Area </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <jhi-filter [filters]="filters"></jhi-filter>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="areas?.length === 0">
+    <span jhiTranslate="jailHubInsightsApp.area.home.notFound">No Areas found</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="areas && areas.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span jhiTranslate="global.field.id">ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="name">
+            <div class="d-flex">
+              <span jhiTranslate="jailHubInsightsApp.area.name">Name</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="areaSize">
+            <div class="d-flex">
+              <span jhiTranslate="jailHubInsightsApp.area.areaSize">Area Size</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="areaType">
+            <div class="d-flex">
+              <span jhiTranslate="jailHubInsightsApp.area.areaType">Area Type</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="prison.id">
+            <div class="d-flex">
+              <span jhiTranslate="jailHubInsightsApp.area.prison">Prison</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let area of areas; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/area', area.id, 'view']">{{ area.id }}</a>
+          </td>
+          <td>{{ area.name }}</td>
+          <td>{{ area.areaSize }}</td>
+          <td jhiTranslate="{{ 'jailHubInsightsApp.AreaType.' + area.areaType }}">{{ area.areaType }}</td>
+          <td>
+            <div *ngIf="area.prison">
+              <a [routerLink]="['/prison', area.prison.id, 'view']">{{ area.prison.id }}</a>
+            </div>
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/inmate']"
+                [queryParams]="{ 'filter[assignedCellId.in]': area.id }"
+                class="btn btn-info btn-sm"
+                data-cy="filterOtherEntityButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span
+                  class="d-none d-md-inline"
+                  jhiTranslate="entity.action.show"
+                  [translateValues]="{ otherEntity: ('jailHubInsightsApp.area.inmate' | translate) }"
+                  >Show Inmate</span
+                >
+              </button>
+              <button
+                type="submit"
+                [routerLink]="['/area']"
+                [queryParams]="{ 'filter[composedOfAreasId.in]': area.id }"
+                class="btn btn-info btn-sm"
+                data-cy="filterOtherEntityButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span
+                  class="d-none d-md-inline"
+                  jhiTranslate="entity.action.show"
+                  [translateValues]="{ otherEntity: ('jailHubInsightsApp.area.composingAreas' | translate) }"
+                  >Show Area</span
+                >
+              </button>
+              <button type="submit" [routerLink]="['/area', area.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button type="submit" [routerLink]="['/area', area.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(area)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="areas && areas.length > 0">
+    <div class="d-flex justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [page]="page"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="navigateToPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>

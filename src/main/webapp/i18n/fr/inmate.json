@@ -1,0 +1,31 @@
+{
+  "jailHubInsightsApp": {
+    "inmate": {
+      "home": {
+        "title": "Inmates",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau Inmate",
+        "createOrEditLabel": "Créer ou éditer un Inmate",
+        "notFound": "Aucun Inmate trouvé"
+      },
+      "created": "Un nouveau Inmate a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Inmate avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Inmate avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Êtes-vous certain de vouloir supprimer le Inmate {{ id }} ?"
+      },
+      "detail": {
+        "title": "Inmate"
+      },
+      "id": "ID",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "dateOfBirth": "Date Of Birth",
+      "dateOfIncarceration": "Date Of Incarceration",
+      "dateOfExpectedRelease": "Date Of Expected Release",
+      "prison": "Prison",
+      "assignedCell": "Assigned Cell",
+      "activity": "Activity"
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "jailHubInsightsApp": {
+    "area": {
+      "home": {
+        "title": "Areas",
+        "refreshListLabel": "Liste aktualisieren",
+        "createLabel": "Area erstellen",
+        "createOrEditLabel": "Area erstellen oder bearbeiten",
+        "notFound": "Keine Areas gefunden"
+      },
+      "created": "Area erstellt mit ID {{ param }}",
+      "updated": "Area aktualisiert mit ID {{ param }}",
+      "deleted": "Area gelöscht mit ID {{ param }}",
+      "delete": {
+        "question": "Soll Area {{ id }} wirklich dauerhaft gelöscht werden?"
+      },
+      "detail": {
+        "title": "Area"
+      },
+      "id": "ID",
+      "name": "Name",
+      "areaSize": "Area Size",
+      "areaType": "Area Type",
+      "prison": "Prison",
+      "assignedStaffAreas": "Assigned Staff Areas",
+      "composedOfAreas": "Composed Of Areas",
+      "inmate": "Inmate",
+      "composingAreas": "Composing Areas"
+    }
+  }
+}

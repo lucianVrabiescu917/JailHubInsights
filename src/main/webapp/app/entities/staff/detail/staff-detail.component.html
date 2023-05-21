@@ -1,0 +1,53 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="staff">
+      <h2 data-cy="staffDetailsHeading"><span jhiTranslate="jailHubInsightsApp.staff.detail.title">Staff</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ staff.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="jailHubInsightsApp.staff.staffType">Staff Type</span></dt>
+        <dd>
+          <span jhiTranslate="{{ 'jailHubInsightsApp.StaffType.' + staff.staffType }}">{{ staff.staffType }}</span>
+        </dd>
+        <dt><span jhiTranslate="jailHubInsightsApp.staff.firstName">First Name</span></dt>
+        <dd>
+          <span>{{ staff.firstName }}</span>
+        </dd>
+        <dt><span jhiTranslate="jailHubInsightsApp.staff.lastName">Last Name</span></dt>
+        <dd>
+          <span>{{ staff.lastName }}</span>
+        </dd>
+        <dt><span jhiTranslate="jailHubInsightsApp.staff.prison">Prison</span></dt>
+        <dd>
+          <div *ngIf="staff.prison">
+            <a [routerLink]="['/prison', staff.prison.id, 'view']">{{ staff.prison.id }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="jailHubInsightsApp.staff.activity">Activity</span></dt>
+        <dd>
+          <span *ngFor="let activity of staff.activities; let last = last">
+            <a [routerLink]="['/activity', activity.id, 'view']">{{ activity.id }}</a
+            >{{ last ? '' : ', ' }}
+          </span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/staff', staff.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

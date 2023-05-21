@@ -1,0 +1,50 @@
+{
+  "applications": "*",
+  "changelogDate": "20230520190454",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "activity",
+  "fields": [
+    {
+      "fieldName": "type",
+      "fieldType": "ActivityType",
+      "fieldValues": "LABOR,RECREATION,CELL_TIME,REHABILITATION"
+    },
+    {
+      "fieldName": "title",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": true,
+  "name": "Activity",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "prison",
+      "otherEntityRelationshipName": "activity",
+      "relationshipName": "prison",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "inmate",
+      "otherEntityRelationshipName": "activity",
+      "ownerSide": false,
+      "relationshipName": "inmate",
+      "relationshipType": "many-to-many"
+    },
+    {
+      "otherEntityName": "staff",
+      "otherEntityRelationshipName": "activity",
+      "ownerSide": false,
+      "relationshipName": "staff",
+      "relationshipType": "many-to-many"
+    }
+  ],
+  "service": "serviceClass"
+}

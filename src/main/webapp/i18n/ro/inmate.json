@@ -1,0 +1,31 @@
+{
+  "jailHubInsightsApp": {
+    "inmate": {
+      "home": {
+        "title": "Inmates",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Creeare o nouă entitate Inmate",
+        "createOrEditLabel": "Creeare sau editare Inmate",
+        "notFound": "No Inmates found"
+      },
+      "created": "A fost creată o nouă entitate Inmate cu identificatorul {{ param }}",
+      "updated": "Inmate cu identificatorul {{ param }} a fost actualizată",
+      "deleted": "Inmate cu identificatorul {{ param }} a fost ștearsă",
+      "delete": {
+        "question": "Sunteți sigur că doriți să ștergeți Inmate {{ id }}?"
+      },
+      "detail": {
+        "title": "Inmate"
+      },
+      "id": "ID",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "dateOfBirth": "Date Of Birth",
+      "dateOfIncarceration": "Date Of Incarceration",
+      "dateOfExpectedRelease": "Date Of Expected Release",
+      "prison": "Prison",
+      "assignedCell": "Assigned Cell",
+      "activity": "Activity"
+    }
+  }
+}

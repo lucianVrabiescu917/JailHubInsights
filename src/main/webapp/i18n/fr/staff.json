@@ -1,0 +1,29 @@
+{
+  "jailHubInsightsApp": {
+    "staff": {
+      "home": {
+        "title": "Staff",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau Staff",
+        "createOrEditLabel": "Créer ou éditer un Staff",
+        "notFound": "Aucun Staff trouvé"
+      },
+      "created": "Un nouveau Staff a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Staff avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Staff avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Êtes-vous certain de vouloir supprimer le Staff {{ id }} ?"
+      },
+      "detail": {
+        "title": "Staff"
+      },
+      "id": "ID",
+      "staffType": "Staff Type",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "prison": "Prison",
+      "activity": "Activity",
+      "assignedAreas": "Assigned Areas"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+export enum AreaType {
+  CELL = 'CELL',
+
+  CELL_BLOCK = 'CELL_BLOCK',
+
+  DINING = 'DINING',
+
+  RECREATIONAL = 'RECREATIONAL',
+
+  LABOR_SITE = 'LABOR_SITE',
+
+  CLASS = 'CLASS',
+}

@@ -1,0 +1,60 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="area">
+      <h2 data-cy="areaDetailsHeading"><span jhiTranslate="jailHubInsightsApp.area.detail.title">Area</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ area.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="jailHubInsightsApp.area.name">Name</span></dt>
+        <dd>
+          <span>{{ area.name }}</span>
+        </dd>
+        <dt><span jhiTranslate="jailHubInsightsApp.area.areaSize">Area Size</span></dt>
+        <dd>
+          <span>{{ area.areaSize }}</span>
+        </dd>
+        <dt><span jhiTranslate="jailHubInsightsApp.area.areaType">Area Type</span></dt>
+        <dd>
+          <span jhiTranslate="{{ 'jailHubInsightsApp.AreaType.' + area.areaType }}">{{ area.areaType }}</span>
+        </dd>
+        <dt><span jhiTranslate="jailHubInsightsApp.area.prison">Prison</span></dt>
+        <dd>
+          <div *ngIf="area.prison">
+            <a [routerLink]="['/prison', area.prison.id, 'view']">{{ area.prison.id }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="jailHubInsightsApp.area.assignedStaffAreas">Assigned Staff Areas</span></dt>
+        <dd>
+          <span *ngFor="let assignedStaffAreas of area.assignedStaffAreas; let last = last">
+            <a [routerLink]="['/staff', assignedStaffAreas.id, 'view']">{{ assignedStaffAreas.id }}</a
+            >{{ last ? '' : ', ' }}
+          </span>
+        </dd>
+        <dt><span jhiTranslate="jailHubInsightsApp.area.composedOfAreas">Composed Of Areas</span></dt>
+        <dd>
+          <span *ngFor="let composedOfAreas of area.composedOfAreas; let last = last">
+            <a [routerLink]="['/area', composedOfAreas.id, 'view']">{{ composedOfAreas.id }}</a
+            >{{ last ? '' : ', ' }}
+          </span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/area', area.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

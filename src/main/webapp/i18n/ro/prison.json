@@ -1,0 +1,29 @@
+{
+  "jailHubInsightsApp": {
+    "prison": {
+      "home": {
+        "title": "Prisons",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Creeare o nouă entitate Prison",
+        "createOrEditLabel": "Creeare sau editare Prison",
+        "notFound": "No Prisons found"
+      },
+      "created": "A fost creată o nouă entitate Prison cu identificatorul {{ param }}",
+      "updated": "Prison cu identificatorul {{ param }} a fost actualizată",
+      "deleted": "Prison cu identificatorul {{ param }} a fost ștearsă",
+      "delete": {
+        "question": "Sunteți sigur că doriți să ștergeți Prison {{ id }}?"
+      },
+      "detail": {
+        "title": "Prison"
+      },
+      "id": "ID",
+      "name": "Name",
+      "location": "Location",
+      "inmate": "Inmate",
+      "area": "Area",
+      "activity": "Activity",
+      "staff": "Staff"
+    }
+  }
+}

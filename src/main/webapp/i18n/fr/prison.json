@@ -1,0 +1,29 @@
+{
+  "jailHubInsightsApp": {
+    "prison": {
+      "home": {
+        "title": "Prisons",
+        "refreshListLabel": "Actualiser la liste",
+        "createLabel": "Créer un nouveau Prison",
+        "createOrEditLabel": "Créer ou éditer un Prison",
+        "notFound": "Aucun Prison trouvé"
+      },
+      "created": "Un nouveau Prison a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Prison avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Prison avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Êtes-vous certain de vouloir supprimer le Prison {{ id }} ?"
+      },
+      "detail": {
+        "title": "Prison"
+      },
+      "id": "ID",
+      "name": "Name",
+      "location": "Location",
+      "inmate": "Inmate",
+      "area": "Area",
+      "activity": "Activity",
+      "staff": "Staff"
+    }
+  }
+}
