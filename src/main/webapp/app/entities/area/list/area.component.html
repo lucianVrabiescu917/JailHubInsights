@@ -34,12 +34,6 @@
     <table class="table table-striped" aria-describedby="page-heading">
       <thead>
         <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
-          <th scope="col" jhiSortBy="id">
-            <div class="d-flex">
-              <span jhiTranslate="global.field.id">ID</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
           <th scope="col" jhiSortBy="name">
             <div class="d-flex">
               <span jhiTranslate="jailHubInsightsApp.area.name">Name</span>
@@ -69,9 +63,6 @@
       </thead>
       <tbody>
         <tr *ngFor="let area of areas; trackBy: trackId" data-cy="entityTable">
-          <td>
-            <a [routerLink]="['/area', area.id, 'view']">{{ area.id }}</a>
-          </td>
           <td>{{ area.name }}</td>
           <td>{{ area.areaSize }}</td>
           <td jhiTranslate="{{ 'jailHubInsightsApp.AreaType.' + area.areaType }}">{{ area.areaType }}</td>

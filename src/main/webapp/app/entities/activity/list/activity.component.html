@@ -34,12 +34,6 @@
     <table class="table table-striped" aria-describedby="page-heading">
       <thead>
         <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
-          <th scope="col" jhiSortBy="id">
-            <div class="d-flex">
-              <span jhiTranslate="global.field.id">ID</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
           <th scope="col" jhiSortBy="type">
             <div class="d-flex">
               <span jhiTranslate="jailHubInsightsApp.activity.type">Type</span>
@@ -69,9 +63,6 @@
       </thead>
       <tbody>
         <tr *ngFor="let activity of activities; trackBy: trackId" data-cy="entityTable">
-          <td>
-            <a [routerLink]="['/activity', activity.id, 'view']">{{ activity.id }}</a>
-          </td>
           <td jhiTranslate="{{ 'jailHubInsightsApp.ActivityType.' + activity.type }}">{{ activity.type }}</td>
           <td>{{ activity.title }}</td>
           <td>{{ activity.description }}</td>

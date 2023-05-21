@@ -34,12 +34,6 @@
     <table class="table table-striped" aria-describedby="page-heading">
       <thead>
         <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
-          <th scope="col" jhiSortBy="id">
-            <div class="d-flex">
-              <span jhiTranslate="global.field.id">ID</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
           <th scope="col" jhiSortBy="staffType">
             <div class="d-flex">
               <span jhiTranslate="jailHubInsightsApp.staff.staffType">Staff Type</span>
@@ -69,9 +63,6 @@
       </thead>
       <tbody>
         <tr *ngFor="let staff of staff; trackBy: trackId" data-cy="entityTable">
-          <td>
-            <a [routerLink]="['/staff', staff.id, 'view']">{{ staff.id }}</a>
-          </td>
           <td jhiTranslate="{{ 'jailHubInsightsApp.StaffType.' + staff.staffType }}">{{ staff.staffType }}</td>
           <td>{{ staff.firstName }}</td>
           <td>{{ staff.lastName }}</td>

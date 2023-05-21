@@ -6,12 +6,12 @@
       "home": "Startseite",
       "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
       "entities": {
-        "main": "Entitäten",
-        "prison": "Prison",
-        "inmate": "Inmate",
-        "staff": "Staff",
-        "area": "Area",
-        "activity": "Activity",
+        "main": "Mitarbeiter",
+        "prison": "Gefängnis",
+        "inmate": "Insasse",
+        "staff": "Personal",
+        "area": "Bereich",
+        "activity": "Aktivität",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

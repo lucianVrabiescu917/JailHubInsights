@@ -10,11 +10,11 @@
         "bankAccount": "ContBancar",
         "label": "Etichetă",
         "operation": "Operație",
-        "prison": "Prison",
-        "inmate": "Inmate",
-        "staff": "Staff",
-        "area": "Area",
-        "activity": "Activity",
+        "prison": "Inchisori",
+        "inmate": "Deținuți",
+        "staff": "Personal",
+        "area": "Zone",
+        "activity": "Activități",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {
