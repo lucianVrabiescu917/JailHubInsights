@@ -8,9 +8,9 @@ export interface IStaff {
   staffType?: StaffType | null;
   firstName?: string | null;
   lastName?: string | null;
-  prison?: Pick<IPrison, 'id'> | null;
-  activities?: Pick<IActivity, 'id'>[] | null;
-  assignedAreas?: Pick<IArea, 'id'>[] | null;
+  prison?: IPrison | null;
+  activities?: IActivity[] | null;
+  assignedAreas?: IArea[] | null;
 }
 
 export type NewStaff = Omit<IStaff, 'id'> & { id: null };

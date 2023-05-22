@@ -33,19 +33,19 @@
         <dt><span jhiTranslate="jailHubInsightsApp.inmate.prison">Prison</span></dt>
         <dd>
           <div *ngIf="inmate.prison">
-            <a [routerLink]="['/prison', inmate.prison.id, 'view']">{{ inmate.prison.id }}</a>
+            <a [routerLink]="['/prison', inmate.prison.id, 'view']">{{ inmate.prison.name }}</a>
           </div>
         </dd>
         <dt><span jhiTranslate="jailHubInsightsApp.inmate.assignedCell">Assigned Cell</span></dt>
         <dd>
           <div *ngIf="inmate.assignedCell">
-            <a [routerLink]="['/area', inmate.assignedCell.id, 'view']">{{ inmate.assignedCell.id }}</a>
+            <a [routerLink]="['/area', inmate.assignedCell.id, 'view']">{{ inmate.assignedCell.name }}</a>
           </div>
         </dd>
         <dt><span jhiTranslate="jailHubInsightsApp.inmate.activity">Activity</span></dt>
         <dd>
           <span *ngFor="let activity of inmate.activities; let last = last">
-            <a [routerLink]="['/activity', activity.id, 'view']">{{ activity.id }}</a
+            <a [routerLink]="['/activity', activity.id, 'view']">{{ activity.title }}</a
             >{{ last ? '' : ', ' }}
           </span>
         </dd>

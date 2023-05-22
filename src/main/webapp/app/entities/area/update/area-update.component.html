@@ -71,7 +71,7 @@
             formControlName="composedOfAreas"
             [compareWith]="compareArea"
           >
-            <option [ngValue]="areaOption" *ngFor="let areaOption of areasSharedCollection">{{ areaOption.id }}</option>
+            <option [ngValue]="areaOption" *ngFor="let areaOption of areasSharedCollection">{{ areaOption.name }}</option>
           </select>
         </div>
       </div>

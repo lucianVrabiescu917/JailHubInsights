@@ -88,12 +88,12 @@
           <td>{{ inmate.dateOfExpectedRelease | formatMediumDate }}</td>
           <td>
             <div *ngIf="inmate.prison">
-              <a [routerLink]="['/prison', inmate.prison.id, 'view']">{{ inmate.prison.id }}</a>
+              <a [routerLink]="['/prison', inmate.prison.id, 'view']">{{ inmate.prison.name }}</a>
             </div>
           </td>
           <td>
             <div *ngIf="inmate.assignedCell">
-              <a [routerLink]="['/area', inmate.assignedCell.id, 'view']">{{ inmate.assignedCell.id }}</a>
+              <a [routerLink]="['/area', inmate.assignedCell.id, 'view']">{{ inmate.assignedCell.name }}</a>
             </div>
           </td>
           <td class="text-end">

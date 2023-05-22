@@ -25,7 +25,7 @@
         <dt><span jhiTranslate="jailHubInsightsApp.activity.prison">Prison</span></dt>
         <dd>
           <div *ngIf="activity.prison">
-            <a [routerLink]="['/prison', activity.prison.id, 'view']">{{ activity.prison.id }}</a>
+            <a [routerLink]="['/prison', activity.prison.id, 'view']">{{ activity.prison.name }}</a>
           </div>
         </dd>
       </dl>

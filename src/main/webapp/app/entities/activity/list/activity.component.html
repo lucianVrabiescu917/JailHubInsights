@@ -52,7 +52,7 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="prison.id">
+          <th scope="col" jhiSortBy="prison.name">
             <div class="d-flex">
               <span jhiTranslate="jailHubInsightsApp.activity.prison">Prison</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
@@ -68,7 +68,7 @@
           <td>{{ activity.description }}</td>
           <td>
             <div *ngIf="activity.prison">
-              <a [routerLink]="['/prison', activity.prison.id, 'view']">{{ activity.prison.id }}</a>
+              <a [routerLink]="['/prison', activity.prison.id, 'view']">{{ activity.prison.name }}</a>
             </div>
           </td>
           <td class="text-end">

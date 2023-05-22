@@ -11,11 +11,12 @@ import ro.luci.jailhubinsights.service.dto.PrisonDTO;
  */
 @Mapper(componentModel = "spring")
 public interface ActivityMapper extends EntityMapper<ActivityDTO, Activity> {
-    @Mapping(target = "prison", source = "prison", qualifiedByName = "prisonId")
+    @Mapping(target = "prison", source = "prison", qualifiedByName = "prisonDto")
     ActivityDTO toDto(Activity s);
 
-    @Named("prisonId")
+    @Named("prisonDto")
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
+    @Mapping(target = "name", source = "name")
     PrisonDTO toDtoPrisonId(Prison prison);
 }

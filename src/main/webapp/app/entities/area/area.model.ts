@@ -7,10 +7,10 @@ export interface IArea {
   name?: string | null;
   areaSize?: number | null;
   areaType?: AreaType | null;
-  prison?: Pick<IPrison, 'id'> | null;
-  assignedStaffAreas?: Pick<IStaff, 'id'>[] | null;
-  composedOfAreas?: Pick<IArea, 'id'>[] | null;
-  composingAreas?: Pick<IArea, 'id'>[] | null;
+  prison?: IPrison | null;
+  assignedStaffAreas?: IStaff[] | null;
+  composedOfAreas?: IArea[] | null;
+  composingAreas?: IArea[] | null;
 }
 
 export type NewArea = Omit<IArea, 'id'> & { id: null };

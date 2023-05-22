@@ -8,7 +8,7 @@ export interface IActivity {
   type?: ActivityType | null;
   title?: string | null;
   description?: string | null;
-  prison?: Pick<IPrison, 'id'> | null;
+  prison?: IPrison | null;
   inmates?: Pick<IInmate, 'id'>[] | null;
   staff?: Pick<IStaff, 'id'>[] | null;
 }
