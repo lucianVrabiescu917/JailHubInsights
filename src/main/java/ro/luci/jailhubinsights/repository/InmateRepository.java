@@ -29,4 +29,8 @@ public interface InmateRepository
     default Page<Inmate> findAllWithEagerRelationships(Pageable pageable) {
         return this.fetchBagRelationships(this.findAll(pageable));
     }
+
+    @Modifying
+    @Query(value = "update inmate i set i.assigned_cell_id = null where i.assigned_cell_id = :areaId", nativeQuery = true)
+    void removeAreaFromInmateByAreaId(@Param("areaId") Long areaId);
 }

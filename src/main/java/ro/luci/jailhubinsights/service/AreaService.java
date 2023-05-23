@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ro.luci.jailhubinsights.domain.Area;
 import ro.luci.jailhubinsights.repository.AreaRepository;
+import ro.luci.jailhubinsights.repository.InmateRepository;
 import ro.luci.jailhubinsights.service.dto.AreaDTO;
 import ro.luci.jailhubinsights.service.mapper.AreaMapper;
 
@@ -23,10 +24,12 @@ public class AreaService {
 
     private final AreaRepository areaRepository;
 
+    private final InmateRepository inmateRepository;
     private final AreaMapper areaMapper;
 
-    public AreaService(AreaRepository areaRepository, AreaMapper areaMapper) {
+    public AreaService(AreaRepository areaRepository, InmateRepository inmateRepository, AreaMapper areaMapper) {
         this.areaRepository = areaRepository;
+        this.inmateRepository = inmateRepository;
         this.areaMapper = areaMapper;
     }
 
@@ -114,8 +117,13 @@ public class AreaService {
      *
      * @param id the id of the entity.
      */
+    @Transactional
     public void delete(Long id) {
         log.debug("Request to delete Area : {}", id);
+        areaRepository.deleteRelationsWithComposedOfByAreaId(id);
+        areaRepository.deleteRelationsWithComposingByAreaId(id);
+        areaRepository.deleteRelationsWithStaffByAreaId(id);
+        inmateRepository.removeAreaFromInmateByAreaId(id);
         areaRepository.deleteById(id);
     }
 }

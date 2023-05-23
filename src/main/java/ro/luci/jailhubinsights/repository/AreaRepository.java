@@ -28,4 +28,19 @@ public interface AreaRepository extends AreaRepositoryWithBagRelationships, JpaR
     default Page<Area> findAllWithEagerRelationships(Pageable pageable) {
         return this.fetchBagRelationships(this.findAll(pageable));
     }
+
+    @Modifying
+    @Query(
+        value = "DELETE ca.* FROM rel_area__composed_of_areas ca " + "        WHERE ca.composed_of_areas_id = :areaId",
+        nativeQuery = true
+    )
+    void deleteRelationsWithComposedOfByAreaId(@Param("areaId") Long areaId);
+
+    @Modifying
+    @Query(value = "DELETE ca.* FROM rel_area__composed_of_areas ca " + "        WHERE ca.area_id = :areaId", nativeQuery = true)
+    void deleteRelationsWithComposingByAreaId(@Param("areaId") Long areaId);
+
+    @Modifying
+    @Query(value = "DELETE asa.* FROM rel_area__assigned_staff_areas asa " + "        WHERE asa.area_id = :areaId", nativeQuery = true)
+    void deleteRelationsWithStaffByAreaId(@Param("areaId") Long areaId);
 }
