@@ -22,8 +22,6 @@ public class StaffDTO implements Serializable {
 
     private PrisonDTO prison;
 
-    private Set<ActivityDTO> activities = new HashSet<>();
-
     public Long getId() {
         return id;
     }
@@ -64,14 +62,6 @@ public class StaffDTO implements Serializable {
         this.prison = prison;
     }
 
-    public Set<ActivityDTO> getActivities() {
-        return activities;
-    }
-
-    public void setActivities(Set<ActivityDTO> activities) {
-        this.activities = activities;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -102,7 +92,6 @@ public class StaffDTO implements Serializable {
             ", firstName='" + getFirstName() + "'" +
             ", lastName='" + getLastName() + "'" +
             ", prison=" + getPrison() +
-            ", activities=" + getActivities() +
             "}";
     }
 }

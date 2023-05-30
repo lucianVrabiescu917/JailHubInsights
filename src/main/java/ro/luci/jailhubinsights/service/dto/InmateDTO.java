@@ -28,8 +28,6 @@ public class InmateDTO implements Serializable {
 
     private AreaDTO assignedCell;
 
-    private Set<ActivityDTO> activities = new HashSet<>();
-
     public Long getId() {
         return id;
     }
@@ -94,14 +92,6 @@ public class InmateDTO implements Serializable {
         this.assignedCell = assignedCell;
     }
 
-    public Set<ActivityDTO> getActivities() {
-        return activities;
-    }
-
-    public void setActivities(Set<ActivityDTO> activities) {
-        this.activities = activities;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -135,7 +125,6 @@ public class InmateDTO implements Serializable {
             ", dateOfExpectedRelease='" + getDateOfExpectedRelease() + "'" +
             ", prison=" + getPrison() +
             ", assignedCell=" + getAssignedCell() +
-            ", activities=" + getActivities() +
             "}";
     }
 }

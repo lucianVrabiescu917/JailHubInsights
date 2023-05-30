@@ -9,8 +9,8 @@ export interface IActivity {
   title?: string | null;
   description?: string | null;
   prison?: IPrison | null;
-  inmates?: Pick<IInmate, 'id'>[] | null;
-  staff?: Pick<IStaff, 'id'>[] | null;
+  inmates?: IInmate[] | null;
+  staff?: IStaff[] | null;
 }
 
 export type NewActivity = Omit<IActivity, 'id'> & { id: null };

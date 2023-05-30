@@ -16,7 +16,6 @@ import ro.luci.jailhubinsights.service.dto.StaffDTO;
 @Mapper(componentModel = "spring")
 public interface StaffMapper extends EntityMapper<StaffDTO, Staff> {
     @Mapping(target = "prison", source = "prison", qualifiedByName = "prison")
-    @Mapping(target = "activities", source = "activities", qualifiedByName = "activitySet")
     StaffDTO toDto(Staff s);
 
     @Mapping(target = "removeActivity", ignore = true)
@@ -27,15 +26,4 @@ public interface StaffMapper extends EntityMapper<StaffDTO, Staff> {
     @Mapping(target = "id", source = "id")
     @Mapping(target = "name", source = "name")
     PrisonDTO toDtoPrison(Prison prison);
-
-    @Named("activity")
-    @BeanMapping(ignoreByDefault = true)
-    @Mapping(target = "id", source = "id")
-    @Mapping(target = "title", source = "title")
-    ActivityDTO toDtoActivity(Activity activity);
-
-    @Named("activitySet")
-    default Set<ActivityDTO> toDtoActivitySet(Set<Activity> activity) {
-        return activity.stream().map(this::toDtoActivity).collect(Collectors.toSet());
-    }
 }

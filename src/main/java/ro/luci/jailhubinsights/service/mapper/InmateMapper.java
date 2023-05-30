@@ -19,7 +19,6 @@ import ro.luci.jailhubinsights.service.dto.PrisonDTO;
 public interface InmateMapper extends EntityMapper<InmateDTO, Inmate> {
     @Mapping(target = "prison", source = "prison", qualifiedByName = "prison")
     @Mapping(target = "assignedCell", source = "assignedCell", qualifiedByName = "area")
-    @Mapping(target = "activities", source = "activities", qualifiedByName = "activitySet")
     InmateDTO toDto(Inmate s);
 
     @Mapping(target = "removeActivity", ignore = true)
@@ -36,15 +35,4 @@ public interface InmateMapper extends EntityMapper<InmateDTO, Inmate> {
     @Mapping(target = "id", source = "id")
     @Mapping(target = "name", source = "name")
     AreaDTO toDtoArea(Area area);
-
-    @Named("activity")
-    @BeanMapping(ignoreByDefault = true)
-    @Mapping(target = "id", source = "id")
-    @Mapping(target = "title", source = "title")
-    ActivityDTO toDtoActivity(Activity activity);
-
-    @Named("activitySet")
-    default Set<ActivityDTO> toDtoActivityIdSet(Set<Activity> activity) {
-        return activity.stream().map(this::toDtoActivity).collect(Collectors.toSet());
-    }
 }

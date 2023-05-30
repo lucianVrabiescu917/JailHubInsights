@@ -2,6 +2,9 @@ package ro.luci.jailhubinsights.service.dto;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.Set;
+import ro.luci.jailhubinsights.domain.Inmate;
+import ro.luci.jailhubinsights.domain.Staff;
 import ro.luci.jailhubinsights.domain.enumeration.ActivityType;
 
 /**
@@ -19,6 +22,10 @@ public class ActivityDTO implements Serializable {
     private String description;
 
     private PrisonDTO prison;
+
+    private Set<InmateDTO> inmates;
+
+    private Set<StaffDTO> staff;
 
     public Long getId() {
         return id;
@@ -58,6 +65,22 @@ public class ActivityDTO implements Serializable {
 
     public void setPrison(PrisonDTO prison) {
         this.prison = prison;
+    }
+
+    public Set<InmateDTO> getInmates() {
+        return inmates;
+    }
+
+    public void setInmates(Set<InmateDTO> inmates) {
+        this.inmates = inmates;
+    }
+
+    public Set<StaffDTO> getStaff() {
+        return staff;
+    }
+
+    public void setStaff(Set<StaffDTO> staff) {
+        this.staff = staff;
     }
 
     @Override

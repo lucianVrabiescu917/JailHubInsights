@@ -46,12 +46,7 @@ public class Inmate implements Serializable {
     @JsonIgnoreProperties(value = { "prison", "assignedStaffAreas", "composedOfAreas", "inmates", "composingAreas" }, allowSetters = true)
     private Area assignedCell;
 
-    @ManyToMany
-    @JoinTable(
-        name = "rel_inmate__activity",
-        joinColumns = @JoinColumn(name = "inmate_id"),
-        inverseJoinColumns = @JoinColumn(name = "activity_id")
-    )
+    @ManyToMany(mappedBy = "inmates")
     @JsonIgnoreProperties(value = { "prison", "inmates", "staff" }, allowSetters = true)
     private Set<Activity> activities = new HashSet<>();
 
