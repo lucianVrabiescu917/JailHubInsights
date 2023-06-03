@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import ro.luci.jailhubinsights.domain.Activity;
 import ro.luci.jailhubinsights.domain.enumeration.StaffType;
 
 /**
@@ -21,6 +22,8 @@ public class StaffDTO implements Serializable {
     private String lastName;
 
     private PrisonDTO prison;
+
+    private Set<ActivityDTO> activities;
 
     public Long getId() {
         return id;
@@ -60,6 +63,14 @@ public class StaffDTO implements Serializable {
 
     public void setPrison(PrisonDTO prison) {
         this.prison = prison;
+    }
+
+    public Set<ActivityDTO> getActivities() {
+        return activities;
+    }
+
+    public void setActivities(Set<ActivityDTO> activities) {
+        this.activities = activities;
     }
 
     @Override

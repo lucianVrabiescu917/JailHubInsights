@@ -49,6 +49,40 @@
             <option [ngValue]="prisonOption" *ngFor="let prisonOption of prisonsSharedCollection">{{ prisonOption.name }}</option>
           </select>
         </div>
+
+        <div class="row mb-3">
+          <label jhiTranslate="jailHubInsightsApp.activity.staff" for="field_staff">Staff</label>
+          <select
+            class="form-control"
+            id="field_staff"
+            data-cy="staff"
+            multiple
+            name="staff"
+            formControlName="staff"
+            [compareWith]="compareStaff"
+          >
+            <option [ngValue]="staffOption" *ngFor="let staffOption of staffSharedCollection">
+              {{ staffOption.firstName + ' ' + staffOption.lastName }}
+            </option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label jhiTranslate="jailHubInsightsApp.activity.inmate" for="field_inmates">Inmates</label>
+          <select
+            class="form-control"
+            id="field_inmates"
+            data-cy="inmates"
+            multiple
+            name="inmates"
+            formControlName="inmates"
+            [compareWith]="compareInmates"
+          >
+            <option [ngValue]="inmateOption" *ngFor="let inmateOption of inmatesSharedCollection">
+              {{ inmateOption.firstName + ' ' + inmateOption.lastName }}
+            </option>
+          </select>
+        </div>
       </div>
 
       <div>

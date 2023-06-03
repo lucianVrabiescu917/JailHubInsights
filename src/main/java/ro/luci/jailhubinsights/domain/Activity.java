@@ -40,8 +40,8 @@ public class Activity implements Serializable {
     @ManyToMany
     @JoinTable(
         name = "rel_inmate__activity",
-        joinColumns = @JoinColumn(name = "inmate_id"),
-        inverseJoinColumns = @JoinColumn(name = "activity_id")
+        joinColumns = @JoinColumn(name = "activity_id"),
+        inverseJoinColumns = @JoinColumn(name = "inmate_id")
     )
     @JsonIgnoreProperties(value = { "prison", "assignedCell", "activities" }, allowSetters = true)
     private Set<Inmate> inmates = new HashSet<>();
@@ -49,8 +49,8 @@ public class Activity implements Serializable {
     @ManyToMany
     @JoinTable(
         name = "rel_staff__activity",
-        joinColumns = @JoinColumn(name = "staff_id"),
-        inverseJoinColumns = @JoinColumn(name = "activity_id")
+        joinColumns = @JoinColumn(name = "activity_id"),
+        inverseJoinColumns = @JoinColumn(name = "staff_id")
     )
     @JsonIgnoreProperties(value = { "prison", "activities", "assignedAreas" }, allowSetters = true)
     private Set<Staff> staff = new HashSet<>();

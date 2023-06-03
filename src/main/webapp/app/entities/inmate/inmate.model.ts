@@ -12,6 +12,7 @@ export interface IInmate {
   dateOfExpectedRelease?: dayjs.Dayjs | null;
   prison?: IPrison | null;
   assignedCell?: IArea | null;
+  activities?: IActivity[] | null;
 }
 
 export type NewInmate = Omit<IInmate, 'id'> & { id: null };

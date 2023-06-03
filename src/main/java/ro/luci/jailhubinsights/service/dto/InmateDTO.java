@@ -28,6 +28,8 @@ public class InmateDTO implements Serializable {
 
     private AreaDTO assignedCell;
 
+    private Set<ActivityDTO> activities;
+
     public Long getId() {
         return id;
     }
@@ -90,6 +92,14 @@ public class InmateDTO implements Serializable {
 
     public void setAssignedCell(AreaDTO assignedCell) {
         this.assignedCell = assignedCell;
+    }
+
+    public Set<ActivityDTO> getActivities() {
+        return activities;
+    }
+
+    public void setActivities(Set<ActivityDTO> activities) {
+        this.activities = activities;
     }
 
     @Override

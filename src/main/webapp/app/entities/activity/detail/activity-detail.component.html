@@ -28,6 +28,20 @@
             <a [routerLink]="['/prison', activity.prison.id, 'view']">{{ activity.prison.name }}</a>
           </div>
         </dd>
+        <dt><span jhiTranslate="jailHubInsightsApp.activity.staff">Staff</span></dt>
+        <dd>
+          <span *ngFor="let staff of activity.staff; let last = last">
+            <a [routerLink]="['/staff', staff.id, 'view']">{{ staff.firstName + ' ' + staff.lastName }}</a
+            >{{ last ? '' : ', ' }}
+          </span>
+        </dd>
+        <dt><span jhiTranslate="jailHubInsightsApp.activity.inmate">Inmates</span></dt>
+        <dd>
+          <span *ngFor="let inmate of activity.inmates; let last = last">
+            <a [routerLink]="['/inmate', inmate.id, 'view']">{{ inmate.firstName + ' ' + inmate.lastName }}</a
+            >{{ last ? '' : ', ' }}
+          </span>
+        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

@@ -9,6 +9,7 @@ export interface IStaff {
   firstName?: string | null;
   lastName?: string | null;
   prison?: IPrison | null;
+  activities?: IActivity[] | null;
   assignedAreas?: IArea[] | null;
 }
 
