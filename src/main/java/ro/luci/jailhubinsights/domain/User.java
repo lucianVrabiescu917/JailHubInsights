@@ -1,6 +1,7 @@
 package ro.luci.jailhubinsights.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashSet;
@@ -78,6 +79,9 @@ public class User extends AbstractAuditingEntity<Long> implements Serializable {
 
     @Column(name = "reset_date")
     private Instant resetDate = null;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Prison prison;
 
     @JsonIgnore
     @ManyToMany
@@ -192,6 +196,14 @@ public class User extends AbstractAuditingEntity<Long> implements Serializable {
 
     public void setAuthorities(Set<Authority> authorities) {
         this.authorities = authorities;
+    }
+
+    public Prison getPrison() {
+        return prison;
+    }
+
+    public void setPrison(Prison prison) {
+        this.prison = prison;
     }
 
     @Override

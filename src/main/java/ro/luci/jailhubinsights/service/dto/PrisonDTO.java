@@ -15,6 +15,14 @@ public class PrisonDTO implements Serializable {
 
     private String location;
 
+    public PrisonDTO(Long id, String name, String location) {
+        this.id = id;
+        this.name = name;
+        this.location = location;
+    }
+
+    public PrisonDTO() {}
+
     public Long getId() {
         return id;
     }

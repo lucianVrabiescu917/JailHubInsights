@@ -130,6 +130,22 @@
           <option *ngFor="let authority of authorities" [value]="authority">{{ authority }}</option>
         </select>
       </div>
+
+      <div class="row mb-3">
+        <label class="form-label" jhiTranslate="jailHubInsightsApp.staff.prison" for="field_prison">Prison</label>
+        <select
+          class="form-control"
+          id="field_prison"
+          data-cy="prison"
+          name="prison"
+          formControlName="prison"
+          [compareWith]="comparePrison"
+        >
+          <option [ngValue]="null"></option>
+          <option [ngValue]="prisonOption" *ngFor="let prisonOption of prisonsSharedCollection">{{ prisonOption.name }}</option>
+        </select>
+      </div>
+
       <button type="button" class="btn btn-secondary" (click)="previousState()">
         <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
       </button>

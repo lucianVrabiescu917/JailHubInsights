@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import javax.validation.constraints.*;
 import ro.luci.jailhubinsights.config.Constants;
 import ro.luci.jailhubinsights.domain.Authority;
+import ro.luci.jailhubinsights.domain.Prison;
 import ro.luci.jailhubinsights.domain.User;
 
 /**
@@ -51,6 +52,8 @@ public class AdminUserDTO implements Serializable {
 
     private Set<String> authorities;
 
+    private PrisonDTO prison;
+
     public AdminUserDTO() {
         // Empty constructor needed for Jackson.
     }
@@ -69,6 +72,8 @@ public class AdminUserDTO implements Serializable {
         this.lastModifiedBy = user.getLastModifiedBy();
         this.lastModifiedDate = user.getLastModifiedDate();
         this.authorities = user.getAuthorities().stream().map(Authority::getName).collect(Collectors.toSet());
+        if (user.getPrison() != null) this.prison =
+            new PrisonDTO(user.getPrison().getId(), user.getPrison().getName(), user.getPrison().getLocation());
     }
 
     public Long getId() {
@@ -173,6 +178,14 @@ public class AdminUserDTO implements Serializable {
 
     public void setAuthorities(Set<String> authorities) {
         this.authorities = authorities;
+    }
+
+    public PrisonDTO getPrison() {
+        return prison;
+    }
+
+    public void setPrison(PrisonDTO prison) {
+        this.prison = prison;
     }
 
     // prettier-ignore

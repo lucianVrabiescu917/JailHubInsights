@@ -44,7 +44,9 @@ public class Prison implements Serializable {
     @JsonIgnoreProperties(value = { "prison", "activities", "assignedAreas" }, allowSetters = true)
     private Set<Staff> staff = new HashSet<>();
 
-    // jhipster-needle-entity-add-field - JHipster will add fields here
+    @OneToMany(mappedBy = "prison")
+    @JsonIgnoreProperties(value = { "prison", "activities", "assignedAreas" }, allowSetters = true)
+    private Set<User> users = new HashSet<>();
 
     public Long getId() {
         return this.id;
@@ -207,6 +209,14 @@ public class Prison implements Serializable {
         this.staff.remove(staff);
         staff.setPrison(null);
         return this;
+    }
+
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

@@ -1,6 +1,7 @@
 package ro.luci.jailhubinsights.service.dto;
 
 import java.io.Serializable;
+import ro.luci.jailhubinsights.domain.Prison;
 import ro.luci.jailhubinsights.domain.User;
 
 /**
@@ -13,6 +14,8 @@ public class UserDTO implements Serializable {
     private Long id;
 
     private String login;
+
+    private Prison prison;
 
     public UserDTO() {
         // Empty constructor needed for Jackson.
@@ -38,6 +41,14 @@ public class UserDTO implements Serializable {
 
     public void setLogin(String login) {
         this.login = login;
+    }
+
+    public Prison getPrison() {
+        return prison;
+    }
+
+    public void setPrison(Prison prison) {
+        this.prison = prison;
     }
 
     // prettier-ignore

@@ -5,6 +5,11 @@ import { ActivatedRoute } from '@angular/router';
 import { LANGUAGES } from 'app/config/language.constants';
 import { IUser } from '../user-management.model';
 import { UserManagementService } from '../service/user-management.service';
+import { PrisonService } from '../../../entities/prison/service/prison.service';
+import { IPrison } from '../../../entities/prison/prison.model';
+import { map } from 'rxjs/operators';
+import { HttpResponse } from '@angular/common/http';
+import { IActivity } from '../../../entities/activity/activity.model';
 
 const userTemplate = {} as IUser;
 
@@ -21,6 +26,7 @@ export class UserManagementUpdateComponent implements OnInit {
   languages = LANGUAGES;
   authorities: string[] = [];
   isSaving = false;
+  prisonsSharedCollection: IPrison[] = [];
 
   editForm = new FormGroup({
     id: new FormControl(userTemplate.id),
@@ -42,24 +48,37 @@ export class UserManagementUpdateComponent implements OnInit {
     activated: new FormControl(userTemplate.activated, { nonNullable: true }),
     langKey: new FormControl(userTemplate.langKey, { nonNullable: true }),
     authorities: new FormControl(userTemplate.authorities, { nonNullable: true }),
+    prison: new FormControl(userTemplate.prison, { nonNullable: true }),
   });
 
-  constructor(private userService: UserManagementService, private route: ActivatedRoute) {}
+  constructor(private userService: UserManagementService, private route: ActivatedRoute, protected prisonService: PrisonService) {}
 
   ngOnInit(): void {
     this.route.data.subscribe(({ user }) => {
       if (user) {
         this.editForm.reset(user);
+        this.loadRelationshipsOptions(user);
       } else {
         this.editForm.reset(newUser);
+        this.loadRelationshipsOptions(newUser);
       }
     });
     this.userService.authorities().subscribe(authorities => (this.authorities = authorities));
   }
 
+  protected loadRelationshipsOptions(user: IUser): void {
+    this.prisonService
+      .query()
+      .pipe(map((res: HttpResponse<IPrison[]>) => res.body ?? []))
+      .pipe(map((prisons: IPrison[]) => this.prisonService.addPrisonToCollectionIfMissing<IPrison>(prisons, user?.prison)))
+      .subscribe((prisons: IPrison[]) => (this.prisonsSharedCollection = prisons));
+  }
+
   previousState(): void {
     window.history.back();
   }
+
+  comparePrison = (o1: IPrison | null, o2: IPrison | null): boolean => this.prisonService.comparePrison(o1, o2);
 
   save(): void {
     this.isSaving = true;

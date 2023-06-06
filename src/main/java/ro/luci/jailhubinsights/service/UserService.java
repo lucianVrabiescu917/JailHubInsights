@@ -6,6 +6,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -16,11 +17,13 @@ import ro.luci.jailhubinsights.config.Constants;
 import ro.luci.jailhubinsights.domain.Authority;
 import ro.luci.jailhubinsights.domain.User;
 import ro.luci.jailhubinsights.repository.AuthorityRepository;
+import ro.luci.jailhubinsights.repository.PrisonRepository;
 import ro.luci.jailhubinsights.repository.UserRepository;
 import ro.luci.jailhubinsights.security.AuthoritiesConstants;
 import ro.luci.jailhubinsights.security.SecurityUtils;
 import ro.luci.jailhubinsights.service.dto.AdminUserDTO;
 import ro.luci.jailhubinsights.service.dto.UserDTO;
+import ro.luci.jailhubinsights.service.mapper.PrisonMapper;
 import tech.jhipster.security.RandomUtil;
 
 /**
@@ -37,6 +40,9 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     private final AuthorityRepository authorityRepository;
+
+    @Autowired
+    private PrisonMapper prisonMapper;
 
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityRepository authorityRepository) {
         this.userRepository = userRepository;
@@ -186,6 +192,7 @@ public class UserService {
                 user.setImageUrl(userDTO.getImageUrl());
                 user.setActivated(userDTO.isActivated());
                 user.setLangKey(userDTO.getLangKey());
+                user.setPrison(prisonMapper.toEntity(userDTO.getPrison()));
                 Set<Authority> managedAuthorities = user.getAuthorities();
                 managedAuthorities.clear();
                 userDTO
@@ -266,7 +273,7 @@ public class UserService {
         return userRepository.findOneWithAuthoritiesByLogin(login);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public Optional<User> getUserWithAuthorities() {
         return SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneWithAuthoritiesByLogin);
     }
