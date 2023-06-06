@@ -80,21 +80,6 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" jhiTranslate="jailHubInsightsApp.inmate.prison" for="field_prison">Prison</label>
-          <select
-            class="form-control"
-            id="field_prison"
-            data-cy="prison"
-            name="prison"
-            formControlName="prison"
-            [compareWith]="comparePrison"
-          >
-            <option [ngValue]="null"></option>
-            <option [ngValue]="prisonOption" *ngFor="let prisonOption of prisonsSharedCollection">{{ prisonOption.name }}</option>
-          </select>
-        </div>
-
-        <div class="row mb-3">
           <label class="form-label" jhiTranslate="jailHubInsightsApp.inmate.assignedCell" for="field_assignedCell">Assigned Cell</label>
           <select
             class="form-control"
@@ -106,21 +91,6 @@
           >
             <option [ngValue]="null"></option>
             <option [ngValue]="areaOption" *ngFor="let areaOption of areasSharedCollection">{{ areaOption.name }}</option>
-          </select>
-        </div>
-
-        <div class="row mb-3">
-          <label jhiTranslate="jailHubInsightsApp.inmate.activity" for="field_activities">Activity</label>
-          <select
-            class="form-control"
-            id="field_activities"
-            data-cy="activity"
-            multiple
-            name="activities"
-            formControlName="activities"
-            [compareWith]="compareActivity"
-          >
-            <option [ngValue]="activityOption" *ngFor="let activityOption of activitiesSharedCollection">{{ activityOption.title }}</option>
           </select>
         </div>
       </div>

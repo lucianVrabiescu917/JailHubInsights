@@ -8,8 +8,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ro.luci.jailhubinsights.domain.Activity;
+import ro.luci.jailhubinsights.domain.Activity;
+import ro.luci.jailhubinsights.domain.Prison;
+import ro.luci.jailhubinsights.domain.User;
 import ro.luci.jailhubinsights.repository.ActivityRepository;
+import ro.luci.jailhubinsights.repository.UserRepository;
+import ro.luci.jailhubinsights.security.SecurityUtils;
 import ro.luci.jailhubinsights.service.dto.ActivityDTO;
+import ro.luci.jailhubinsights.service.dto.ActivityDTO;
+import ro.luci.jailhubinsights.service.dto.PrisonDTO;
 import ro.luci.jailhubinsights.service.mapper.ActivityMapper;
 
 /**
@@ -25,9 +32,27 @@ public class ActivityService {
 
     private final ActivityMapper activityMapper;
 
-    public ActivityService(ActivityRepository activityRepository, ActivityMapper activityMapper) {
+    private final UserRepository userRepository;
+
+    public ActivityService(ActivityRepository activityRepository, ActivityMapper activityMapper, UserRepository userRepository) {
         this.activityRepository = activityRepository;
         this.activityMapper = activityMapper;
+        this.userRepository = userRepository;
+    }
+
+    public Activity updateAndReturnEntityWithCurrentPrison(ActivityDTO activityDTO) {
+        Activity activity = activityMapper.toEntity(activityDTO);
+        User currentUser = null;
+        Optional<User> currentUserOptional = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByLogin);
+        if (currentUserOptional.isPresent()) {
+            currentUser = currentUserOptional.get();
+        }
+        if (currentUser != null) {
+            activity.setPrison(currentUser.getPrison());
+        } else {
+            activity.setPrison(null);
+        }
+        return activity;
     }
 
     /**
@@ -38,7 +63,7 @@ public class ActivityService {
      */
     public ActivityDTO save(ActivityDTO activityDTO) {
         log.debug("Request to save Activity : {}", activityDTO);
-        Activity activity = activityMapper.toEntity(activityDTO);
+        Activity activity = this.updateAndReturnEntityWithCurrentPrison(activityDTO);
         activity = activityRepository.save(activity);
         return activityMapper.toDto(activity);
     }
@@ -51,7 +76,7 @@ public class ActivityService {
      */
     public ActivityDTO update(ActivityDTO activityDTO) {
         log.debug("Request to update Activity : {}", activityDTO);
-        Activity activity = activityMapper.toEntity(activityDTO);
+        Activity activity = this.updateAndReturnEntityWithCurrentPrison(activityDTO);
         activity = activityRepository.save(activity);
         return activityMapper.toDto(activity);
     }
@@ -64,6 +89,19 @@ public class ActivityService {
      */
     public Optional<ActivityDTO> partialUpdate(ActivityDTO activityDTO) {
         log.debug("Request to partially update Activity : {}", activityDTO);
+
+        User currentUser = null;
+        Optional<User> currentUserOptional = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByLogin);
+        if (currentUserOptional.isPresent()) {
+            currentUser = currentUserOptional.get();
+        }
+
+        if (currentUser != null && currentUser.getPrison() != null) {
+            Prison prison = currentUser.getPrison();
+            activityDTO.setPrison(new PrisonDTO(prison.getId(), prison.getName(), prison.getLocation()));
+        } else {
+            activityDTO.setPrison(null);
+        }
 
         return activityRepository
             .findById(activityDTO.getId())

@@ -1,6 +1,7 @@
 package ro.luci.jailhubinsights.service;
 
 import java.util.List;
+import java.util.Optional;
 import javax.persistence.criteria.JoinType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,10 +13,13 @@ import org.springframework.transaction.annotation.Transactional;
 import ro.luci.jailhubinsights.domain.*; // for static metamodels
 import ro.luci.jailhubinsights.domain.Area;
 import ro.luci.jailhubinsights.repository.AreaRepository;
+import ro.luci.jailhubinsights.repository.UserRepository;
+import ro.luci.jailhubinsights.security.SecurityUtils;
 import ro.luci.jailhubinsights.service.criteria.AreaCriteria;
 import ro.luci.jailhubinsights.service.dto.AreaDTO;
 import ro.luci.jailhubinsights.service.mapper.AreaMapper;
 import tech.jhipster.service.QueryService;
+import tech.jhipster.service.filter.LongFilter;
 
 /**
  * Service for executing complex queries for {@link Area} entities in the database.
@@ -33,9 +37,12 @@ public class AreaQueryService extends QueryService<Area> {
 
     private final AreaMapper areaMapper;
 
-    public AreaQueryService(AreaRepository areaRepository, AreaMapper areaMapper) {
+    private final UserRepository userRepository;
+
+    public AreaQueryService(AreaRepository areaRepository, AreaMapper areaMapper, UserRepository userRepository) {
         this.areaRepository = areaRepository;
         this.areaMapper = areaMapper;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -75,12 +82,21 @@ public class AreaQueryService extends QueryService<Area> {
         return areaRepository.count(specification);
     }
 
+    protected Specification<Area> createSpecification(AreaCriteria criteria) {
+        User currentUser = null;
+        Optional<User> currentUserOptional = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByLogin);
+        if (currentUserOptional.isPresent()) {
+            currentUser = currentUserOptional.get();
+        }
+        return this.createSpecification(criteria, currentUser);
+    }
+
     /**
      * Function to convert {@link AreaCriteria} to a {@link Specification}
      * @param criteria The object which holds all the filters, which the entities should match.
      * @return the matching {@link Specification} of the entity.
      */
-    protected Specification<Area> createSpecification(AreaCriteria criteria) {
+    protected Specification<Area> createSpecification(AreaCriteria criteria, User currentUser) {
         Specification<Area> specification = Specification.where(null);
         if (criteria != null) {
             // This has to be called first, because the distinct method returns null
@@ -99,11 +115,11 @@ public class AreaQueryService extends QueryService<Area> {
             if (criteria.getAreaType() != null) {
                 specification = specification.and(buildSpecification(criteria.getAreaType(), Area_.areaType));
             }
-            if (criteria.getPrisonId() != null) {
+            if (currentUser != null && currentUser.getPrison() != null) {
+                LongFilter longFilter = new LongFilter();
+                longFilter.setEquals(currentUser.getPrison().getId());
                 specification =
-                    specification.and(
-                        buildSpecification(criteria.getPrisonId(), root -> root.join(Area_.prison, JoinType.LEFT).get(Prison_.id))
-                    );
+                    specification.and(buildSpecification(longFilter, root -> root.join(Area_.prison, JoinType.LEFT).get(Prison_.id)));
             }
             if (criteria.getAssignedStaffAreasId() != null) {
                 specification =

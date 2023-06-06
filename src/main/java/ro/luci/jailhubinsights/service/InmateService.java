@@ -8,8 +8,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ro.luci.jailhubinsights.domain.Inmate;
+import ro.luci.jailhubinsights.domain.Prison;
+import ro.luci.jailhubinsights.domain.User;
 import ro.luci.jailhubinsights.repository.InmateRepository;
+import ro.luci.jailhubinsights.repository.UserRepository;
+import ro.luci.jailhubinsights.security.SecurityUtils;
 import ro.luci.jailhubinsights.service.dto.InmateDTO;
+import ro.luci.jailhubinsights.service.dto.PrisonDTO;
 import ro.luci.jailhubinsights.service.mapper.InmateMapper;
 
 /**
@@ -25,9 +30,27 @@ public class InmateService {
 
     private final InmateMapper inmateMapper;
 
-    public InmateService(InmateRepository inmateRepository, InmateMapper inmateMapper) {
+    private final UserRepository userRepository;
+
+    public InmateService(InmateRepository inmateRepository, InmateMapper inmateMapper, UserRepository userRepository) {
         this.inmateRepository = inmateRepository;
         this.inmateMapper = inmateMapper;
+        this.userRepository = userRepository;
+    }
+
+    public Inmate updateAndReturnEntityWithCurrentPrison(InmateDTO inmateDTO) {
+        Inmate inmate = inmateMapper.toEntity(inmateDTO);
+        User currentUser = null;
+        Optional<User> currentUserOptional = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByLogin);
+        if (currentUserOptional.isPresent()) {
+            currentUser = currentUserOptional.get();
+        }
+        if (currentUser != null) {
+            inmate.setPrison(currentUser.getPrison());
+        } else {
+            inmate.setPrison(null);
+        }
+        return inmate;
     }
 
     /**
@@ -38,7 +61,7 @@ public class InmateService {
      */
     public InmateDTO save(InmateDTO inmateDTO) {
         log.debug("Request to save Inmate : {}", inmateDTO);
-        Inmate inmate = inmateMapper.toEntity(inmateDTO);
+        Inmate inmate = this.updateAndReturnEntityWithCurrentPrison(inmateDTO);
         inmate = inmateRepository.save(inmate);
         return inmateMapper.toDto(inmate);
     }
@@ -51,7 +74,7 @@ public class InmateService {
      */
     public InmateDTO update(InmateDTO inmateDTO) {
         log.debug("Request to update Inmate : {}", inmateDTO);
-        Inmate inmate = inmateMapper.toEntity(inmateDTO);
+        Inmate inmate = this.updateAndReturnEntityWithCurrentPrison(inmateDTO);
         inmate = inmateRepository.save(inmate);
         return inmateMapper.toDto(inmate);
     }
@@ -64,6 +87,19 @@ public class InmateService {
      */
     public Optional<InmateDTO> partialUpdate(InmateDTO inmateDTO) {
         log.debug("Request to partially update Inmate : {}", inmateDTO);
+
+        User currentUser = null;
+        Optional<User> currentUserOptional = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByLogin);
+        if (currentUserOptional.isPresent()) {
+            currentUser = currentUserOptional.get();
+        }
+
+        if (currentUser != null && currentUser.getPrison() != null) {
+            Prison prison = currentUser.getPrison();
+            inmateDTO.setPrison(new PrisonDTO(prison.getId(), prison.getName(), prison.getLocation()));
+        } else {
+            inmateDTO.setPrison(null);
+        }
 
         return inmateRepository
             .findById(inmateDTO.getId())

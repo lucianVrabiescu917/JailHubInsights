@@ -1,6 +1,7 @@
 package ro.luci.jailhubinsights.service;
 
 import java.util.List;
+import java.util.Optional;
 import javax.persistence.criteria.JoinType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,10 +13,13 @@ import org.springframework.transaction.annotation.Transactional;
 import ro.luci.jailhubinsights.domain.*; // for static metamodels
 import ro.luci.jailhubinsights.domain.Inmate;
 import ro.luci.jailhubinsights.repository.InmateRepository;
+import ro.luci.jailhubinsights.repository.UserRepository;
+import ro.luci.jailhubinsights.security.SecurityUtils;
 import ro.luci.jailhubinsights.service.criteria.InmateCriteria;
 import ro.luci.jailhubinsights.service.dto.InmateDTO;
 import ro.luci.jailhubinsights.service.mapper.InmateMapper;
 import tech.jhipster.service.QueryService;
+import tech.jhipster.service.filter.LongFilter;
 
 /**
  * Service for executing complex queries for {@link Inmate} entities in the database.
@@ -32,10 +36,12 @@ public class InmateQueryService extends QueryService<Inmate> {
     private final InmateRepository inmateRepository;
 
     private final InmateMapper inmateMapper;
+    private final UserRepository userRepository;
 
-    public InmateQueryService(InmateRepository inmateRepository, InmateMapper inmateMapper) {
+    public InmateQueryService(InmateRepository inmateRepository, InmateMapper inmateMapper, UserRepository userRepository) {
         this.inmateRepository = inmateRepository;
         this.inmateMapper = inmateMapper;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -75,12 +81,16 @@ public class InmateQueryService extends QueryService<Inmate> {
         return inmateRepository.count(specification);
     }
 
-    /**
-     * Function to convert {@link InmateCriteria} to a {@link Specification}
-     * @param criteria The object which holds all the filters, which the entities should match.
-     * @return the matching {@link Specification} of the entity.
-     */
     protected Specification<Inmate> createSpecification(InmateCriteria criteria) {
+        User currentUser = null;
+        Optional<User> currentUserOptional = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByLogin);
+        if (currentUserOptional.isPresent()) {
+            currentUser = currentUserOptional.get();
+        }
+        return this.createSpecification(criteria, currentUser);
+    }
+
+    protected Specification<Inmate> createSpecification(InmateCriteria criteria, User currentUser) {
         Specification<Inmate> specification = Specification.where(null);
         if (criteria != null) {
             // This has to be called first, because the distinct method returns null
@@ -106,11 +116,11 @@ public class InmateQueryService extends QueryService<Inmate> {
                 specification =
                     specification.and(buildRangeSpecification(criteria.getDateOfExpectedRelease(), Inmate_.dateOfExpectedRelease));
             }
-            if (criteria.getPrisonId() != null) {
+            if (currentUser != null && currentUser.getPrison() != null) {
+                LongFilter longFilter = new LongFilter();
+                longFilter.setEquals(currentUser.getPrison().getId());
                 specification =
-                    specification.and(
-                        buildSpecification(criteria.getPrisonId(), root -> root.join(Inmate_.prison, JoinType.LEFT).get(Prison_.id))
-                    );
+                    specification.and(buildSpecification(longFilter, root -> root.join(Inmate_.prison, JoinType.LEFT).get(Prison_.id)));
             }
             if (criteria.getAssignedCellId() != null) {
                 specification =

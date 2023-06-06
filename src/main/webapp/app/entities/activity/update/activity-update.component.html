@@ -36,21 +36,6 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" jhiTranslate="jailHubInsightsApp.activity.prison" for="field_prison">Prison</label>
-          <select
-            class="form-control"
-            id="field_prison"
-            data-cy="prison"
-            name="prison"
-            formControlName="prison"
-            [compareWith]="comparePrison"
-          >
-            <option [ngValue]="null"></option>
-            <option [ngValue]="prisonOption" *ngFor="let prisonOption of prisonsSharedCollection">{{ prisonOption.name }}</option>
-          </select>
-        </div>
-
-        <div class="row mb-3">
           <label jhiTranslate="jailHubInsightsApp.activity.staff" for="field_staff">Staff</label>
           <select
             class="form-control"
