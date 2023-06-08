@@ -3,5 +3,6 @@
   <span>Upload Image</span>
 </label>
 <div *ngIf="selectedImage">
-  <img class="image" [src]="selectedImage" alt="Selected Image" width="300" height="300" />
+  <img *ngIf="isPrison == true" class="image-prison" [src]="selectedImage" alt="Selected Image" />
+  <img *ngIf="isPrison != true" class="image" [src]="selectedImage" alt="Selected Image" width="300" height="300" />
 </div>

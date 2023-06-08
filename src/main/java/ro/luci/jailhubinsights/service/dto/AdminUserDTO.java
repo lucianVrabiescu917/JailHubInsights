@@ -73,7 +73,12 @@ public class AdminUserDTO implements Serializable {
         this.lastModifiedDate = user.getLastModifiedDate();
         this.authorities = user.getAuthorities().stream().map(Authority::getName).collect(Collectors.toSet());
         if (user.getPrison() != null) this.prison =
-            new PrisonDTO(user.getPrison().getId(), user.getPrison().getName(), user.getPrison().getLocation());
+            new PrisonDTO(
+                user.getPrison().getId(),
+                user.getPrison().getName(),
+                user.getPrison().getLocation(),
+                user.getPrison().getImage()
+            );
     }
 
     public Long getId() {

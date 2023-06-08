@@ -98,7 +98,7 @@ public class StaffService {
 
         if (currentUser != null && currentUser.getPrison() != null) {
             Prison prison = currentUser.getPrison();
-            staffDTO.setPrison(new PrisonDTO(prison.getId(), prison.getName(), prison.getLocation()));
+            staffDTO.setPrison(new PrisonDTO(prison.getId(), prison.getName(), prison.getLocation(), prison.getImage()));
         } else {
             staffDTO.setPrison(null);
         }

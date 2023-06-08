@@ -106,7 +106,7 @@ public class AreaService {
 
         if (currentUser != null && currentUser.getPrison() != null) {
             Prison prison = currentUser.getPrison();
-            areaDTO.setPrison(new PrisonDTO(prison.getId(), prison.getName(), prison.getLocation()));
+            areaDTO.setPrison(new PrisonDTO(prison.getId(), prison.getName(), prison.getLocation(), prison.getImage()));
         } else {
             areaDTO.setPrison(null);
         }

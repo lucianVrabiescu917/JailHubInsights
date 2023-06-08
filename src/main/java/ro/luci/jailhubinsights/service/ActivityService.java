@@ -98,7 +98,7 @@ public class ActivityService {
 
         if (currentUser != null && currentUser.getPrison() != null) {
             Prison prison = currentUser.getPrison();
-            activityDTO.setPrison(new PrisonDTO(prison.getId(), prison.getName(), prison.getLocation()));
+            activityDTO.setPrison(new PrisonDTO(prison.getId(), prison.getName(), prison.getLocation(), prison.getImage()));
         } else {
             activityDTO.setPrison(null);
         }

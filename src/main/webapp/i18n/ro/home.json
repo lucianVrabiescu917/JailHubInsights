@@ -1,19 +1,12 @@
 {
   "home": {
-    "title": "Bun venit, Java Hipster!",
-    "subtitle": "Aceasta este pagina ta de start",
+    "title": "Bine ai venit la JailHub Insights, {{username}}!",
+    "title_not_auth": "Bine ai venit la JailHub Insights!",
     "logged": {
-      "message": "Ești autentificat cu numele de utilizator \"{{username}}\"."
-    },
-    "question": "Dacă ai orice întrebări în legatură cu JHipster:",
-    "link": {
-      "homepage": "Pagina JHipster",
-      "stackoverflow": "JHipster pe Stack Overflow",
-      "bugtracker": "JHipster bug tracker",
-      "chat": "Camera de chat publică pentru JHipster",
-      "follow": "Contactează @jhipster pe Twitter"
-    },
-    "like": "Dacă iți place JHipster nu uita să ne dai o stea pe",
-    "github": "GitHub"
+      "message": "Ești autentificat cu numele de utilizator \"{{username}}\".",
+      "prison_management": "Administrarea închisorii",
+      "prison_location": " cu locația {{location}}.",
+      "no_prison": "Nicio închisoare în gestionare!"
+    }
   }
 }

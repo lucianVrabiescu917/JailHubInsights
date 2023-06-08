@@ -35,6 +35,7 @@ export class SettingsComponent implements OnInit {
     authorities: new FormControl(initialAccount.authorities, { nonNullable: true }),
     imageUrl: new FormControl(initialAccount.imageUrl, { nonNullable: true }),
     login: new FormControl(initialAccount.login, { nonNullable: true }),
+    prison: new FormControl(initialAccount.prison, { nonNullable: true }),
   });
 
   constructor(private accountService: AccountService, private translateService: TranslateService) {}

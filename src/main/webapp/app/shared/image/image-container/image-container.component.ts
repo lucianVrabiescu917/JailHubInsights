@@ -7,6 +7,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class ImageContainerComponent implements OnInit {
   @Input() uploadVisible: boolean | undefined | null;
+  @Input() isPrison: boolean | undefined | null;
   @Input() image: string | undefined | ArrayBuffer | null;
   @Output() imageEmitter = new EventEmitter<string>();
   selectedImage: string | ArrayBuffer | undefined | null = null;
@@ -15,6 +16,7 @@ export class ImageContainerComponent implements OnInit {
 
   ngOnInit(): void {
     this.selectedImage = this.image;
+    this.cropImage();
   }
 
   onImageSelected(event: any) {
@@ -43,12 +45,12 @@ export class ImageContainerComponent implements OnInit {
     img.onload = () => {
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
-      const width = 300;
-      const height = 300;
+      const width = this.isPrison ? 1240 : 300;
+      const height = this.isPrison ? 850 : 300;
       canvas.width = width;
       canvas.height = height;
       ctx?.drawImage(img, 0, 0, width, height);
-      const croppedImage = canvas.toDataURL('image/jpeg');
+      this.selectedImage = canvas.toDataURL('image/jpeg');
     };
   }
 }

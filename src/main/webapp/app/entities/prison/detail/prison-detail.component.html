@@ -9,6 +9,8 @@
 
       <jhi-alert></jhi-alert>
 
+      <jhi-image-container [isPrison]="true" [uploadVisible]="false" [image]="prison.image"></jhi-image-container>
+
       <dl class="row-md jh-entity-details">
         <dt><span jhiTranslate="jailHubInsightsApp.prison.name">Name</span></dt>
         <dd>
@@ -24,7 +26,7 @@
         <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
       </button>
 
-      <button type="button" [routerLink]="['/prison', prison.id, 'edit']" class="btn btn-primary">
+      <button *ngIf="isAdmin == true" type="button" [routerLink]="['/prison', prison.id, 'edit']" class="btn btn-primary">
         <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
       </button>
     </div>

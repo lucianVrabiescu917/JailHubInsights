@@ -1,8 +1,12 @@
 {
   "home": {
-    "title": "Welcome to JailHub Insights!",
+    "title": "Welcome to JailHub Insights, {{username}}!",
+    "title_not_auth": "Welcome to JailHub Insights!",
     "logged": {
-      "message": "You are logged in as user \"{{username}}\"."
+      "message": "You are logged in as user \"{{username}}\".",
+      "prison_management": "Managing prison ",
+      "prison_location": " with location {{location}}.",
+      "no_prison": "No prison in management!"
     }
   }
 }

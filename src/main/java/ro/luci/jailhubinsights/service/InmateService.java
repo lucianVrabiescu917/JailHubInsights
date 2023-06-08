@@ -96,7 +96,7 @@ public class InmateService {
 
         if (currentUser != null && currentUser.getPrison() != null) {
             Prison prison = currentUser.getPrison();
-            inmateDTO.setPrison(new PrisonDTO(prison.getId(), prison.getName(), prison.getLocation()));
+            inmateDTO.setPrison(new PrisonDTO(prison.getId(), prison.getName(), prison.getLocation(), prison.getImage()));
         } else {
             inmateDTO.setPrison(null);
         }
