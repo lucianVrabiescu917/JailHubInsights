@@ -18,6 +18,8 @@ public class InmateDTO implements Serializable {
 
     private String lastName;
 
+    private String image;
+
     private LocalDate dateOfBirth;
 
     private LocalDate dateOfIncarceration;
@@ -100,6 +102,14 @@ public class InmateDTO implements Serializable {
 
     public void setActivities(Set<ActivityDTO> activities) {
         this.activities = activities;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     @Override

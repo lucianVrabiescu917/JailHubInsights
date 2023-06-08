@@ -29,6 +29,9 @@ public class Inmate implements Serializable {
     @Column(name = "last_name")
     private String lastName;
 
+    @Column(name = "image")
+    private String image;
+
     @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
 
@@ -181,7 +184,13 @@ public class Inmate implements Serializable {
         return this;
     }
 
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -13,6 +13,7 @@ export interface IInmate {
   prison?: IPrison | null;
   assignedCell?: IArea | null;
   activities?: IActivity[] | null;
+  image?: string | null;
 }
 
 export type NewInmate = Omit<IInmate, 'id'> & { id: null };

@@ -11,6 +11,7 @@ export interface IStaff {
   prison?: IPrison | null;
   activities?: IActivity[] | null;
   assignedAreas?: IArea[] | null;
+  image?: string | null;
 }
 
 export type NewStaff = Omit<IStaff, 'id'> & { id: null };

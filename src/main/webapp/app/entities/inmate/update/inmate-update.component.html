@@ -9,6 +9,14 @@
         <jhi-alert-error></jhi-alert-error>
 
         <div class="row mb-3">
+          <jhi-image-container
+            [uploadVisible]="true"
+            [image]="selectedImage"
+            (imageEmitter)="onImageSelected($event)"
+          ></jhi-image-container>
+        </div>
+
+        <div class="row mb-3">
           <label class="form-label" jhiTranslate="jailHubInsightsApp.inmate.firstName" for="field_firstName">First Name</label>
           <input type="text" class="form-control" name="firstName" id="field_firstName" data-cy="firstName" formControlName="firstName" />
         </div>

@@ -9,6 +9,14 @@
         <jhi-alert-error></jhi-alert-error>
 
         <div class="row mb-3">
+          <jhi-image-container
+            [uploadVisible]="true"
+            [image]="selectedImage"
+            (imageEmitter)="onImageSelected($event)"
+          ></jhi-image-container>
+        </div>
+
+        <div class="row mb-3">
           <label class="form-label" jhiTranslate="jailHubInsightsApp.staff.staffType" for="field_staffType">Staff Type</label>
           <select class="form-control" name="staffType" formControlName="staffType" id="field_staffType" data-cy="staffType">
             <option [ngValue]="null">{{ 'jailHubInsightsApp.StaffType.null' | translate }}</option>
