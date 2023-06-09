@@ -15,37 +15,41 @@ import ro.luci.jailhubinsights.service.dto.StaffDTO;
  */
 @Mapper(componentModel = "spring")
 public interface AreaMapper extends EntityMapper<AreaDTO, Area> {
-    @Mapping(target = "prison", source = "prison", qualifiedByName = "prisonId")
-    @Mapping(target = "assignedStaffAreas", source = "assignedStaffAreas", qualifiedByName = "staffIdSet")
-    @Mapping(target = "composedOfAreas", source = "composedOfAreas", qualifiedByName = "areaIdSet")
+    @Mapping(target = "prison", source = "prison", qualifiedByName = "prison")
+    @Mapping(target = "assignedStaffAreas", source = "assignedStaffAreas", qualifiedByName = "staffSet")
+    @Mapping(target = "composedOfAreas", source = "composedOfAreas", qualifiedByName = "areaSet")
     AreaDTO toDto(Area s);
 
     @Mapping(target = "removeAssignedStaffAreas", ignore = true)
     @Mapping(target = "removeComposedOfAreas", ignore = true)
     Area toEntity(AreaDTO areaDTO);
 
-    @Named("prisonId")
+    @Named("prison")
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
-    PrisonDTO toDtoPrisonId(Prison prison);
+    @Mapping(target = "name", source = "name")
+    PrisonDTO toDtoPrison(Prison prison);
 
-    @Named("staffId")
+    @Named("staff")
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
-    StaffDTO toDtoStaffId(Staff staff);
+    @Mapping(target = "firstName", source = "firstName")
+    @Mapping(target = "lastName", source = "lastName")
+    StaffDTO toDtoStaff(Staff staff);
 
-    @Named("staffIdSet")
-    default Set<StaffDTO> toDtoStaffIdSet(Set<Staff> staff) {
-        return staff.stream().map(this::toDtoStaffId).collect(Collectors.toSet());
+    @Named("staffSet")
+    default Set<StaffDTO> toDtoStaffSet(Set<Staff> staff) {
+        return staff.stream().map(this::toDtoStaff).collect(Collectors.toSet());
     }
 
-    @Named("areaId")
+    @Named("area")
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
-    AreaDTO toDtoAreaId(Area area);
+    @Mapping(target = "name", source = "name")
+    AreaDTO toDtoArea(Area area);
 
-    @Named("areaIdSet")
-    default Set<AreaDTO> toDtoAreaIdSet(Set<Area> area) {
-        return area.stream().map(this::toDtoAreaId).collect(Collectors.toSet());
+    @Named("areaSet")
+    default Set<AreaDTO> toDtoAreaSet(Set<Area> area) {
+        return area.stream().map(this::toDtoArea).collect(Collectors.toSet());
     }
 }

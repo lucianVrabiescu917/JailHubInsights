@@ -30,6 +30,8 @@
     <span jhiTranslate="jailHubInsightsApp.area.home.notFound">No Areas found</span>
   </div>
 
+  <jhi-search-bar (onSearch)="loadSearch($event)"></jhi-search-bar>
+
   <div class="table-responsive table-entities" id="entities" *ngIf="areas && areas.length > 0">
     <table class="table table-striped" aria-describedby="page-heading">
       <thead>
@@ -52,7 +54,7 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="prison.id">
+          <th scope="col" jhiSortBy="prison.name">
             <div class="d-flex">
               <span jhiTranslate="jailHubInsightsApp.area.prison">Prison</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
@@ -68,7 +70,7 @@
           <td jhiTranslate="{{ 'jailHubInsightsApp.AreaType.' + area.areaType }}">{{ area.areaType }}</td>
           <td>
             <div *ngIf="area.prison">
-              <a [routerLink]="['/prison', area.prison.id, 'view']">{{ area.prison.id }}</a>
+              <a [routerLink]="['/prison', area.prison.id, 'view']">{{ area.prison.name }}</a>
             </div>
           </td>
           <td class="text-end">

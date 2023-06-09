@@ -162,6 +162,18 @@ public class ActivityResource {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
+    @GetMapping("/activities/hint")
+    public ResponseEntity<List<ActivityDTO>> getActivitiesWithHint(
+        ActivityCriteria criteria,
+        @org.springdoc.api.annotations.ParameterObject Pageable pageable,
+        String hint
+    ) {
+        log.debug("REST request to get Activities by criteria: {}", criteria);
+        Page<ActivityDTO> page = activityQueryService.findByCriteriaWithHint(criteria, pageable, hint);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
     /**
      * {@code GET  /activities/count} : count all the activities.
      *

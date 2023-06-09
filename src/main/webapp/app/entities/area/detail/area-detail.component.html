@@ -25,20 +25,22 @@
         <dt><span jhiTranslate="jailHubInsightsApp.area.prison">Prison</span></dt>
         <dd>
           <div *ngIf="area.prison">
-            <a [routerLink]="['/prison', area.prison.id, 'view']">{{ area.prison.id }}</a>
+            <a [routerLink]="['/prison', area.prison.id, 'view']">{{ area.prison.name }}</a>
           </div>
         </dd>
         <dt><span jhiTranslate="jailHubInsightsApp.area.assignedStaffAreas">Assigned Staff Areas</span></dt>
         <dd>
           <span *ngFor="let assignedStaffAreas of area.assignedStaffAreas; let last = last">
-            <a [routerLink]="['/staff', assignedStaffAreas.id, 'view']">{{ assignedStaffAreas.id }}</a
+            <a [routerLink]="['/staff', assignedStaffAreas.id, 'view']">{{
+              assignedStaffAreas.firstName + ' ' + assignedStaffAreas.lastName
+            }}</a
             >{{ last ? '' : ', ' }}
           </span>
         </dd>
         <dt><span jhiTranslate="jailHubInsightsApp.area.composedOfAreas">Composed Of Areas</span></dt>
         <dd>
           <span *ngFor="let composedOfAreas of area.composedOfAreas; let last = last">
-            <a [routerLink]="['/area', composedOfAreas.id, 'view']">{{ composedOfAreas.id }}</a
+            <a [routerLink]="['/area', composedOfAreas.id, 'view']">{{ composedOfAreas.name }}</a
             >{{ last ? '' : ', ' }}
           </span>
         </dd>

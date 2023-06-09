@@ -33,16 +33,14 @@ public class Staff implements Serializable {
     @Column(name = "last_name")
     private String lastName;
 
+    @Column(name = "image")
+    private String image;
+
     @ManyToOne
     @JsonIgnoreProperties(value = { "inmates", "areas", "activities", "staff" }, allowSetters = true)
     private Prison prison;
 
-    @ManyToMany
-    @JoinTable(
-        name = "rel_staff__activity",
-        joinColumns = @JoinColumn(name = "staff_id"),
-        inverseJoinColumns = @JoinColumn(name = "activity_id")
-    )
+    @ManyToMany(mappedBy = "staff")
     @JsonIgnoreProperties(value = { "prison", "inmates", "staff" }, allowSetters = true)
     private Set<Activity> activities = new HashSet<>();
 
@@ -171,6 +169,14 @@ public class Staff implements Serializable {
         this.assignedAreas.remove(area);
         area.getAssignedStaffAreas().remove(this);
         return this;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

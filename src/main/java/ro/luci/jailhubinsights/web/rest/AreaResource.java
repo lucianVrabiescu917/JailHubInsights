@@ -156,6 +156,18 @@ public class AreaResource {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
+    @GetMapping("/areas/hint")
+    public ResponseEntity<List<AreaDTO>> getAreasWithHint(
+        AreaCriteria criteria,
+        @org.springdoc.api.annotations.ParameterObject Pageable pageable,
+        String hint
+    ) {
+        log.debug("REST request to get Areas by criteria: {}", criteria);
+        Page<AreaDTO> page = areaQueryService.findByCriteriaWithHint(criteria, pageable, hint);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
     /**
      * {@code GET  /areas/count} : count all the areas.
      *

@@ -15,6 +15,17 @@ public class PrisonDTO implements Serializable {
 
     private String location;
 
+    private String image;
+
+    public PrisonDTO(Long id, String name, String location, String image) {
+        this.id = id;
+        this.name = name;
+        this.location = location;
+        this.image = image;
+    }
+
+    public PrisonDTO() {}
+
     public Long getId() {
         return id;
     }
@@ -37,6 +48,14 @@ public class PrisonDTO implements Serializable {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     @Override

@@ -10,9 +10,10 @@ export interface IInmate {
   dateOfBirth?: dayjs.Dayjs | null;
   dateOfIncarceration?: dayjs.Dayjs | null;
   dateOfExpectedRelease?: dayjs.Dayjs | null;
-  prison?: Pick<IPrison, 'id'> | null;
-  assignedCell?: Pick<IArea, 'id'> | null;
-  activities?: Pick<IActivity, 'id'>[] | null;
+  prison?: IPrison | null;
+  assignedCell?: IArea | null;
+  activities?: IActivity[] | null;
+  image?: string | null;
 }
 
 export type NewInmate = Omit<IInmate, 'id'> & { id: null };

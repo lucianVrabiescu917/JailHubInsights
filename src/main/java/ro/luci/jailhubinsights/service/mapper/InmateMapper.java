@@ -17,31 +17,34 @@ import ro.luci.jailhubinsights.service.dto.PrisonDTO;
  */
 @Mapper(componentModel = "spring")
 public interface InmateMapper extends EntityMapper<InmateDTO, Inmate> {
-    @Mapping(target = "prison", source = "prison", qualifiedByName = "prisonId")
-    @Mapping(target = "assignedCell", source = "assignedCell", qualifiedByName = "areaId")
-    @Mapping(target = "activities", source = "activities", qualifiedByName = "activityIdSet")
+    @Mapping(target = "prison", source = "prison", qualifiedByName = "prison")
+    @Mapping(target = "assignedCell", source = "assignedCell", qualifiedByName = "area")
+    @Mapping(target = "activities", source = "activities", qualifiedByName = "activitiesSet")
     InmateDTO toDto(Inmate s);
 
     @Mapping(target = "removeActivity", ignore = true)
     Inmate toEntity(InmateDTO inmateDTO);
 
-    @Named("prisonId")
+    @Named("prison")
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
-    PrisonDTO toDtoPrisonId(Prison prison);
+    @Mapping(target = "name", source = "name")
+    PrisonDTO toDtoPrison(Prison prison);
 
-    @Named("areaId")
+    @Named("area")
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
-    AreaDTO toDtoAreaId(Area area);
+    @Mapping(target = "name", source = "name")
+    AreaDTO toDtoArea(Area area);
 
-    @Named("activityId")
+    @Named("activities")
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
-    ActivityDTO toDtoActivityId(Activity activity);
+    @Mapping(target = "title", source = "title")
+    ActivityDTO toDtoInmate(Activity activity);
 
-    @Named("activityIdSet")
-    default Set<ActivityDTO> toDtoActivityIdSet(Set<Activity> activity) {
-        return activity.stream().map(this::toDtoActivityId).collect(Collectors.toSet());
+    @Named("activitiesSet")
+    default Set<ActivityDTO> toDtoActivitySet(Set<Activity> activities) {
+        return activities.stream().map(this::toDtoInmate).collect(Collectors.toSet());
     }
 }

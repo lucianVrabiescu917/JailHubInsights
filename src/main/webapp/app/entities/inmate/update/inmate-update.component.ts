@@ -25,8 +25,11 @@ export class InmateUpdateComponent implements OnInit {
   prisonsSharedCollection: IPrison[] = [];
   areasSharedCollection: IArea[] = [];
   activitiesSharedCollection: IActivity[] = [];
+  uploadedImage: File | null = null;
 
   editForm: InmateFormGroup = this.inmateFormService.createInmateFormGroup();
+
+  selectedImage: string | ArrayBuffer | null = null;
 
   constructor(
     protected inmateService: InmateService,
@@ -46,6 +49,9 @@ export class InmateUpdateComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ inmate }) => {
       this.inmate = inmate;
+      if (this.inmate != null && this.inmate.image != undefined) {
+        this.selectedImage = this.inmate.image;
+      }
       if (inmate) {
         this.updateForm(inmate);
       }
@@ -61,6 +67,7 @@ export class InmateUpdateComponent implements OnInit {
   save(): void {
     this.isSaving = true;
     const inmate = this.inmateFormService.getInmate(this.editForm);
+    inmate.image = this.selectedImage as string;
     if (inmate.id !== null) {
       this.subscribeToSaveResponse(this.inmateService.update(inmate));
     } else {
@@ -121,5 +128,21 @@ export class InmateUpdateComponent implements OnInit {
         )
       )
       .subscribe((activities: IActivity[]) => (this.activitiesSharedCollection = activities));
+  }
+
+  onFileSelected(event: any) {
+    const file: File = event.target.files[0];
+
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.uploadedImage = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  onImageSelected(image: string) {
+    this.selectedImage = image;
   }
 }

@@ -10,6 +10,10 @@ import { ActivityService } from '../service/activity.service';
 import { IPrison } from 'app/entities/prison/prison.model';
 import { PrisonService } from 'app/entities/prison/service/prison.service';
 import { ActivityType } from 'app/entities/enumerations/activity-type.model';
+import { IStaff } from '../../staff/staff.model';
+import { StaffService } from '../../staff/service/staff.service';
+import { IInmate } from '../../inmate/inmate.model';
+import { InmateService } from '../../inmate/service/inmate.service';
 
 @Component({
   selector: 'jhi-activity-update',
@@ -21,6 +25,8 @@ export class ActivityUpdateComponent implements OnInit {
   activityTypeValues = Object.keys(ActivityType);
 
   prisonsSharedCollection: IPrison[] = [];
+  staffSharedCollection: IStaff[] = [];
+  inmatesSharedCollection: IInmate[] = [];
 
   editForm: ActivityFormGroup = this.activityFormService.createActivityFormGroup();
 
@@ -28,10 +34,16 @@ export class ActivityUpdateComponent implements OnInit {
     protected activityService: ActivityService,
     protected activityFormService: ActivityFormService,
     protected prisonService: PrisonService,
+    protected staffService: StaffService,
+    protected inmateService: InmateService,
     protected activatedRoute: ActivatedRoute
   ) {}
 
   comparePrison = (o1: IPrison | null, o2: IPrison | null): boolean => this.prisonService.comparePrison(o1, o2);
+
+  compareStaff = (o1: IStaff | null, o2: IStaff | null): boolean => this.staffService.compareStaff(o1, o2);
+
+  compareInmates = (o1: IInmate | null, o2: IInmate | null): boolean => this.inmateService.compareInmate(o1, o2);
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ activity }) => {
@@ -85,6 +97,16 @@ export class ActivityUpdateComponent implements OnInit {
       this.prisonsSharedCollection,
       activity.prison
     );
+
+    this.staffSharedCollection = this.staffService.addStaffToCollectionIfMissing<IStaff>(
+      this.staffSharedCollection,
+      ...(activity.staff ?? [])
+    );
+
+    this.inmatesSharedCollection = this.inmateService.addInmateToCollectionIfMissing<IInmate>(
+      this.inmatesSharedCollection,
+      ...(activity.inmates ?? [])
+    );
   }
 
   protected loadRelationshipsOptions(): void {
@@ -93,5 +115,19 @@ export class ActivityUpdateComponent implements OnInit {
       .pipe(map((res: HttpResponse<IPrison[]>) => res.body ?? []))
       .pipe(map((prisons: IPrison[]) => this.prisonService.addPrisonToCollectionIfMissing<IPrison>(prisons, this.activity?.prison)))
       .subscribe((prisons: IPrison[]) => (this.prisonsSharedCollection = prisons));
+
+    this.staffService
+      .query()
+      .pipe(map((res: HttpResponse<IStaff[]>) => res.body ?? []))
+      .pipe(map((staff: IStaff[]) => this.staffService.addStaffToCollectionIfMissing<IStaff>(staff, ...(this.activity?.staff ?? []))))
+      .subscribe((staff: IStaff[]) => (this.staffSharedCollection = staff));
+
+    this.inmateService
+      .query()
+      .pipe(map((res: HttpResponse<IInmate[]>) => res.body ?? []))
+      .pipe(
+        map((inmates: IInmate[]) => this.inmateService.addInmateToCollectionIfMissing<IInmate>(inmates, ...(this.activity?.inmates ?? [])))
+      )
+      .subscribe((inmates: IInmate[]) => (this.inmatesSharedCollection = inmates));
   }
 }

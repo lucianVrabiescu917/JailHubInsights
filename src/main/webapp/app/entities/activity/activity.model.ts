@@ -8,9 +8,9 @@ export interface IActivity {
   type?: ActivityType | null;
   title?: string | null;
   description?: string | null;
-  prison?: Pick<IPrison, 'id'> | null;
-  inmates?: Pick<IInmate, 'id'>[] | null;
-  staff?: Pick<IStaff, 'id'>[] | null;
+  prison?: IPrison | null;
+  inmates?: IInmate[] | null;
+  staff?: IStaff[] | null;
 }
 
 export type NewActivity = Omit<IActivity, 'id'> & { id: null };

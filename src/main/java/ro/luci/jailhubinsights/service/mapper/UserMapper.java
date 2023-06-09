@@ -5,9 +5,11 @@ import java.util.stream.Collectors;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ro.luci.jailhubinsights.domain.Authority;
 import ro.luci.jailhubinsights.domain.User;
+import ro.luci.jailhubinsights.repository.PrisonRepository;
 import ro.luci.jailhubinsights.service.dto.AdminUserDTO;
 import ro.luci.jailhubinsights.service.dto.UserDTO;
 
@@ -19,6 +21,9 @@ import ro.luci.jailhubinsights.service.dto.UserDTO;
  */
 @Service
 public class UserMapper {
+
+    @Autowired
+    private PrisonMapper prisonMapper;
 
     public List<UserDTO> usersToUserDTOs(List<User> users) {
         return users.stream().filter(Objects::nonNull).map(this::userToUserDTO).collect(Collectors.toList());
@@ -53,6 +58,7 @@ public class UserMapper {
             user.setImageUrl(userDTO.getImageUrl());
             user.setActivated(userDTO.isActivated());
             user.setLangKey(userDTO.getLangKey());
+            user.setPrison(prisonMapper.toEntity(userDTO.getPrison()));
             Set<Authority> authorities = this.authoritiesFromStrings(userDTO.getAuthorities());
             user.setAuthorities(authorities);
             return user;

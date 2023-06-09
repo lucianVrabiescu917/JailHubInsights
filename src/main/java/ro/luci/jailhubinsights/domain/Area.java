@@ -46,7 +46,7 @@ public class Area implements Serializable {
     @JsonIgnoreProperties(value = { "prison", "activities", "assignedAreas" }, allowSetters = true)
     private Set<Staff> assignedStaffAreas = new HashSet<>();
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.REMOVE)
     @JoinTable(
         name = "rel_area__composed_of_areas",
         joinColumns = @JoinColumn(name = "area_id"),

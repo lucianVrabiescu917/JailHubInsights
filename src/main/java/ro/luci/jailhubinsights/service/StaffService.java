@@ -7,8 +7,15 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ro.luci.jailhubinsights.domain.Inmate;
+import ro.luci.jailhubinsights.domain.Prison;
 import ro.luci.jailhubinsights.domain.Staff;
+import ro.luci.jailhubinsights.domain.User;
 import ro.luci.jailhubinsights.repository.StaffRepository;
+import ro.luci.jailhubinsights.repository.UserRepository;
+import ro.luci.jailhubinsights.security.SecurityUtils;
+import ro.luci.jailhubinsights.service.dto.InmateDTO;
+import ro.luci.jailhubinsights.service.dto.PrisonDTO;
 import ro.luci.jailhubinsights.service.dto.StaffDTO;
 import ro.luci.jailhubinsights.service.mapper.StaffMapper;
 
@@ -25,9 +32,27 @@ public class StaffService {
 
     private final StaffMapper staffMapper;
 
-    public StaffService(StaffRepository staffRepository, StaffMapper staffMapper) {
+    private final UserRepository userRepository;
+
+    public StaffService(StaffRepository staffRepository, StaffMapper staffMapper, UserRepository userRepository) {
         this.staffRepository = staffRepository;
         this.staffMapper = staffMapper;
+        this.userRepository = userRepository;
+    }
+
+    public Staff updateAndReturnEntityWithCurrentPrison(StaffDTO staffDTO) {
+        Staff staff = staffMapper.toEntity(staffDTO);
+        User currentUser = null;
+        Optional<User> currentUserOptional = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByLogin);
+        if (currentUserOptional.isPresent()) {
+            currentUser = currentUserOptional.get();
+        }
+        if (currentUser != null) {
+            staff.setPrison(currentUser.getPrison());
+        } else {
+            staff.setPrison(null);
+        }
+        return staff;
     }
 
     /**
@@ -38,7 +63,7 @@ public class StaffService {
      */
     public StaffDTO save(StaffDTO staffDTO) {
         log.debug("Request to save Staff : {}", staffDTO);
-        Staff staff = staffMapper.toEntity(staffDTO);
+        Staff staff = this.updateAndReturnEntityWithCurrentPrison(staffDTO);
         staff = staffRepository.save(staff);
         return staffMapper.toDto(staff);
     }
@@ -51,7 +76,7 @@ public class StaffService {
      */
     public StaffDTO update(StaffDTO staffDTO) {
         log.debug("Request to update Staff : {}", staffDTO);
-        Staff staff = staffMapper.toEntity(staffDTO);
+        Staff staff = this.updateAndReturnEntityWithCurrentPrison(staffDTO);
         staff = staffRepository.save(staff);
         return staffMapper.toDto(staff);
     }
@@ -64,6 +89,19 @@ public class StaffService {
      */
     public Optional<StaffDTO> partialUpdate(StaffDTO staffDTO) {
         log.debug("Request to partially update Staff : {}", staffDTO);
+
+        User currentUser = null;
+        Optional<User> currentUserOptional = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByLogin);
+        if (currentUserOptional.isPresent()) {
+            currentUser = currentUserOptional.get();
+        }
+
+        if (currentUser != null && currentUser.getPrison() != null) {
+            Prison prison = currentUser.getPrison();
+            staffDTO.setPrison(new PrisonDTO(prison.getId(), prison.getName(), prison.getLocation(), prison.getImage()));
+        } else {
+            staffDTO.setPrison(null);
+        }
 
         return staffRepository
             .findById(staffDTO.getId())

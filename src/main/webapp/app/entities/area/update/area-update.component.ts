@@ -44,12 +44,14 @@ export class AreaUpdateComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ area }) => {
+      this.loadRelationshipsOptions();
+
       this.area = area;
       if (area) {
         this.updateForm(area);
       }
 
-      this.loadRelationshipsOptions();
+      // this.loadRelationshipsOptions();
     });
   }
 
@@ -95,10 +97,13 @@ export class AreaUpdateComponent implements OnInit {
       this.staffSharedCollection,
       ...(area.assignedStaffAreas ?? [])
     );
+
     this.areasSharedCollection = this.areaService.addAreaToCollectionIfMissing<IArea>(
       this.areasSharedCollection,
       ...(area.composedOfAreas ?? [])
     );
+
+    this.areasSharedCollection = this.areasSharedCollection.filter(area => area.id != this.area?.id);
   }
 
   protected loadRelationshipsOptions(): void {
@@ -120,6 +125,6 @@ export class AreaUpdateComponent implements OnInit {
       .query()
       .pipe(map((res: HttpResponse<IArea[]>) => res.body ?? []))
       .pipe(map((areas: IArea[]) => this.areaService.addAreaToCollectionIfMissing<IArea>(areas, ...(this.area?.composedOfAreas ?? []))))
-      .subscribe((areas: IArea[]) => (this.areasSharedCollection = areas));
+      .subscribe((areas: IArea[]) => (this.areasSharedCollection = areas.filter(area => area.id != this.area?.id)));
   }
 }

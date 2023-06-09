@@ -24,6 +24,7 @@ export class StaffUpdateComponent implements OnInit {
 
   prisonsSharedCollection: IPrison[] = [];
   activitiesSharedCollection: IActivity[] = [];
+  selectedImage: string | ArrayBuffer | null = null;
 
   editForm: StaffFormGroup = this.staffFormService.createStaffFormGroup();
 
@@ -42,6 +43,9 @@ export class StaffUpdateComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ staff }) => {
       this.staff = staff;
+      if (this.staff != null && this.staff.image != undefined) {
+        this.selectedImage = this.staff.image;
+      }
       if (staff) {
         this.updateForm(staff);
       }
@@ -57,6 +61,7 @@ export class StaffUpdateComponent implements OnInit {
   save(): void {
     this.isSaving = true;
     const staff = this.staffFormService.getStaff(this.editForm);
+    staff.image = this.selectedImage as string;
     if (staff.id !== null) {
       this.subscribeToSaveResponse(this.staffService.update(staff));
     } else {
@@ -110,5 +115,9 @@ export class StaffUpdateComponent implements OnInit {
         )
       )
       .subscribe((activities: IActivity[]) => (this.activitiesSharedCollection = activities));
+  }
+
+  onImageSelected(image: string) {
+    this.selectedImage = image;
   }
 }

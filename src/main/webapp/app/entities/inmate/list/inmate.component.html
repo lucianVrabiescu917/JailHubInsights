@@ -30,6 +30,8 @@
     <span jhiTranslate="jailHubInsightsApp.inmate.home.notFound">No Inmates found</span>
   </div>
 
+  <jhi-search-bar (onSearch)="loadSearch($event)"></jhi-search-bar>
+
   <div class="table-responsive table-entities" id="entities" *ngIf="inmates && inmates.length > 0">
     <table class="table table-striped" aria-describedby="page-heading">
       <thead>
@@ -88,12 +90,12 @@
           <td>{{ inmate.dateOfExpectedRelease | formatMediumDate }}</td>
           <td>
             <div *ngIf="inmate.prison">
-              <a [routerLink]="['/prison', inmate.prison.id, 'view']">{{ inmate.prison.id }}</a>
+              <a [routerLink]="['/prison', inmate.prison.id, 'view']">{{ inmate.prison.name }}</a>
             </div>
           </td>
           <td>
             <div *ngIf="inmate.assignedCell">
-              <a [routerLink]="['/area', inmate.assignedCell.id, 'view']">{{ inmate.assignedCell.id }}</a>
+              <a [routerLink]="['/area', inmate.assignedCell.id, 'view']">{{ inmate.assignedCell.name }}</a>
             </div>
           </td>
           <td class="text-end">

@@ -29,6 +29,9 @@ public class Inmate implements Serializable {
     @Column(name = "last_name")
     private String lastName;
 
+    @Column(name = "image")
+    private String image;
+
     @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
 
@@ -46,12 +49,7 @@ public class Inmate implements Serializable {
     @JsonIgnoreProperties(value = { "prison", "assignedStaffAreas", "composedOfAreas", "inmates", "composingAreas" }, allowSetters = true)
     private Area assignedCell;
 
-    @ManyToMany
-    @JoinTable(
-        name = "rel_inmate__activity",
-        joinColumns = @JoinColumn(name = "inmate_id"),
-        inverseJoinColumns = @JoinColumn(name = "activity_id")
-    )
+    @ManyToMany(mappedBy = "inmates")
     @JsonIgnoreProperties(value = { "prison", "inmates", "staff" }, allowSetters = true)
     private Set<Activity> activities = new HashSet<>();
 
@@ -186,7 +184,13 @@ public class Inmate implements Serializable {
         return this;
     }
 
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 
     @Override
     public boolean equals(Object o) {

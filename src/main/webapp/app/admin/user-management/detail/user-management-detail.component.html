@@ -20,6 +20,13 @@
         <dt><span jhiTranslate="userManagement.lastName">Last name</span></dt>
         <dd>{{ user.lastName }}</dd>
 
+        <dt><span jhiTranslate="jailHubInsightsApp.staff.prison">Prison</span></dt>
+        <dd>
+          <div *ngIf="user.prison">
+            <a [routerLink]="['/prison', user.prison.id, 'view']">{{ user.prison.name }}</a>
+          </div>
+        </dd>
+
         <dt><span jhiTranslate="userManagement.email">Email</span></dt>
         <dd>{{ user.email }}</dd>
 

@@ -1,0 +1,15 @@
+input[type='text'] {
+  border: 1px solid grey;
+  border-radius: 20px;
+  padding: 8px 16px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+input[type='text']:focus {
+  border-color: #18bc9c;
+}
+
+.search-bar {
+  width: 30%;
+}

@@ -1,0 +1,23 @@
+.custom-file-upload input[type='file'] {
+  display: none;
+}
+
+.custom-file-upload {
+  margin-top: 5%;
+  width: 15%;
+  margin-bottom: 2%;
+}
+
+.image {
+  border: 3px solid #0dcaf0ff;
+  border-radius: 5px;
+  margin-bottom: 2%;
+}
+
+.image-prison {
+  border: 3px solid #18bc9c;
+  border-radius: 5px;
+  margin-bottom: 2%;
+  max-height: 850px;
+  max-width: 1240px;
+}

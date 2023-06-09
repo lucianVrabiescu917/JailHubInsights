@@ -18,6 +18,8 @@ public class InmateDTO implements Serializable {
 
     private String lastName;
 
+    private String image;
+
     private LocalDate dateOfBirth;
 
     private LocalDate dateOfIncarceration;
@@ -28,7 +30,7 @@ public class InmateDTO implements Serializable {
 
     private AreaDTO assignedCell;
 
-    private Set<ActivityDTO> activities = new HashSet<>();
+    private Set<ActivityDTO> activities;
 
     public Long getId() {
         return id;
@@ -102,6 +104,14 @@ public class InmateDTO implements Serializable {
         this.activities = activities;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -135,7 +145,6 @@ public class InmateDTO implements Serializable {
             ", dateOfExpectedRelease='" + getDateOfExpectedRelease() + "'" +
             ", prison=" + getPrison() +
             ", assignedCell=" + getAssignedCell() +
-            ", activities=" + getActivities() +
             "}";
     }
 }

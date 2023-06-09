@@ -29,21 +29,6 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" jhiTranslate="jailHubInsightsApp.area.prison" for="field_prison">Prison</label>
-          <select
-            class="form-control"
-            id="field_prison"
-            data-cy="prison"
-            name="prison"
-            formControlName="prison"
-            [compareWith]="comparePrison"
-          >
-            <option [ngValue]="null"></option>
-            <option [ngValue]="prisonOption" *ngFor="let prisonOption of prisonsSharedCollection">{{ prisonOption.name }}</option>
-          </select>
-        </div>
-
-        <div class="row mb-3">
           <label jhiTranslate="jailHubInsightsApp.area.assignedStaffAreas" for="field_assignedStaffAreas">Assigned Staff Areas</label>
           <select
             class="form-control"
@@ -71,7 +56,7 @@
             formControlName="composedOfAreas"
             [compareWith]="compareArea"
           >
-            <option [ngValue]="areaOption" *ngFor="let areaOption of areasSharedCollection">{{ areaOption.id }}</option>
+            <option [ngValue]="areaOption" *ngFor="let areaOption of areasSharedCollection">{{ areaOption.name }}</option>
           </select>
         </div>
       </div>

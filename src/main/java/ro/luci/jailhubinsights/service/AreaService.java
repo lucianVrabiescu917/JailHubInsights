@@ -8,8 +8,16 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ro.luci.jailhubinsights.domain.Area;
+import ro.luci.jailhubinsights.domain.Inmate;
+import ro.luci.jailhubinsights.domain.Prison;
+import ro.luci.jailhubinsights.domain.User;
 import ro.luci.jailhubinsights.repository.AreaRepository;
+import ro.luci.jailhubinsights.repository.InmateRepository;
+import ro.luci.jailhubinsights.repository.UserRepository;
+import ro.luci.jailhubinsights.security.SecurityUtils;
 import ro.luci.jailhubinsights.service.dto.AreaDTO;
+import ro.luci.jailhubinsights.service.dto.InmateDTO;
+import ro.luci.jailhubinsights.service.dto.PrisonDTO;
 import ro.luci.jailhubinsights.service.mapper.AreaMapper;
 
 /**
@@ -23,11 +31,36 @@ public class AreaService {
 
     private final AreaRepository areaRepository;
 
+    private final InmateRepository inmateRepository;
     private final AreaMapper areaMapper;
 
-    public AreaService(AreaRepository areaRepository, AreaMapper areaMapper) {
+    private final UserRepository userRepository;
+
+    public AreaService(
+        AreaRepository areaRepository,
+        InmateRepository inmateRepository,
+        AreaMapper areaMapper,
+        UserRepository userRepository
+    ) {
         this.areaRepository = areaRepository;
+        this.inmateRepository = inmateRepository;
         this.areaMapper = areaMapper;
+        this.userRepository = userRepository;
+    }
+
+    public Area updateAndReturnEntityWithCurrentPrison(AreaDTO areaDTO) {
+        Area area = areaMapper.toEntity(areaDTO);
+        User currentUser = null;
+        Optional<User> currentUserOptional = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByLogin);
+        if (currentUserOptional.isPresent()) {
+            currentUser = currentUserOptional.get();
+        }
+        if (currentUser != null) {
+            area.setPrison(currentUser.getPrison());
+        } else {
+            area.setPrison(null);
+        }
+        return area;
     }
 
     /**
@@ -38,7 +71,7 @@ public class AreaService {
      */
     public AreaDTO save(AreaDTO areaDTO) {
         log.debug("Request to save Area : {}", areaDTO);
-        Area area = areaMapper.toEntity(areaDTO);
+        Area area = this.updateAndReturnEntityWithCurrentPrison(areaDTO);
         area = areaRepository.save(area);
         return areaMapper.toDto(area);
     }
@@ -51,7 +84,7 @@ public class AreaService {
      */
     public AreaDTO update(AreaDTO areaDTO) {
         log.debug("Request to update Area : {}", areaDTO);
-        Area area = areaMapper.toEntity(areaDTO);
+        Area area = this.updateAndReturnEntityWithCurrentPrison(areaDTO);
         area = areaRepository.save(area);
         return areaMapper.toDto(area);
     }
@@ -64,6 +97,19 @@ public class AreaService {
      */
     public Optional<AreaDTO> partialUpdate(AreaDTO areaDTO) {
         log.debug("Request to partially update Area : {}", areaDTO);
+
+        User currentUser = null;
+        Optional<User> currentUserOptional = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByLogin);
+        if (currentUserOptional.isPresent()) {
+            currentUser = currentUserOptional.get();
+        }
+
+        if (currentUser != null && currentUser.getPrison() != null) {
+            Prison prison = currentUser.getPrison();
+            areaDTO.setPrison(new PrisonDTO(prison.getId(), prison.getName(), prison.getLocation(), prison.getImage()));
+        } else {
+            areaDTO.setPrison(null);
+        }
 
         return areaRepository
             .findById(areaDTO.getId())
@@ -114,8 +160,13 @@ public class AreaService {
      *
      * @param id the id of the entity.
      */
+    @Transactional
     public void delete(Long id) {
         log.debug("Request to delete Area : {}", id);
+        areaRepository.deleteRelationsWithComposedOfByAreaId(id);
+        areaRepository.deleteRelationsWithComposingByAreaId(id);
+        areaRepository.deleteRelationsWithStaffByAreaId(id);
+        inmateRepository.removeAreaFromInmateByAreaId(id);
         areaRepository.deleteById(id);
     }
 }

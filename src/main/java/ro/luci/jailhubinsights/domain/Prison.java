@@ -28,6 +28,9 @@ public class Prison implements Serializable {
     @Column(name = "location")
     private String location;
 
+    @Column(name = "image")
+    private String image;
+
     @OneToMany(mappedBy = "prison")
     @JsonIgnoreProperties(value = { "prison", "assignedCell", "activities" }, allowSetters = true)
     private Set<Inmate> inmates = new HashSet<>();
@@ -44,7 +47,9 @@ public class Prison implements Serializable {
     @JsonIgnoreProperties(value = { "prison", "activities", "assignedAreas" }, allowSetters = true)
     private Set<Staff> staff = new HashSet<>();
 
-    // jhipster-needle-entity-add-field - JHipster will add fields here
+    @OneToMany(mappedBy = "prison")
+    @JsonIgnoreProperties(value = { "prison", "activities", "assignedAreas" }, allowSetters = true)
+    private Set<User> users = new HashSet<>();
 
     public Long getId() {
         return this.id;
@@ -209,7 +214,21 @@ public class Prison implements Serializable {
         return this;
     }
 
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 
     @Override
     public boolean equals(Object o) {

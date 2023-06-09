@@ -158,6 +158,18 @@ public class InmateResource {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
+    @GetMapping("/inmates/hint")
+    public ResponseEntity<List<InmateDTO>> getInmatesWithHint(
+        InmateCriteria criteria,
+        @org.springdoc.api.annotations.ParameterObject Pageable pageable,
+        String hint
+    ) {
+        log.debug("REST request to get Inmates by criteria: {} with hint: {}", criteria, hint);
+        Page<InmateDTO> page = inmateQueryService.findByCriteriaWithHint(criteria, pageable, hint);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
     /**
      * {@code GET  /inmates/count} : count all the inmates.
      *

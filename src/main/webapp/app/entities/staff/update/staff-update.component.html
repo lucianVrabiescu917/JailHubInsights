@@ -9,6 +9,14 @@
         <jhi-alert-error></jhi-alert-error>
 
         <div class="row mb-3">
+          <jhi-image-container
+            [uploadVisible]="true"
+            [image]="selectedImage"
+            (imageEmitter)="onImageSelected($event)"
+          ></jhi-image-container>
+        </div>
+
+        <div class="row mb-3">
           <label class="form-label" jhiTranslate="jailHubInsightsApp.staff.staffType" for="field_staffType">Staff Type</label>
           <select class="form-control" name="staffType" formControlName="staffType" id="field_staffType" data-cy="staffType">
             <option [ngValue]="null">{{ 'jailHubInsightsApp.StaffType.null' | translate }}</option>
@@ -26,36 +34,6 @@
         <div class="row mb-3">
           <label class="form-label" jhiTranslate="jailHubInsightsApp.staff.lastName" for="field_lastName">Last Name</label>
           <input type="text" class="form-control" name="lastName" id="field_lastName" data-cy="lastName" formControlName="lastName" />
-        </div>
-
-        <div class="row mb-3">
-          <label class="form-label" jhiTranslate="jailHubInsightsApp.staff.prison" for="field_prison">Prison</label>
-          <select
-            class="form-control"
-            id="field_prison"
-            data-cy="prison"
-            name="prison"
-            formControlName="prison"
-            [compareWith]="comparePrison"
-          >
-            <option [ngValue]="null"></option>
-            <option [ngValue]="prisonOption" *ngFor="let prisonOption of prisonsSharedCollection">{{ prisonOption.name }}</option>
-          </select>
-        </div>
-
-        <div class="row mb-3">
-          <label jhiTranslate="jailHubInsightsApp.staff.activity" for="field_activities">Activity</label>
-          <select
-            class="form-control"
-            id="field_activities"
-            data-cy="activity"
-            multiple
-            name="activities"
-            formControlName="activities"
-            [compareWith]="compareActivity"
-          >
-            <option [ngValue]="activityOption" *ngFor="let activityOption of activitiesSharedCollection">{{ activityOption.title }}</option>
-          </select>
         </div>
       </div>
 

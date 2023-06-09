@@ -15,6 +15,7 @@ import { PrisonService } from '../service/prison.service';
 export class PrisonUpdateComponent implements OnInit {
   isSaving = false;
   prison: IPrison | null = null;
+  selectedImage: string | ArrayBuffer | null = null;
 
   editForm: PrisonFormGroup = this.prisonFormService.createPrisonFormGroup();
 
@@ -27,6 +28,9 @@ export class PrisonUpdateComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ prison }) => {
       this.prison = prison;
+      if (this.prison != null && this.prison.image != undefined) {
+        this.selectedImage = this.prison.image;
+      }
       if (prison) {
         this.updateForm(prison);
       }
@@ -40,6 +44,7 @@ export class PrisonUpdateComponent implements OnInit {
   save(): void {
     this.isSaving = true;
     const prison = this.prisonFormService.getPrison(this.editForm);
+    prison.image = this.selectedImage as string;
     if (prison.id !== null) {
       this.subscribeToSaveResponse(this.prisonService.update(prison));
     } else {
@@ -69,5 +74,9 @@ export class PrisonUpdateComponent implements OnInit {
   protected updateForm(prison: IPrison): void {
     this.prison = prison;
     this.prisonFormService.resetForm(this.editForm, prison);
+  }
+
+  onImageSelected(image: string) {
+    this.selectedImage = image;
   }
 }
