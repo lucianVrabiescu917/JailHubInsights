@@ -70,6 +70,13 @@ public class ActivityQueryService extends QueryService<Activity> {
         return activityRepository.findAll(specification, page).map(activityMapper::toDto);
     }
 
+    @Transactional(readOnly = true)
+    public Page<ActivityDTO> findByCriteriaWithHint(ActivityCriteria criteria, Pageable page, String hint) {
+        log.debug("find by criteria : {}, page: {}", criteria, page);
+        final Specification<Activity> specification = createSpecification(criteria, hint);
+        return activityRepository.findAll(specification, page).map(activityMapper::toDto);
+    }
+
     /**
      * Return the number of matching entities in the database.
      * @param criteria The object which holds all the filters, which the entities should match.
@@ -88,7 +95,16 @@ public class ActivityQueryService extends QueryService<Activity> {
         if (currentUserOptional.isPresent()) {
             currentUser = currentUserOptional.get();
         }
-        return this.createSpecification(criteria, currentUser);
+        return this.createSpecification(criteria, currentUser, null);
+    }
+
+    protected Specification<Activity> createSpecification(ActivityCriteria criteria, String hint) {
+        User currentUser = null;
+        Optional<User> currentUserOptional = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByLogin);
+        if (currentUserOptional.isPresent()) {
+            currentUser = currentUserOptional.get();
+        }
+        return this.createSpecification(criteria, currentUser, hint);
     }
 
     /**
@@ -96,7 +112,7 @@ public class ActivityQueryService extends QueryService<Activity> {
      * @param criteria The object which holds all the filters, which the entities should match.
      * @return the matching {@link Specification} of the entity.
      */
-    protected Specification<Activity> createSpecification(ActivityCriteria criteria, User currentUser) {
+    protected Specification<Activity> createSpecification(ActivityCriteria criteria, User currentUser, String hint) {
         Specification<Activity> specification = Specification.where(null);
         if (criteria != null) {
             // This has to be called first, because the distinct method returns null
@@ -114,6 +130,12 @@ public class ActivityQueryService extends QueryService<Activity> {
             }
             if (criteria.getDescription() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getDescription(), Activity_.description));
+            }
+            if (hint != null && !hint.equals("")) {
+                specification =
+                    specification.and((root, query, criteriaBuilder) -> {
+                        return criteriaBuilder.like(root.get(Activity_.title), "%" + hint + "%");
+                    });
             }
             if (currentUser != null && currentUser.getPrison() != null) {
                 LongFilter longFilter = new LongFilter();

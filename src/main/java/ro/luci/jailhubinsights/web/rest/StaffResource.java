@@ -17,7 +17,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ro.luci.jailhubinsights.repository.StaffRepository;
 import ro.luci.jailhubinsights.service.StaffQueryService;
 import ro.luci.jailhubinsights.service.StaffService;
+import ro.luci.jailhubinsights.service.criteria.InmateCriteria;
 import ro.luci.jailhubinsights.service.criteria.StaffCriteria;
+import ro.luci.jailhubinsights.service.dto.InmateDTO;
 import ro.luci.jailhubinsights.service.dto.StaffDTO;
 import ro.luci.jailhubinsights.web.rest.errors.BadRequestAlertException;
 import tech.jhipster.web.util.HeaderUtil;
@@ -154,6 +156,18 @@ public class StaffResource {
     ) {
         log.debug("REST request to get Staff by criteria: {}", criteria);
         Page<StaffDTO> page = staffQueryService.findByCriteria(criteria, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    @GetMapping("/staff/hint")
+    public ResponseEntity<List<StaffDTO>> getStaffWithHint(
+        StaffCriteria criteria,
+        @org.springdoc.api.annotations.ParameterObject Pageable pageable,
+        String hint
+    ) {
+        log.debug("REST request to get Staff by criteria: {}", criteria);
+        Page<StaffDTO> page = staffQueryService.findByCriteriaWithHint(criteria, pageable, hint);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

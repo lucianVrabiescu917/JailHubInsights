@@ -70,6 +70,13 @@ public class AreaQueryService extends QueryService<Area> {
         return areaRepository.findAll(specification, page).map(areaMapper::toDto);
     }
 
+    @Transactional(readOnly = true)
+    public Page<AreaDTO> findByCriteriaWithHint(AreaCriteria criteria, Pageable page, String hint) {
+        log.debug("find by criteria : {}, page: {}", criteria, page);
+        final Specification<Area> specification = createSpecification(criteria, hint);
+        return areaRepository.findAll(specification, page).map(areaMapper::toDto);
+    }
+
     /**
      * Return the number of matching entities in the database.
      * @param criteria The object which holds all the filters, which the entities should match.
@@ -88,7 +95,16 @@ public class AreaQueryService extends QueryService<Area> {
         if (currentUserOptional.isPresent()) {
             currentUser = currentUserOptional.get();
         }
-        return this.createSpecification(criteria, currentUser);
+        return this.createSpecification(criteria, currentUser, null);
+    }
+
+    protected Specification<Area> createSpecification(AreaCriteria criteria, String hint) {
+        User currentUser = null;
+        Optional<User> currentUserOptional = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByLogin);
+        if (currentUserOptional.isPresent()) {
+            currentUser = currentUserOptional.get();
+        }
+        return this.createSpecification(criteria, currentUser, hint);
     }
 
     /**
@@ -96,7 +112,7 @@ public class AreaQueryService extends QueryService<Area> {
      * @param criteria The object which holds all the filters, which the entities should match.
      * @return the matching {@link Specification} of the entity.
      */
-    protected Specification<Area> createSpecification(AreaCriteria criteria, User currentUser) {
+    protected Specification<Area> createSpecification(AreaCriteria criteria, User currentUser, String hint) {
         Specification<Area> specification = Specification.where(null);
         if (criteria != null) {
             // This has to be called first, because the distinct method returns null
@@ -114,6 +130,12 @@ public class AreaQueryService extends QueryService<Area> {
             }
             if (criteria.getAreaType() != null) {
                 specification = specification.and(buildSpecification(criteria.getAreaType(), Area_.areaType));
+            }
+            if (hint != null && !hint.equals("")) {
+                specification =
+                    specification.and((root, query, criteriaBuilder) -> {
+                        return criteriaBuilder.like(root.get(Area_.name), "%" + hint + "%");
+                    });
             }
             if (currentUser != null && currentUser.getPrison() != null) {
                 LongFilter longFilter = new LongFilter();

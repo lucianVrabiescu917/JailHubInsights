@@ -26,6 +26,8 @@
 
   <jhi-filter [filters]="filters"></jhi-filter>
 
+  <jhi-search-bar (onSearch)="loadSearch($event)"></jhi-search-bar>
+
   <div class="alert alert-warning" id="no-result" *ngIf="activities?.length === 0">
     <span jhiTranslate="jailHubInsightsApp.activity.home.notFound">No Activities found</span>
   </div>

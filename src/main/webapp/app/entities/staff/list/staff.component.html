@@ -30,6 +30,8 @@
     <span jhiTranslate="jailHubInsightsApp.staff.home.notFound">No Staff found</span>
   </div>
 
+  <jhi-search-bar (onSearch)="loadSearch($event)"></jhi-search-bar>
+
   <div class="table-responsive table-entities" id="entities" *ngIf="staff && staff.length > 0">
     <table class="table table-striped" aria-describedby="page-heading">
       <thead>

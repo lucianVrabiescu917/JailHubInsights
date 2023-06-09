@@ -2,6 +2,7 @@ package ro.luci.jailhubinsights.service;
 
 import java.util.List;
 import java.util.Optional;
+import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.JoinType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,7 +66,14 @@ public class InmateQueryService extends QueryService<Inmate> {
     @Transactional(readOnly = true)
     public Page<InmateDTO> findByCriteria(InmateCriteria criteria, Pageable page) {
         log.debug("find by criteria : {}, page: {}", criteria, page);
-        final Specification<Inmate> specification = createSpecification(criteria);
+        final Specification<Inmate> specification = createSpecification(criteria, null);
+        return inmateRepository.findAll(specification, page).map(inmateMapper::toDto);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<InmateDTO> findByCriteriaWithHint(InmateCriteria criteria, Pageable page, String hint) {
+        log.debug("find by criteria : {}, page: {}", criteria, page);
+        final Specification<Inmate> specification = createSpecification(criteria, hint);
         return inmateRepository.findAll(specification, page).map(inmateMapper::toDto);
     }
 
@@ -87,13 +95,21 @@ public class InmateQueryService extends QueryService<Inmate> {
         if (currentUserOptional.isPresent()) {
             currentUser = currentUserOptional.get();
         }
-        return this.createSpecification(criteria, currentUser);
+        return this.createSpecification(criteria, currentUser, null);
     }
 
-    protected Specification<Inmate> createSpecification(InmateCriteria criteria, User currentUser) {
+    protected Specification<Inmate> createSpecification(InmateCriteria criteria, String hint) {
+        User currentUser = null;
+        Optional<User> currentUserOptional = SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findOneByLogin);
+        if (currentUserOptional.isPresent()) {
+            currentUser = currentUserOptional.get();
+        }
+        return this.createSpecification(criteria, currentUser, hint);
+    }
+
+    protected Specification<Inmate> createSpecification(InmateCriteria criteria, User currentUser, String hint) {
         Specification<Inmate> specification = Specification.where(null);
         if (criteria != null) {
-            // This has to be called first, because the distinct method returns null
             if (criteria.getDistinct() != null) {
                 specification = specification.and(distinct(criteria.getDistinct()));
             }
@@ -115,6 +131,14 @@ public class InmateQueryService extends QueryService<Inmate> {
             if (criteria.getDateOfExpectedRelease() != null) {
                 specification =
                     specification.and(buildRangeSpecification(criteria.getDateOfExpectedRelease(), Inmate_.dateOfExpectedRelease));
+            }
+            if (hint != null && !hint.equals("")) {
+                specification =
+                    specification.and((root, query, criteriaBuilder) -> {
+                        Expression<String> concatenatedName = criteriaBuilder.concat(root.get(Inmate_.firstName), " ");
+                        concatenatedName = criteriaBuilder.concat(concatenatedName, root.get(Inmate_.lastName));
+                        return criteriaBuilder.like(concatenatedName, "%" + hint + "%");
+                    });
             }
             if (currentUser != null && currentUser.getPrison() != null) {
                 LongFilter longFilter = new LongFilter();

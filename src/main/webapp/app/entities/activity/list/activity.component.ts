@@ -27,6 +27,7 @@ export class ActivityComponent implements OnInit {
   itemsPerPage = ITEMS_PER_PAGE;
   totalItems = 0;
   page = 1;
+  hint = '';
 
   constructor(
     protected activityService: ActivityService,
@@ -67,6 +68,15 @@ export class ActivityComponent implements OnInit {
     });
   }
 
+  loadSearch(hint: string): void {
+    this.hint = hint;
+    this.loadFromBackendWithRouteInformationsSearch().subscribe({
+      next: (res: EntityArrayResponseType) => {
+        this.onResponseSuccess(res);
+      },
+    });
+  }
+
   navigateToWithComponentValues(): void {
     this.handleNavigation(this.page, this.predicate, this.ascending, this.filters.filterOptions);
   }
@@ -79,6 +89,13 @@ export class ActivityComponent implements OnInit {
     return combineLatest([this.activatedRoute.queryParamMap, this.activatedRoute.data]).pipe(
       tap(([params, data]) => this.fillComponentAttributeFromRoute(params, data)),
       switchMap(() => this.queryBackend(this.page, this.predicate, this.ascending, this.filters.filterOptions))
+    );
+  }
+
+  protected loadFromBackendWithRouteInformationsSearch(): Observable<EntityArrayResponseType> {
+    return combineLatest([this.activatedRoute.queryParamMap, this.activatedRoute.data]).pipe(
+      tap(([params, data]) => this.fillComponentAttributeFromRoute(params, data)),
+      switchMap(() => this.queryBackendSearch(this.page, this.predicate, this.ascending, this.filters.filterOptions))
     );
   }
 
@@ -122,6 +139,27 @@ export class ActivityComponent implements OnInit {
       queryObject[filterOption.name] = filterOption.values;
     });
     return this.activityService.query(queryObject).pipe(tap(() => (this.isLoading = false)));
+  }
+
+  protected queryBackendSearch(
+    page?: number,
+    predicate?: string,
+    ascending?: boolean,
+    filterOptions?: IFilterOption[]
+  ): Observable<EntityArrayResponseType> {
+    this.isLoading = true;
+    const pageToLoad: number = page ?? 1;
+    const queryObject: any = {
+      page: pageToLoad - 1,
+      size: this.itemsPerPage,
+      eagerload: true,
+      sort: this.getSortQueryParam(predicate, ascending),
+      hint: this.hint,
+    };
+    filterOptions?.forEach(filterOption => {
+      queryObject[filterOption.name] = filterOption.values;
+    });
+    return this.activityService.querySearch(queryObject).pipe(tap(() => (this.isLoading = false)));
   }
 
   protected handleNavigation(page = this.page, predicate?: string, ascending?: boolean, filterOptions?: IFilterOption[]): void {
