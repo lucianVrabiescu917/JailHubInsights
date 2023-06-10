@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
-import { InmateFormService, InmateFormGroup } from './inmate-form.service';
+import { InmateFormGroup, InmateFormService } from './inmate-form.service';
 import { IInmate } from '../inmate.model';
 import { InmateService } from '../service/inmate.service';
 import { IPrison } from 'app/entities/prison/prison.model';
@@ -13,6 +13,7 @@ import { IArea } from 'app/entities/area/area.model';
 import { AreaService } from 'app/entities/area/service/area.service';
 import { IActivity } from 'app/entities/activity/activity.model';
 import { ActivityService } from 'app/entities/activity/service/activity.service';
+import { AreaType } from '../../enumerations/area-type.model';
 
 @Component({
   selector: 'jhi-inmate-update',
@@ -117,7 +118,7 @@ export class InmateUpdateComponent implements OnInit {
       .query()
       .pipe(map((res: HttpResponse<IArea[]>) => res.body ?? []))
       .pipe(map((areas: IArea[]) => this.areaService.addAreaToCollectionIfMissing<IArea>(areas, this.inmate?.assignedCell)))
-      .subscribe((areas: IArea[]) => (this.areasSharedCollection = areas));
+      .subscribe((areas: IArea[]) => (this.areasSharedCollection = areas.filter(area => area.areaType === AreaType.CELL)));
 
     this.activityService
       .query()

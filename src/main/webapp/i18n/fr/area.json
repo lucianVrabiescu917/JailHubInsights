@@ -25,7 +25,13 @@
       "assignedStaffAreas": "Assigned Staff Areas",
       "composedOfAreas": "Composed Of Areas",
       "inmate": "Inmate",
-      "composingAreas": "Composing Areas"
+      "composingAreas": "Composing Areas",
+      "ratio": "Ratio personnel/détenus",
+      "ratio_messages": {
+        "green": "Ratio parfait !",
+        "yellow": "Ratio acceptable !",
+        "red": "Ratio mauvais !"
+      }
     }
   }
 }

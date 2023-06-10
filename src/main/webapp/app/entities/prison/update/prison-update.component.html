@@ -1,4 +1,4 @@
-<div class="d-flex justify-content-center">
+<div class="d-flex">
   <div class="col-8">
     <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
       <h2 id="jhi-prison-heading" data-cy="PrisonCreateUpdateHeading" jhiTranslate="jailHubInsightsApp.prison.home.createOrEditLabel">
@@ -19,12 +19,20 @@
 
         <div class="row mb-3">
           <label class="form-label" jhiTranslate="jailHubInsightsApp.prison.name" for="field_name">Name</label>
-          <input type="text" class="form-control" name="name" id="field_name" data-cy="name" formControlName="name" />
+          <input type="text" class="form-control" style="width: 60%" name="name" id="field_name" data-cy="name" formControlName="name" />
         </div>
 
         <div class="row mb-3">
           <label class="form-label" jhiTranslate="jailHubInsightsApp.prison.location" for="field_location">Location</label>
-          <input type="text" class="form-control" name="location" id="field_location" data-cy="location" formControlName="location" />
+          <input
+            type="text"
+            class="form-control"
+            style="width: 60%"
+            name="location"
+            id="field_location"
+            data-cy="location"
+            formControlName="location"
+          />
         </div>
       </div>
 
@@ -44,5 +52,90 @@
         </button>
       </div>
     </form>
+
+    <div class="row mb-3 {{ selectedImage ? 'with-image' : 'without-image' }}">
+      <div class="row mb-3">
+        <div class="col-3">
+          <label class="form-label" jhiTranslate="jailHubInsightsApp.prison.ratio.cell_ratio">Cell ratio</label>
+          <input
+            [(ngModel)]="cellRatio"
+            type="number"
+            min="0.1"
+            step="0.1"
+            class="form-control"
+            name="cell_ratio"
+            id="cell_ratio"
+            data-cy="cell_ratio"
+          />
+        </div>
+        <div class="col-3">
+          <label class="form-label" jhiTranslate="jailHubInsightsApp.prison.ratio.cell_block_ratio">Cell block ratio</label>
+          <input
+            [(ngModel)]="cellBlockRatio"
+            type="number"
+            min="0.1"
+            step="0.1"
+            class="form-control"
+            name="cell_block_ratio"
+            id="cell_block_ratio"
+            data-cy="cell_block_ratio"
+          />
+        </div>
+        <div class="col-3">
+          <label class="form-label" jhiTranslate="jailHubInsightsApp.prison.ratio.labor_site_ratio">Labor site ratio</label>
+          <input
+            [(ngModel)]="laborRatio"
+            type="number"
+            min="0.1"
+            step="0.1"
+            class="form-control"
+            name="labor_site_ratio"
+            id="labor_site_ratio"
+            data-cy="cell_block_ratio"
+          />
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-3">
+          <label class="form-label" jhiTranslate="jailHubInsightsApp.prison.ratio.dining_area_ratio">Dining ratio</label>
+          <input
+            [(ngModel)]="diningBlockRatio"
+            type="number"
+            min="0.1"
+            step="0.1"
+            class="form-control"
+            name="dining_area_ratio"
+            id="dining_area_ratio"
+            data-cy="cell_ratio"
+          />
+        </div>
+        <div class="col-3">
+          <label class="form-label" jhiTranslate="jailHubInsightsApp.prison.ratio.recreational_area_ratio">Recreational ratio</label>
+          <input
+            [(ngModel)]="recreationalRatio"
+            type="number"
+            min="0.1"
+            step="0.1"
+            class="form-control"
+            name="recreational_area_ratio"
+            id="recreational_area_ratio"
+            data-cy="cell_block_ratio"
+          />
+        </div>
+        <div class="col-3">
+          <label class="form-label" jhiTranslate="jailHubInsightsApp.prison.ratio.class_area_ratio">Class area ratio</label>
+          <input
+            [(ngModel)]="classAreaRatio"
+            type="number"
+            min="0.1"
+            step="0.1"
+            class="form-control"
+            name="class_area_ratio"
+            id="class_area_ratio"
+            data-cy="class_area_ratio"
+          />
+        </div>
+      </div>
+    </div>
   </div>
 </div>

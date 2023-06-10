@@ -23,7 +23,15 @@
       "inmate": "Inmate",
       "area": "Area",
       "activity": "Activity",
-      "staff": "Staff"
+      "staff": "Staff",
+      "ratio": {
+        "cell_ratio": "Raport celulă",
+        "cell_block_ratio": "Raport bloc celule",
+        "dining_area_ratio": "Raport zonă de luat masa",
+        "recreational_area_ratio": "Raport zonă de recreere",
+        "labor_site_ratio": "Raport zonă de muncă",
+        "class_area_ratio": "Raport sală de clasă"
+      }
     }
   }
 }

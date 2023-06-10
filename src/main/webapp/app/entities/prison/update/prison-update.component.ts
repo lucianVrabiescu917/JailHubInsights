@@ -7,10 +7,12 @@ import { finalize } from 'rxjs/operators';
 import { PrisonFormService, PrisonFormGroup } from './prison-form.service';
 import { IPrison } from '../prison.model';
 import { PrisonService } from '../service/prison.service';
+import { AreaType } from '../../enumerations/area-type.model';
 
 @Component({
   selector: 'jhi-prison-update',
   templateUrl: './prison-update.component.html',
+  styleUrls: ['./prison-update.component.scss'],
 })
 export class PrisonUpdateComponent implements OnInit {
   isSaving = false;
@@ -18,6 +20,13 @@ export class PrisonUpdateComponent implements OnInit {
   selectedImage: string | ArrayBuffer | null = null;
 
   editForm: PrisonFormGroup = this.prisonFormService.createPrisonFormGroup();
+
+  cellRatio: number | null | undefined = null;
+  cellBlockRatio: number | null | undefined = null;
+  laborRatio: number | null | undefined = null;
+  diningBlockRatio: number | null | undefined = null;
+  recreationalRatio: number | null | undefined = null;
+  classAreaRatio: number | null | undefined = null;
 
   constructor(
     protected prisonService: PrisonService,
@@ -31,6 +40,13 @@ export class PrisonUpdateComponent implements OnInit {
       if (this.prison != null && this.prison.image != undefined) {
         this.selectedImage = this.prison.image;
       }
+      this.cellRatio = this.prison?.cellRatio;
+      this.cellBlockRatio = this.prison?.cellBlockRatio;
+      this.diningBlockRatio = this.prison?.diningRatio;
+      this.recreationalRatio = this.prison?.recreationRatio;
+      this.laborRatio = this.prison?.laborRatio;
+      this.classAreaRatio = this.prison?.classRatio;
+
       if (prison) {
         this.updateForm(prison);
       }
@@ -38,6 +54,7 @@ export class PrisonUpdateComponent implements OnInit {
   }
 
   previousState(): void {
+    console.log('ratios', this.cellRatio, this.cellBlockRatio);
     window.history.back();
   }
 
@@ -45,6 +62,18 @@ export class PrisonUpdateComponent implements OnInit {
     this.isSaving = true;
     const prison = this.prisonFormService.getPrison(this.editForm);
     prison.image = this.selectedImage as string;
+    if (prison) {
+      prison.cellRatio = this.cellRatio;
+      prison.recreationRatio = this.recreationalRatio;
+      prison.laborRatio = this.laborRatio;
+      prison.recreationRatio = this.recreationalRatio;
+      prison.diningRatio = this.diningBlockRatio;
+      prison.cellBlockRatio = this.cellBlockRatio;
+      prison.classRatio = this.classAreaRatio;
+    }
+
+    console.log('saving prison', prison);
+
     if (prison.id !== null) {
       this.subscribeToSaveResponse(this.prisonService.update(prison));
     } else {

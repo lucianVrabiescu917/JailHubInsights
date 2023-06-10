@@ -25,7 +25,13 @@
       "assignedStaffAreas": "Assigned Staff Areas",
       "composedOfAreas": "Composed Of Areas",
       "inmate": "Inmate",
-      "composingAreas": "Composing Areas"
+      "composingAreas": "Composing Areas",
+      "ratio": "Mitarbeiter/Insassen-Verhältnis",
+      "ratio_messages": {
+        "green": "Perfektes Verhältnis!",
+        "yellow": "Angemessenes Verhältnis!",
+        "red": "Schlechtes Verhältnis!"
+      }
     }
   }
 }

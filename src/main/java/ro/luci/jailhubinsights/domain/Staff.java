@@ -7,9 +7,6 @@ import java.util.Set;
 import javax.persistence.*;
 import ro.luci.jailhubinsights.domain.enumeration.StaffType;
 
-/**
- * A Staff.
- */
 @Entity
 @Table(name = "staff")
 @SuppressWarnings("common-java:DuplicatedBlocks")

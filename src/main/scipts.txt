@@ -1,0 +1,4 @@
+ALTER TABLE area
+    ADD COLUMN ratio double;
+
+

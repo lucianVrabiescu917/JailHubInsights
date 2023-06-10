@@ -25,6 +25,8 @@ export class AreaUpdateComponent implements OnInit {
   prisonsSharedCollection: IPrison[] = [];
   staffSharedCollection: IStaff[] = [];
   areasSharedCollection: IArea[] = [];
+  allStaff: number[] = [];
+  areaRatioLevel: number = 0;
 
   editForm: AreaFormGroup = this.areaFormService.createAreaFormGroup();
 
@@ -49,9 +51,11 @@ export class AreaUpdateComponent implements OnInit {
       this.area = area;
       if (area) {
         this.updateForm(area);
+        this.areaService
+          .queryStaff(area)
+          .pipe(map((res: HttpResponse<number[]>) => res.body ?? []))
+          .subscribe((staff: number[]) => (this.allStaff = staff));
       }
-
-      // this.loadRelationshipsOptions();
     });
   }
 
@@ -114,7 +118,7 @@ export class AreaUpdateComponent implements OnInit {
       .subscribe((prisons: IPrison[]) => (this.prisonsSharedCollection = prisons));
 
     this.staffService
-      .query()
+      .queryAll()
       .pipe(map((res: HttpResponse<IStaff[]>) => res.body ?? []))
       .pipe(
         map((staff: IStaff[]) => this.staffService.addStaffToCollectionIfMissing<IStaff>(staff, ...(this.area?.assignedStaffAreas ?? [])))

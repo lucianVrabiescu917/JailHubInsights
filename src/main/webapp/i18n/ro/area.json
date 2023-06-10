@@ -25,7 +25,13 @@
       "assignedStaffAreas": "Assigned Staff Areas",
       "composedOfAreas": "Composed Of Areas",
       "inmate": "Inmate",
-      "composingAreas": "Composing Areas"
+      "composingAreas": "Composing Areas",
+      "ratio": "Raport personal/deținuți",
+      "ratio_messages": {
+        "green": "Raport perfect!",
+        "yellow": "Raport decent!",
+        "red": "Raport slab!"
+      }
     }
   }
 }
