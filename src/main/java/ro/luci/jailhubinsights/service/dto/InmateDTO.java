@@ -28,8 +28,6 @@ public class InmateDTO implements Serializable {
 
     private PrisonDTO prison;
 
-    private AreaDTO assignedCell;
-
     private Set<ActivityDTO> activities;
 
     public Long getId() {
@@ -88,14 +86,6 @@ public class InmateDTO implements Serializable {
         this.prison = prison;
     }
 
-    public AreaDTO getAssignedCell() {
-        return assignedCell;
-    }
-
-    public void setAssignedCell(AreaDTO assignedCell) {
-        this.assignedCell = assignedCell;
-    }
-
     public Set<ActivityDTO> getActivities() {
         return activities;
     }
@@ -144,7 +134,6 @@ public class InmateDTO implements Serializable {
             ", dateOfIncarceration='" + getDateOfIncarceration() + "'" +
             ", dateOfExpectedRelease='" + getDateOfExpectedRelease() + "'" +
             ", prison=" + getPrison() +
-            ", assignedCell=" + getAssignedCell() +
             "}";
     }
 }

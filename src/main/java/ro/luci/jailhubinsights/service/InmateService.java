@@ -152,6 +152,8 @@ public class InmateService {
      */
     public void delete(Long id) {
         log.debug("Request to delete Inmate : {}", id);
+        inmateRepository.deleteRelationsWithActivityById(id);
+        inmateRepository.deleteRelationsWithAreaById(id);
         inmateRepository.deleteById(id);
     }
 }

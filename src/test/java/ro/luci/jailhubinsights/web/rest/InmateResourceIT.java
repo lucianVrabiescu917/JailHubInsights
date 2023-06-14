@@ -679,7 +679,6 @@ class InmateResourceIT {
         }
         em.persist(assignedCell);
         em.flush();
-        inmate.setAssignedCell(assignedCell);
         inmateRepository.saveAndFlush(inmate);
         Long assignedCellId = assignedCell.getId();
 

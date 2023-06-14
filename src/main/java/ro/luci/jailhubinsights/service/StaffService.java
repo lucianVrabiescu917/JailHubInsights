@@ -154,6 +154,8 @@ public class StaffService {
      */
     public void delete(Long id) {
         log.debug("Request to delete Staff : {}", id);
+        staffRepository.deleteRelationsWithActivityById(id);
+        staffRepository.deleteRelationsWithAreaById(id);
         staffRepository.deleteById(id);
     }
 }

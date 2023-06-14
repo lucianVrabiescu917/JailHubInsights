@@ -3,6 +3,14 @@
     <span jhiTranslate="jailHubInsightsApp.inmate.home.title">Inmates</span>
 
     <div class="d-flex justify-content-end">
+      <button class="btn btn-success me-2" (click)="load()" [disabled]="isLoading">
+        <span jhiTranslate="jailHubInsightsApp.inmate.home.import_excel">Import</span>
+      </button>
+
+      <button class="btn btn-success me-2" (click)="load()" [disabled]="isLoading">
+        <span jhiTranslate="jailHubInsightsApp.inmate.home.export_excel">Export</span>
+      </button>
+
       <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
         <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
         <span jhiTranslate="jailHubInsightsApp.inmate.home.refreshListLabel">Refresh list</span>
@@ -72,12 +80,6 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="assignedCell.id">
-            <div class="d-flex">
-              <span jhiTranslate="jailHubInsightsApp.inmate.assignedCell">Assigned Cell</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -93,13 +95,24 @@
               <a [routerLink]="['/prison', inmate.prison.id, 'view']">{{ inmate.prison.name }}</a>
             </div>
           </td>
-          <td>
-            <div *ngIf="inmate.assignedCell">
-              <a [routerLink]="['/area', inmate.assignedCell.id, 'view']">{{ inmate.assignedCell.name }}</a>
-            </div>
-          </td>
           <td class="text-end">
             <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/inmate', inmate.id, 'view']"
+                class="btn btn-secondary btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <span class="d-none d-md-inline" jhiTranslate="jailHubInsightsApp.inmate.home.import_word">Import</span>
+              </button>
+              <button
+                type="submit"
+                [routerLink]="['/inmate', inmate.id, 'view']"
+                class="btn btn-secondary btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <span class="d-none d-md-inline" jhiTranslate="jailHubInsightsApp.inmate.home.export_word">Export</span>
+              </button>
               <button type="submit" [routerLink]="['/inmate', inmate.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
                 <fa-icon icon="eye"></fa-icon>
                 <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>

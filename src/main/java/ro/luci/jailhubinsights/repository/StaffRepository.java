@@ -25,4 +25,15 @@ public interface StaffRepository extends StaffRepositoryWithBagRelationships, Jp
     default Page<Staff> findAllWithEagerRelationships(Pageable pageable) {
         return this.fetchBagRelationships(this.findAll(pageable));
     }
+
+    @Modifying
+    @Query(
+        value = "DELETE asa.* FROM rel_area__assigned_staff_areas asa " + "              WHERE asa.assigned_staff_areas_id = :staffId",
+        nativeQuery = true
+    )
+    void deleteRelationsWithAreaById(@Param("staffId") Long staffId);
+
+    @Modifying
+    @Query(value = "DELETE asa.* FROM rel_staff__activity asa " + "              WHERE asa.staff_id = :staffId", nativeQuery = true)
+    void deleteRelationsWithActivityById(@Param("staffId") Long staffId);
 }

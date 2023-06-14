@@ -55,8 +55,8 @@ public class Area implements Serializable {
     @JsonIgnoreProperties(value = { "prison", "assignedStaffAreas", "composedOfAreas", "inmates", "composingAreas" }, allowSetters = true)
     private Set<Area> composedOfAreas = new HashSet<>();
 
-    @OneToMany(mappedBy = "assignedCell")
-    @JsonIgnoreProperties(value = { "prison", "assignedCell", "activities" }, allowSetters = true)
+    @ManyToMany
+    @JoinTable(name = "rel_area_inmates", joinColumns = @JoinColumn(name = "area_id"), inverseJoinColumns = @JoinColumn(name = "inmate_id"))
     private Set<Inmate> inmates = new HashSet<>();
 
     @ManyToMany(mappedBy = "composedOfAreas")
@@ -149,6 +149,31 @@ public class Area implements Serializable {
         return this;
     }
 
+    public Set<Inmate> getInmates() {
+        return this.inmates;
+    }
+
+    public void setInmates(Set<Inmate> inmates) {
+        this.inmates = inmates;
+    }
+
+    public Area inmates(Set<Staff> staff) {
+        this.setAssignedStaffAreas(staff);
+        return this;
+    }
+
+    public Area addInmates(Inmate inmate) {
+        this.inmates.add(inmate);
+        inmate.getAssignedAreas().add(this);
+        return this;
+    }
+
+    public Area removeInmates(Inmate inmate) {
+        this.inmates.remove(inmate);
+        inmate.getAssignedAreas().remove(this);
+        return this;
+    }
+
     public Area removeAssignedStaffAreas(Staff staff) {
         this.assignedStaffAreas.remove(staff);
         staff.getAssignedAreas().remove(this);
@@ -177,37 +202,6 @@ public class Area implements Serializable {
     public Area removeComposedOfAreas(Area area) {
         this.composedOfAreas.remove(area);
         area.getComposingAreas().remove(this);
-        return this;
-    }
-
-    public Set<Inmate> getInmates() {
-        return this.inmates;
-    }
-
-    public void setInmates(Set<Inmate> inmates) {
-        if (this.inmates != null) {
-            this.inmates.forEach(i -> i.setAssignedCell(null));
-        }
-        if (inmates != null) {
-            inmates.forEach(i -> i.setAssignedCell(this));
-        }
-        this.inmates = inmates;
-    }
-
-    public Area inmates(Set<Inmate> inmates) {
-        this.setInmates(inmates);
-        return this;
-    }
-
-    public Area addInmate(Inmate inmate) {
-        this.inmates.add(inmate);
-        inmate.setAssignedCell(this);
-        return this;
-    }
-
-    public Area removeInmate(Inmate inmate) {
-        this.inmates.remove(inmate);
-        inmate.setAssignedCell(null);
         return this;
     }
 

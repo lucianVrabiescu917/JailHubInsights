@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
-import { AreaFormService, AreaFormGroup } from './area-form.service';
+import { AreaFormGroup, AreaFormService } from './area-form.service';
 import { IArea } from '../area.model';
 import { AreaService } from '../service/area.service';
 import { IPrison } from 'app/entities/prison/prison.model';
@@ -12,6 +12,8 @@ import { PrisonService } from 'app/entities/prison/service/prison.service';
 import { IStaff } from 'app/entities/staff/staff.model';
 import { StaffService } from 'app/entities/staff/service/staff.service';
 import { AreaType } from 'app/entities/enumerations/area-type.model';
+import { IInmate } from '../../inmate/inmate.model';
+import { InmateService } from '../../inmate/service/inmate.service';
 
 @Component({
   selector: 'jhi-area-update',
@@ -24,9 +26,11 @@ export class AreaUpdateComponent implements OnInit {
 
   prisonsSharedCollection: IPrison[] = [];
   staffSharedCollection: IStaff[] = [];
+  inmatesSharedCollection: IInmate[] = [];
   areasSharedCollection: IArea[] = [];
   allStaff: number[] = [];
-  areaRatioLevel: number = 0;
+  allInmates: number[] = [];
+  ratio: number | null | undefined = null;
 
   editForm: AreaFormGroup = this.areaFormService.createAreaFormGroup();
 
@@ -35,6 +39,7 @@ export class AreaUpdateComponent implements OnInit {
     protected areaFormService: AreaFormService,
     protected prisonService: PrisonService,
     protected staffService: StaffService,
+    protected inmateService: InmateService,
     protected activatedRoute: ActivatedRoute
   ) {}
 
@@ -51,10 +56,18 @@ export class AreaUpdateComponent implements OnInit {
       this.area = area;
       if (area) {
         this.updateForm(area);
+
         this.areaService
           .queryStaff(area)
           .pipe(map((res: HttpResponse<number[]>) => res.body ?? []))
           .subscribe((staff: number[]) => (this.allStaff = staff));
+
+        this.areaService
+          .queryInmates(area)
+          .pipe(map((res: HttpResponse<number[]>) => res.body ?? []))
+          .subscribe((inmates: number[]) => (this.allInmates = inmates));
+
+        this.getRatioForTypeFromForm();
       }
     });
   }
@@ -66,6 +79,9 @@ export class AreaUpdateComponent implements OnInit {
   save(): void {
     this.isSaving = true;
     const area = this.areaFormService.getArea(this.editForm);
+    if (area.areaType != AreaType.CELL_BLOCK) {
+      area.composedOfAreas = [];
+    }
     if (area.id !== null) {
       this.subscribeToSaveResponse(this.areaService.update(area));
     } else {
@@ -102,6 +118,11 @@ export class AreaUpdateComponent implements OnInit {
       ...(area.assignedStaffAreas ?? [])
     );
 
+    this.inmatesSharedCollection = this.inmateService.addInmateToCollectionIfMissing<IInmate>(
+      this.inmatesSharedCollection,
+      ...(area.inmates ?? [])
+    );
+
     this.areasSharedCollection = this.areaService.addAreaToCollectionIfMissing<IArea>(
       this.areasSharedCollection,
       ...(area.composedOfAreas ?? [])
@@ -125,10 +146,39 @@ export class AreaUpdateComponent implements OnInit {
       )
       .subscribe((staff: IStaff[]) => (this.staffSharedCollection = staff));
 
+    this.inmateService
+      .query()
+      .pipe(map((res: HttpResponse<IStaff[]>) => res.body ?? []))
+      .pipe(map((inmates: IInmate[]) => this.inmateService.addInmateToCollectionIfMissing<IInmate>(inmates, ...(this.area?.inmates ?? []))))
+      .subscribe((inmates: IInmate[]) => (this.inmatesSharedCollection = inmates));
+
     this.areaService
       .query()
       .pipe(map((res: HttpResponse<IArea[]>) => res.body ?? []))
       .pipe(map((areas: IArea[]) => this.areaService.addAreaToCollectionIfMissing<IArea>(areas, ...(this.area?.composedOfAreas ?? []))))
       .subscribe((areas: IArea[]) => (this.areasSharedCollection = areas.filter(area => area.id != this.area?.id)));
+  }
+
+  getRatioForTypeFromForm() {
+    switch (this.editForm.value['areaType']) {
+      case AreaType.CELL:
+        this.ratio = this.area?.prison?.cellRatio;
+        break;
+      case AreaType.CELL_BLOCK:
+        this.ratio = this.area?.prison?.cellBlockRatio;
+        break;
+      case AreaType.DINING:
+        this.ratio = this.area?.prison?.diningRatio;
+        break;
+      case AreaType.RECREATIONAL:
+        this.ratio = this.area?.prison?.recreationRatio;
+        break;
+      case AreaType.LABOR_SITE:
+        this.ratio = this.area?.prison?.laborRatio;
+        break;
+      case AreaType.CLASS:
+        this.ratio = this.area?.prison?.classRatio;
+        break;
+    }
   }
 }

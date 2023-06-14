@@ -6,7 +6,11 @@
         "refreshListLabel": "Refresh list",
         "createLabel": "Creeare o nouă entitate Inmate",
         "createOrEditLabel": "Creeare sau editare Inmate",
-        "notFound": "No Inmates found"
+        "notFound": "No Inmates found",
+        "export_excel": "Exportă în Excel",
+        "import_excel": "Importă din Excel",
+        "export_word": "Exportă în Word",
+        "import_word": "Importă din Word"
       },
       "created": "A fost creată o nouă entitate Inmate cu identificatorul {{ param }}",
       "updated": "Inmate cu identificatorul {{ param }} a fost actualizată",

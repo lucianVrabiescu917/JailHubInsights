@@ -159,7 +159,12 @@ public class AreaService {
     }
 
     @Transactional
-    public List<Long> getAllDistinctInmates(Long id) {
+    public List<Long> getAllDistinctStaff(Long id) {
         return areaRepository.getAllStaffIds(id);
+    }
+
+    @Transactional
+    public List<Long> getAllDistinctInmates(Long id) {
+        return areaRepository.getAllInmatesIds(id);
     }
 }

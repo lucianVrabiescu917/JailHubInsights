@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import ro.luci.jailhubinsights.domain.Inmate;
 import ro.luci.jailhubinsights.domain.enumeration.AreaType;
 
 /**
@@ -23,6 +24,8 @@ public class AreaDTO implements Serializable {
     private PrisonDTO prison;
 
     private Set<StaffDTO> assignedStaffAreas = new HashSet<>();
+
+    private Set<InmateDTO> inmates = new HashSet<>();
 
     private Set<AreaDTO> composedOfAreas = new HashSet<>();
 
@@ -80,6 +83,14 @@ public class AreaDTO implements Serializable {
 
     public void setComposedOfAreas(Set<AreaDTO> composedOfAreas) {
         this.composedOfAreas = composedOfAreas;
+    }
+
+    public Set<InmateDTO> getInmates() {
+        return inmates;
+    }
+
+    public void setInmates(Set<InmateDTO> inmates) {
+        this.inmates = inmates;
     }
 
     @Override

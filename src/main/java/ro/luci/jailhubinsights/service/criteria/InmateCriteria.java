@@ -35,9 +35,9 @@ public class InmateCriteria implements Serializable, Criteria {
 
     private LongFilter prisonId;
 
-    private LongFilter assignedCellId;
-
     private LongFilter activityId;
+
+    private LongFilter assignedAreasId;
 
     private Boolean distinct;
 
@@ -51,7 +51,7 @@ public class InmateCriteria implements Serializable, Criteria {
         this.dateOfIncarceration = other.dateOfIncarceration == null ? null : other.dateOfIncarceration.copy();
         this.dateOfExpectedRelease = other.dateOfExpectedRelease == null ? null : other.dateOfExpectedRelease.copy();
         this.prisonId = other.prisonId == null ? null : other.prisonId.copy();
-        this.assignedCellId = other.assignedCellId == null ? null : other.assignedCellId.copy();
+        this.assignedAreasId = other.assignedAreasId == null ? null : other.assignedAreasId.copy();
         this.activityId = other.activityId == null ? null : other.activityId.copy();
         this.distinct = other.distinct;
     }
@@ -166,19 +166,19 @@ public class InmateCriteria implements Serializable, Criteria {
         this.prisonId = prisonId;
     }
 
-    public LongFilter getAssignedCellId() {
-        return assignedCellId;
+    public LongFilter getAssignedAreasId() {
+        return assignedAreasId;
     }
 
-    public LongFilter assignedCellId() {
-        if (assignedCellId == null) {
-            assignedCellId = new LongFilter();
+    public LongFilter assignedAreasId() {
+        if (assignedAreasId == null) {
+            assignedAreasId = new LongFilter();
         }
-        return assignedCellId;
+        return assignedAreasId;
     }
 
-    public void setAssignedCellId(LongFilter assignedCellId) {
-        this.assignedCellId = assignedCellId;
+    public void setAssignedAreasId(LongFilter assignedAreasId) {
+        this.assignedAreasId = assignedAreasId;
     }
 
     public LongFilter getActivityId() {
@@ -221,7 +221,7 @@ public class InmateCriteria implements Serializable, Criteria {
             Objects.equals(dateOfIncarceration, that.dateOfIncarceration) &&
             Objects.equals(dateOfExpectedRelease, that.dateOfExpectedRelease) &&
             Objects.equals(prisonId, that.prisonId) &&
-            Objects.equals(assignedCellId, that.assignedCellId) &&
+            Objects.equals(assignedAreasId, that.assignedAreasId) &&
             Objects.equals(activityId, that.activityId) &&
             Objects.equals(distinct, that.distinct)
         );
@@ -237,7 +237,7 @@ public class InmateCriteria implements Serializable, Criteria {
             dateOfIncarceration,
             dateOfExpectedRelease,
             prisonId,
-            assignedCellId,
+            assignedAreasId,
             activityId,
             distinct
         );
@@ -254,7 +254,7 @@ public class InmateCriteria implements Serializable, Criteria {
             (dateOfIncarceration != null ? "dateOfIncarceration=" + dateOfIncarceration + ", " : "") +
             (dateOfExpectedRelease != null ? "dateOfExpectedRelease=" + dateOfExpectedRelease + ", " : "") +
             (prisonId != null ? "prisonId=" + prisonId + ", " : "") +
-            (assignedCellId != null ? "assignedCellId=" + assignedCellId + ", " : "") +
+            (assignedAreasId != null ? "assignedAreasId=" + assignedAreasId + ", " : "") +
             (activityId != null ? "activityId=" + activityId + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";

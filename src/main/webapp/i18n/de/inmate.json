@@ -6,7 +6,11 @@
         "refreshListLabel": "Liste aktualisieren",
         "createLabel": "Inmate erstellen",
         "createOrEditLabel": "Inmate erstellen oder bearbeiten",
-        "notFound": "Keine Inmates gefunden"
+        "notFound": "Keine Inmates gefunden",
+        "export_excel": "Excel exportieren",
+        "import_excel": "Excel importieren",
+        "export_word": "Word exportieren",
+        "import_word": "Word importieren"
       },
       "created": "Inmate erstellt mit ID {{ param }}",
       "updated": "Inmate aktualisiert mit ID {{ param }}",

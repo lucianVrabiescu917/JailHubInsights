@@ -493,7 +493,6 @@ class AreaResourceIT {
         }
         em.persist(inmate);
         em.flush();
-        area.addInmate(inmate);
         areaRepository.saveAndFlush(area);
         Long inmateId = inmate.getId();
 

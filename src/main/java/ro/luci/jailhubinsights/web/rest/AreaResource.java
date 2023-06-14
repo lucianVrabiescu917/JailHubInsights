@@ -148,8 +148,15 @@ public class AreaResource {
         return ResponseUtil.wrapOrNotFound(areaDTO);
     }
 
-    @GetMapping("/areas/{id}/staff")
+    @GetMapping("/areas/{id}/staffIds")
     public ResponseEntity<List<Long>> getAllDistinctStaffIds(@PathVariable Long id) {
+        log.debug("REST request to get Area : {}", id);
+        List<Long> staffIds = areaService.getAllDistinctStaff(id);
+        return ResponseEntity.ok().body(staffIds);
+    }
+
+    @GetMapping("/areas/{id}/inmatesIds")
+    public ResponseEntity<List<Long>> getAllDistinctInmatesIds(@PathVariable Long id) {
         log.debug("REST request to get Area : {}", id);
         List<Long> staffIds = areaService.getAllDistinctInmates(id);
         return ResponseEntity.ok().body(staffIds);

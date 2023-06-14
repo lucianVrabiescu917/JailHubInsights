@@ -14,7 +14,7 @@ type PartialWithRequiredKeyOf<T extends { id: unknown }> = Partial<Omit<T, 'id'>
  */
 type AreaFormGroupInput = IArea | PartialWithRequiredKeyOf<NewArea>;
 
-type AreaFormDefaults = Pick<NewArea, 'id' | 'assignedStaffAreas' | 'composedOfAreas' | 'composingAreas'>;
+type AreaFormDefaults = Pick<NewArea, 'id' | 'assignedStaffAreas' | 'composedOfAreas' | 'composingAreas' | 'inmates'>;
 
 type AreaFormGroupContent = {
   id: FormControl<IArea['id'] | NewArea['id']>;
@@ -23,6 +23,7 @@ type AreaFormGroupContent = {
   areaType: FormControl<IArea['areaType']>;
   prison: FormControl<IArea['prison']>;
   assignedStaffAreas: FormControl<IArea['assignedStaffAreas']>;
+  inmates: FormControl<IArea['inmates']>;
   composedOfAreas: FormControl<IArea['composedOfAreas']>;
   composingAreas: FormControl<IArea['composingAreas']>;
 };
@@ -49,6 +50,7 @@ export class AreaFormService {
       areaType: new FormControl(areaRawValue.areaType),
       prison: new FormControl(areaRawValue.prison),
       assignedStaffAreas: new FormControl(areaRawValue.assignedStaffAreas ?? []),
+      inmates: new FormControl(areaRawValue.inmates ?? []),
       composedOfAreas: new FormControl(areaRawValue.composedOfAreas ?? []),
       composingAreas: new FormControl(areaRawValue.composingAreas ?? []),
     });
@@ -72,6 +74,7 @@ export class AreaFormService {
     return {
       id: null,
       assignedStaffAreas: [],
+      inmates: [],
       composedOfAreas: [],
       composingAreas: [],
     };

@@ -43,7 +43,18 @@ export class AreaService {
 
   queryStaff(area: IArea, req?: any): Observable<NumberArrayResponseType> {
     const options = createRequestOption(req);
-    return this.http.get<number[]>(`${this.resourceUrl}/${this.getAreaIdentifier(area)}/staff`, { params: options, observe: 'response' });
+    return this.http.get<number[]>(`${this.resourceUrl}/${this.getAreaIdentifier(area)}/staffIds`, {
+      params: options,
+      observe: 'response',
+    });
+  }
+
+  queryInmates(area: IArea, req?: any): Observable<NumberArrayResponseType> {
+    const options = createRequestOption(req);
+    return this.http.get<number[]>(`${this.resourceUrl}/${this.getAreaIdentifier(area)}/inmatesIds`, {
+      params: options,
+      observe: 'response',
+    });
   }
 
   querySearch(req?: any): Observable<EntityArrayResponseType> {

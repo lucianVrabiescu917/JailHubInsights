@@ -44,14 +44,6 @@ public interface AreaRepository extends AreaRepositoryWithBagRelationships, JpaR
     @Query(value = "DELETE asa.* FROM rel_area__assigned_staff_areas asa " + "        WHERE asa.area_id = :areaId", nativeQuery = true)
     void deleteRelationsWithStaffByAreaId(@Param("areaId") Long areaId);
 
-    //    @Query( value = "SELECT DISTINCT i.id " +
-    //        "FROM staff i " +
-    //        "JOIN rel_area__assigned_staff_areas ai ON ai.assigned_staff_areas_id = i.id " +
-    //        "JOIN area a ON a.id = ai.area_id " +
-    //        "LEFT JOIN rel_area__composed_of_areas c ON c.area_id = a.id " +
-    //        "LEFT JOIN area composedOf ON composedOf.id = c.composed_of_areas_id " +
-    //        "LEFT JOIN rel_area__assigned_staff_areas aci ON aci.area_id = composedOf.id " +
-    //        "WHERE a.id = :areaId OR composedOf.id = :areaId", nativeQuery = true )
     @Query(
         value = "SELECT distinct s.id " +
         "FROM staff s " +
@@ -62,4 +54,15 @@ public interface AreaRepository extends AreaRepositoryWithBagRelationships, JpaR
         nativeQuery = true
     )
     List<Long> getAllStaffIds(@Param("areaId") Long areaId);
+
+    @Query(
+        value = "SELECT distinct s.id " +
+        "FROM inmate s " +
+        "          JOIN rel_area_inmates ai ON ai.inmate_id = s.id " +
+        "          LEFT JOIN area ap on ai.area_id = ap.id " +
+        "          left join rel_area__composed_of_areas cca on ai.area_id = cca.composed_of_areas_id " +
+        "WHERE  ap.id = :areaId or cca.area_id = :areaId ",
+        nativeQuery = true
+    )
+    List<Long> getAllInmatesIds(@Param("areaId") Long areaId);
 }
