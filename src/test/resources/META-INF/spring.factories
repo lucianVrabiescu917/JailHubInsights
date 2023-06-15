@@ -1,1 +1,0 @@
-org.springframework.test.context.ContextCustomizerFactory = ro.luci.jailhubinsights.config.TestContainersSpringContextCustomizerFactory

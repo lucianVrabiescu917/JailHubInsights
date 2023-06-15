@@ -1,0 +1,26 @@
+<div class="row mb-3">
+  <label class="form-label" jhiTranslate="jailHubInsightsApp.area.ratio">Staff/Inmates Ratio</label>
+  <div class="col-2">
+    <div class="battery">
+      <div
+        class="battery-level"
+        [ngClass]="{
+          green: value >= 1 && value <= 33,
+          yellow: value > 33 && value <= 66,
+          red: value > 66,
+          full: value === 100
+        }"
+        [style.height.%]="batteryLevel"
+      ></div>
+    </div>
+  </div>
+  <div class="col-2 ratio-label">
+    <label *ngIf="value >= 1 && value <= 33" class="form-label green" jhiTranslate="jailHubInsightsApp.area.ratio_messages.green"
+      >Perfect ratio!</label
+    >
+    <label *ngIf="value > 33 && value <= 66" class="form-label yellow" jhiTranslate="jailHubInsightsApp.area.ratio_messages.yellow"
+      >Decent ratio!</label
+    >
+    <label *ngIf="value > 66" class="form-label red" jhiTranslate="jailHubInsightsApp.area.ratio_messages.red">Bad ratio!</label>
+  </div>
+</div>
