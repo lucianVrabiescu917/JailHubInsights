@@ -146,12 +146,12 @@ public class InmateQueryService extends QueryService<Inmate> {
                 specification =
                     specification.and(buildSpecification(longFilter, root -> root.join(Inmate_.prison, JoinType.LEFT).get(Prison_.id)));
             }
-            if (criteria.getAssignedCellId() != null) {
+            if (criteria.getAssignedAreasId() != null) {
                 specification =
                     specification.and(
                         buildSpecification(
-                            criteria.getAssignedCellId(),
-                            root -> root.join(Inmate_.assignedCell, JoinType.LEFT).get(Area_.id)
+                            criteria.getAssignedAreasId(),
+                            root -> root.join(Inmate_.assignedAreas, JoinType.LEFT).get(Area_.id)
                         )
                     );
             }

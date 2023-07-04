@@ -1,0 +1,60 @@
+.battery {
+  width: 50px;
+  height: 100px;
+  background-color: #deddd9;
+  border: 2px solid black;
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  left: 1%;
+}
+
+.battery-level {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  transition: height 0.5s;
+  border-radius: 0 0 10px 10px;
+}
+
+.battery-level::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  transform-origin: bottom;
+  transition: transform 0.5s;
+}
+
+.battery-level.green {
+  background-color: #18bc9c;
+}
+
+.battery-level.yellow {
+  background-color: #deb723;
+}
+
+.battery-level.red {
+  background-color: #e74c3c;
+}
+
+.ratio-label {
+  position: absolute;
+  top: 18%;
+  left: 25%;
+}
+
+.green {
+  color: #18bc9c;
+}
+
+.yellow {
+  color: #deb723;
+}
+
+.red {
+  color: #e74c3c;
+}

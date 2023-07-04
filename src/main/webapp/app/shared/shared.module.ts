@@ -15,6 +15,7 @@ import { ItemCountComponent } from './pagination/item-count.component';
 import { FilterComponent } from './filter/filter.component';
 import { ImageContainerComponent } from './image/image-container/image-container.component';
 import { SearchBarComponent } from './search/search-bar/search-bar.component';
+import { RatioVisualComponent } from './ratioVisual/ratio-visual/ratio-visual.component';
 
 @NgModule({
   imports: [SharedLibsModule],
@@ -33,6 +34,7 @@ import { SearchBarComponent } from './search/search-bar/search-bar.component';
     FilterComponent,
     ImageContainerComponent,
     SearchBarComponent,
+    RatioVisualComponent,
   ],
   exports: [
     SharedLibsModule,
@@ -50,6 +52,7 @@ import { SearchBarComponent } from './search/search-bar/search-bar.component';
     FilterComponent,
     ImageContainerComponent,
     SearchBarComponent,
+    RatioVisualComponent,
   ],
 })
 export class SharedModule {}

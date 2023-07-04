@@ -39,6 +39,11 @@ export class StaffService {
     return this.http.get<IStaff[]>(this.resourceUrl, { params: options, observe: 'response' });
   }
 
+  queryAll(req?: any): Observable<EntityArrayResponseType> {
+    const options = createRequestOption(req);
+    return this.http.get<IStaff[]>(`${this.resourceUrl}/all`, { params: options, observe: 'response' });
+  }
+
   querySearch(req?: any): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
     return this.http.get<IStaff[]>(`${this.resourceUrl}/hint`, { params: options, observe: 'response' });

@@ -33,4 +33,12 @@ public interface InmateRepository
     @Modifying
     @Query(value = "update inmate i set i.assigned_cell_id = null where i.assigned_cell_id = :areaId", nativeQuery = true)
     void removeAreaFromInmateByAreaId(@Param("areaId") Long areaId);
+
+    @Modifying
+    @Query(value = "DELETE asa.* FROM rel_area_inmates asa " + "              WHERE asa.inmate_id = :inmateId", nativeQuery = true)
+    void deleteRelationsWithAreaById(@Param("inmateId") Long inmateId);
+
+    @Modifying
+    @Query(value = "DELETE asa.* FROM rel_inmate__activity asa " + "              WHERE asa.inmate_id = :inmateId", nativeQuery = true)
+    void deleteRelationsWithActivityById(@Param("inmateId") Long inmateId);
 }

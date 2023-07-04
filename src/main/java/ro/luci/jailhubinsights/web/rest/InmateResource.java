@@ -24,9 +24,6 @@ import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
-/**
- * REST controller for managing {@link ro.luci.jailhubinsights.domain.Inmate}.
- */
 @RestController
 @RequestMapping("/api")
 public class InmateResource {
@@ -50,13 +47,6 @@ public class InmateResource {
         this.inmateQueryService = inmateQueryService;
     }
 
-    /**
-     * {@code POST  /inmates} : Create a new inmate.
-     *
-     * @param inmateDTO the inmateDTO to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new inmateDTO, or with status {@code 400 (Bad Request)} if the inmate has already an ID.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
-     */
     @PostMapping("/inmates")
     public ResponseEntity<InmateDTO> createInmate(@RequestBody InmateDTO inmateDTO) throws URISyntaxException {
         log.debug("REST request to save Inmate : {}", inmateDTO);
@@ -70,16 +60,6 @@ public class InmateResource {
             .body(result);
     }
 
-    /**
-     * {@code PUT  /inmates/:id} : Updates an existing inmate.
-     *
-     * @param id the id of the inmateDTO to save.
-     * @param inmateDTO the inmateDTO to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated inmateDTO,
-     * or with status {@code 400 (Bad Request)} if the inmateDTO is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the inmateDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
-     */
     @PutMapping("/inmates/{id}")
     public ResponseEntity<InmateDTO> updateInmate(
         @PathVariable(value = "id", required = false) final Long id,
@@ -104,17 +84,6 @@ public class InmateResource {
             .body(result);
     }
 
-    /**
-     * {@code PATCH  /inmates/:id} : Partial updates given fields of an existing inmate, field will ignore if it is null
-     *
-     * @param id the id of the inmateDTO to save.
-     * @param inmateDTO the inmateDTO to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated inmateDTO,
-     * or with status {@code 400 (Bad Request)} if the inmateDTO is not valid,
-     * or with status {@code 404 (Not Found)} if the inmateDTO is not found,
-     * or with status {@code 500 (Internal Server Error)} if the inmateDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
-     */
     @PatchMapping(value = "/inmates/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<InmateDTO> partialUpdateInmate(
         @PathVariable(value = "id", required = false) final Long id,
@@ -140,13 +109,6 @@ public class InmateResource {
         );
     }
 
-    /**
-     * {@code GET  /inmates} : get all the inmates.
-     *
-     * @param pageable the pagination information.
-     * @param criteria the criteria which the requested entities should match.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of inmates in body.
-     */
     @GetMapping("/inmates")
     public ResponseEntity<List<InmateDTO>> getAllInmates(
         InmateCriteria criteria,
@@ -170,24 +132,12 @@ public class InmateResource {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
-    /**
-     * {@code GET  /inmates/count} : count all the inmates.
-     *
-     * @param criteria the criteria which the requested entities should match.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
-     */
     @GetMapping("/inmates/count")
     public ResponseEntity<Long> countInmates(InmateCriteria criteria) {
         log.debug("REST request to count Inmates by criteria: {}", criteria);
         return ResponseEntity.ok().body(inmateQueryService.countByCriteria(criteria));
     }
 
-    /**
-     * {@code GET  /inmates/:id} : get the "id" inmate.
-     *
-     * @param id the id of the inmateDTO to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the inmateDTO, or with status {@code 404 (Not Found)}.
-     */
     @GetMapping("/inmates/{id}")
     public ResponseEntity<InmateDTO> getInmate(@PathVariable Long id) {
         log.debug("REST request to get Inmate : {}", id);
@@ -195,12 +145,6 @@ public class InmateResource {
         return ResponseUtil.wrapOrNotFound(inmateDTO);
     }
 
-    /**
-     * {@code DELETE  /inmates/:id} : delete the "id" inmate.
-     *
-     * @param id the id of the inmateDTO to delete.
-     * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
-     */
     @DeleteMapping("/inmates/{id}")
     public ResponseEntity<Void> deleteInmate(@PathVariable Long id) {
         log.debug("REST request to delete Inmate : {}", id);

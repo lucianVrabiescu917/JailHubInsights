@@ -31,6 +31,24 @@ public class Prison implements Serializable {
     @Column(name = "image")
     private String image;
 
+    @Column(name = "cell_ratio")
+    private Double cellRatio;
+
+    @Column(name = "cell_block_ratio")
+    private Double cellBlockRatio;
+
+    @Column(name = "labor_ratio")
+    private Double laborRatio;
+
+    @Column(name = "recreation_ratio")
+    private Double recreationRatio;
+
+    @Column(name = "class_ratio")
+    private Double classRatio;
+
+    @Column(name = "dining_ratio")
+    private Double diningRatio;
+
     @OneToMany(mappedBy = "prison")
     @JsonIgnoreProperties(value = { "prison", "assignedCell", "activities" }, allowSetters = true)
     private Set<Inmate> inmates = new HashSet<>();
@@ -228,6 +246,54 @@ public class Prison implements Serializable {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public Double getCellRatio() {
+        return cellRatio;
+    }
+
+    public void setCellRatio(Double cellRatio) {
+        this.cellRatio = cellRatio;
+    }
+
+    public Double getCellBlockRatio() {
+        return cellBlockRatio;
+    }
+
+    public void setCellBlockRatio(Double cellBlockRatio) {
+        this.cellBlockRatio = cellBlockRatio;
+    }
+
+    public Double getLaborRatio() {
+        return laborRatio;
+    }
+
+    public void setLaborRatio(Double laborRatio) {
+        this.laborRatio = laborRatio;
+    }
+
+    public Double getRecreationRatio() {
+        return recreationRatio;
+    }
+
+    public void setRecreationRatio(Double recreationRatio) {
+        this.recreationRatio = recreationRatio;
+    }
+
+    public Double getClassRatio() {
+        return classRatio;
+    }
+
+    public void setClassRatio(Double classRatio) {
+        this.classRatio = classRatio;
+    }
+
+    public Double getDiningRatio() {
+        return diningRatio;
+    }
+
+    public void setDiningRatio(Double diningRatio) {
+        this.diningRatio = diningRatio;
     }
 
     @Override

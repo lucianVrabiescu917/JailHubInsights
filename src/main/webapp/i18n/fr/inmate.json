@@ -6,7 +6,11 @@
         "refreshListLabel": "Actualiser la liste",
         "createLabel": "Créer un nouveau Inmate",
         "createOrEditLabel": "Créer ou éditer un Inmate",
-        "notFound": "Aucun Inmate trouvé"
+        "notFound": "Aucun Inmate trouvé",
+        "export_excel": "Exporter vers Excel",
+        "import_excel": "Importer depuis Excel",
+        "export_word": "Exporter vers Word",
+        "import_word": "Importer depuis Word"
       },
       "created": "Un nouveau Inmate a été créé avec l'identifiant {{ param }}",
       "updated": "Le Inmate avec l'identifiant {{ param }} a été mis à jour",

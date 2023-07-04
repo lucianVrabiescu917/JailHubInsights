@@ -142,13 +142,6 @@ public class StaffResource {
         );
     }
 
-    /**
-     * {@code GET  /staff} : get all the staff.
-     *
-     * @param pageable the pagination information.
-     * @param criteria the criteria which the requested entities should match.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of staff in body.
-     */
     @GetMapping("/staff")
     public ResponseEntity<List<StaffDTO>> getAllStaff(
         StaffCriteria criteria,
@@ -158,6 +151,16 @@ public class StaffResource {
         Page<StaffDTO> page = staffQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    @GetMapping("/staff/all")
+    public ResponseEntity<List<StaffDTO>> getAllStaffNoPagination(
+        StaffCriteria criteria,
+        @org.springdoc.api.annotations.ParameterObject Pageable pageable
+    ) {
+        log.debug("REST request to get Staff by criteria: {}", criteria);
+        List<StaffDTO> list = staffQueryService.findByCriteria(criteria);
+        return ResponseEntity.ok().body(list);
     }
 
     @GetMapping("/staff/hint")

@@ -2,6 +2,7 @@ package ro.luci.jailhubinsights.service.dto;
 
 import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.Column;
 
 /**
  * A DTO for the {@link ro.luci.jailhubinsights.domain.Prison} entity.
@@ -16,6 +17,18 @@ public class PrisonDTO implements Serializable {
     private String location;
 
     private String image;
+
+    private Double cellRatio;
+
+    private Double cellBlockRatio;
+
+    private Double laborRatio;
+
+    private Double recreationRatio;
+
+    private Double classRatio;
+
+    private Double diningRatio;
 
     public PrisonDTO(Long id, String name, String location, String image) {
         this.id = id;
@@ -56,6 +69,54 @@ public class PrisonDTO implements Serializable {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public Double getCellRatio() {
+        return cellRatio;
+    }
+
+    public void setCellRatio(Double cellRatio) {
+        this.cellRatio = cellRatio;
+    }
+
+    public Double getCellBlockRatio() {
+        return cellBlockRatio;
+    }
+
+    public void setCellBlockRatio(Double cellBlockRatio) {
+        this.cellBlockRatio = cellBlockRatio;
+    }
+
+    public Double getLaborRatio() {
+        return laborRatio;
+    }
+
+    public void setLaborRatio(Double laborRatio) {
+        this.laborRatio = laborRatio;
+    }
+
+    public Double getRecreationRatio() {
+        return recreationRatio;
+    }
+
+    public void setRecreationRatio(Double recreationRatio) {
+        this.recreationRatio = recreationRatio;
+    }
+
+    public Double getClassRatio() {
+        return classRatio;
+    }
+
+    public void setClassRatio(Double classRatio) {
+        this.classRatio = classRatio;
+    }
+
+    public Double getDiningRatio() {
+        return diningRatio;
+    }
+
+    public void setDiningRatio(Double diningRatio) {
+        this.diningRatio = diningRatio;
     }
 
     @Override

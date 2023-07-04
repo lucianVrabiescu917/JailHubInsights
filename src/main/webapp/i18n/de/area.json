@@ -15,17 +15,24 @@
         "question": "Soll Area {{ id }} wirklich dauerhaft gelöscht werden?"
       },
       "detail": {
-        "title": "Area"
+        "title": "Bereich"
       },
       "id": "ID",
       "name": "Name",
-      "areaSize": "Area Size",
-      "areaType": "Area Type",
-      "prison": "Prison",
-      "assignedStaffAreas": "Assigned Staff Areas",
-      "composedOfAreas": "Composed Of Areas",
-      "inmate": "Inmate",
-      "composingAreas": "Composing Areas"
+      "areaSize": "Flächengröße",
+      "areaType": "Bereichstyp",
+      "prison": "Gefängnis",
+      "assignedStaffAreas": "Zugewiesene Mitarbeiterbereiche",
+      "composedOfAreas": "Zusammengesetzt Aus Bereichen",
+      "inmate": "Insasse",
+      "inmates": "Insassen",
+      "composingAreas": "Zusammengesetzte Bereiche",
+      "ratio": "Mitarbeiter/Insassen-Verhältnis",
+      "ratio_messages": {
+        "green": "Perfektes Verhältnis!",
+        "yellow": "Angemessenes Verhältnis!",
+        "red": "Schlechtes Verhältnis!"
+      }
     }
   }
 }

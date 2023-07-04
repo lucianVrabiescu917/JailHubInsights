@@ -22,10 +22,17 @@
       "areaSize": "Area Size",
       "areaType": "Area Type",
       "prison": "Prison",
-      "assignedStaffAreas": "Assigned Staff Areas",
+      "assignedStaffAreas": "Assigned Staff",
       "composedOfAreas": "Composed Of Areas",
       "inmate": "Inmate",
-      "composingAreas": "Composing Areas"
+      "inmates": "Inmates",
+      "composingAreas": "Composing Areas",
+      "ratio": "Staff/Inmates Ratio",
+      "ratio_messages": {
+        "green": "Perfect ratio!",
+        "yellow": "Decent ratio!",
+        "red": "Bad ratio!"
+      }
     }
   }
 }

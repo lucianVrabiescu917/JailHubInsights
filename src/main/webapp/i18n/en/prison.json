@@ -23,7 +23,15 @@
       "inmate": "Inmate",
       "area": "Area",
       "activity": "Activity",
-      "staff": "Staff"
+      "staff": "Staff",
+      "ratio": {
+        "cell_ratio": "Cell Ratio",
+        "cell_block_ratio": "Cell Block Ratio",
+        "dining_area_ratio": "Dining Area Ratio",
+        "recreational_area_ratio": "Recreational Area Ratio",
+        "labor_site_ratio": "Labor Site Ratio",
+        "class_area_ratio": "Class Area Ratio"
+      }
     }
   }
 }

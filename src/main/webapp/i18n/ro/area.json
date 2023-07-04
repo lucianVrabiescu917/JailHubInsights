@@ -15,17 +15,24 @@
         "question": "Sunteți sigur că doriți să ștergeți Area {{ id }}?"
       },
       "detail": {
-        "title": "Area"
+        "title": "Zonă"
       },
       "id": "ID",
-      "name": "Name",
-      "areaSize": "Area Size",
-      "areaType": "Area Type",
-      "prison": "Prison",
-      "assignedStaffAreas": "Assigned Staff Areas",
-      "composedOfAreas": "Composed Of Areas",
-      "inmate": "Inmate",
-      "composingAreas": "Composing Areas"
+      "name": "Nume",
+      "areaSize": "Dimensiune zonă",
+      "areaType": "Tip zonă",
+      "prison": "Închisoare",
+      "assignedStaffAreas": "Personal asignat",
+      "composedOfAreas": "Compusă din zone",
+      "inmate": "Deținut",
+      "inmates": "Deținuți",
+      "composingAreas": "Zone compunere",
+      "ratio": "Raport personal/deținuți",
+      "ratio_messages": {
+        "green": "Raport perfect!",
+        "yellow": "Raport decent!",
+        "red": "Raport slab!"
+      }
     }
   }
 }

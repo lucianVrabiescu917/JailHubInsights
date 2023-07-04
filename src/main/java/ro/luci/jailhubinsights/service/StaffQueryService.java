@@ -60,12 +60,6 @@ public class StaffQueryService extends QueryService<Staff> {
         return staffMapper.toDto(staffRepository.findAll(specification));
     }
 
-    /**
-     * Return a {@link Page} of {@link StaffDTO} which matches the criteria from the database.
-     * @param criteria The object which holds all the filters, which the entities should match.
-     * @param page The page, which should be returned.
-     * @return the matching entities.
-     */
     @Transactional(readOnly = true)
     public Page<StaffDTO> findByCriteria(StaffCriteria criteria, Pageable page) {
         log.debug("find by criteria : {}, page: {}", criteria, page);

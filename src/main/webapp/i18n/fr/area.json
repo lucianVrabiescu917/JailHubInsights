@@ -17,15 +17,25 @@
       "detail": {
         "title": "Area"
       },
+      "detail": {
+        "title": "Zone"
+      },
       "id": "ID",
-      "name": "Name",
-      "areaSize": "Area Size",
-      "areaType": "Area Type",
+      "name": "Nom",
+      "areaSize": "Taille de la zone",
+      "areaType": "Type de zone",
       "prison": "Prison",
-      "assignedStaffAreas": "Assigned Staff Areas",
-      "composedOfAreas": "Composed Of Areas",
-      "inmate": "Inmate",
-      "composingAreas": "Composing Areas"
+      "assignedStaffAreas": "Personnel affecté",
+      "composedOfAreas": "Composé de zones",
+      "inmate": "Détenu",
+      "inmates": "Détenus",
+      "composingAreas": "Zones composantes",
+      "ratio": "Ratio personnel/détenus",
+      "ratio_messages": {
+        "green": "Ratio parfait !",
+        "yellow": "Ratio acceptable !",
+        "red": "Ratio mauvais !"
+      }
     }
   }
 }

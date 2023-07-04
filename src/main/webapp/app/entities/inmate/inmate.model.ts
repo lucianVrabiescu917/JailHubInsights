@@ -14,6 +14,7 @@ export interface IInmate {
   assignedCell?: IArea | null;
   activities?: IActivity[] | null;
   image?: string | null;
+  assignedAreas?: IArea[] | null;
 }
 
 export type NewInmate = Omit<IInmate, 'id'> & { id: null };

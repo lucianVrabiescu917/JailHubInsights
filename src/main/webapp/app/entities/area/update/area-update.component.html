@@ -9,6 +9,11 @@
         <jhi-alert-error></jhi-alert-error>
 
         <div class="row mb-3">
+          <jhi-ratio-visual [value]="ratio && allInmates.length > 0 ? 100 - ((allStaff.length / allInmates.length) * 100) / ratio : 0">
+          </jhi-ratio-visual>
+        </div>
+
+        <div class="row mb-3">
           <label class="form-label" jhiTranslate="jailHubInsightsApp.area.name" for="field_name">Name</label>
           <input type="text" class="form-control" name="name" id="field_name" data-cy="name" formControlName="name" />
         </div>
@@ -46,6 +51,23 @@
         </div>
 
         <div class="row mb-3">
+          <label jhiTranslate="jailHubInsightsApp.area.inmates" for="field_inmates">Assigned Inmates</label>
+          <select
+            class="form-control"
+            id="field_inmates"
+            data-cy="inmates"
+            multiple
+            name="inmates"
+            formControlName="inmates"
+            [compareWith]="compareStaff"
+          >
+            <option [ngValue]="inmateOption" *ngFor="let inmateOption of inmatesSharedCollection">
+              {{ inmateOption.firstName + ' ' + inmateOption.lastName }}
+            </option>
+          </select>
+        </div>
+
+        <div class="row mb-3" *ngIf="editForm.value['areaType'] === 'CELL_BLOCK'">
           <label jhiTranslate="jailHubInsightsApp.area.composedOfAreas" for="field_composedOfAreas">Composed Of Areas</label>
           <select
             class="form-control"

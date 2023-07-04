@@ -6,11 +6,13 @@ import { isPresent } from 'app/core/util/operators';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
 import { IArea, NewArea } from '../area.model';
+import { IStaff } from '../../staff/staff.model';
 
 export type PartialUpdateArea = Partial<IArea> & Pick<IArea, 'id'>;
 
 export type EntityResponseType = HttpResponse<IArea>;
 export type EntityArrayResponseType = HttpResponse<IArea[]>;
+export type NumberArrayResponseType = HttpResponse<number[]>;
 
 @Injectable({ providedIn: 'root' })
 export class AreaService {
@@ -37,6 +39,22 @@ export class AreaService {
   query(req?: any): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
     return this.http.get<IArea[]>(this.resourceUrl, { params: options, observe: 'response' });
+  }
+
+  queryStaff(area: IArea, req?: any): Observable<NumberArrayResponseType> {
+    const options = createRequestOption(req);
+    return this.http.get<number[]>(`${this.resourceUrl}/${this.getAreaIdentifier(area)}/staffIds`, {
+      params: options,
+      observe: 'response',
+    });
+  }
+
+  queryInmates(area: IArea, req?: any): Observable<NumberArrayResponseType> {
+    const options = createRequestOption(req);
+    return this.http.get<number[]>(`${this.resourceUrl}/${this.getAreaIdentifier(area)}/inmatesIds`, {
+      params: options,
+      observe: 'response',
+    });
   }
 
   querySearch(req?: any): Observable<EntityArrayResponseType> {

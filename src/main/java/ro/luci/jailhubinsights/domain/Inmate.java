@@ -45,9 +45,9 @@ public class Inmate implements Serializable {
     @JsonIgnoreProperties(value = { "inmates", "areas", "activities", "staff" }, allowSetters = true)
     private Prison prison;
 
-    @ManyToOne
+    @ManyToMany(mappedBy = "assignedStaffAreas")
     @JsonIgnoreProperties(value = { "prison", "assignedStaffAreas", "composedOfAreas", "inmates", "composingAreas" }, allowSetters = true)
-    private Area assignedCell;
+    private Set<Area> assignedAreas = new HashSet<>();
 
     @ManyToMany(mappedBy = "inmates")
     @JsonIgnoreProperties(value = { "prison", "inmates", "staff" }, allowSetters = true)
@@ -146,16 +146,34 @@ public class Inmate implements Serializable {
         return this;
     }
 
-    public Area getAssignedCell() {
-        return this.assignedCell;
+    public Set<Area> getAssignedAreas() {
+        return assignedAreas;
     }
 
-    public void setAssignedCell(Area area) {
-        this.assignedCell = area;
+    public void setAssignedAreas(Set<Area> areas) {
+        if (this.assignedAreas != null) {
+            this.assignedAreas.forEach(i -> i.removeInmates(this));
+        }
+        if (areas != null) {
+            areas.forEach(i -> i.addInmates(this));
+        }
+        this.assignedAreas = areas;
     }
 
-    public Inmate assignedCell(Area area) {
-        this.setAssignedCell(area);
+    public Inmate assignedAreas(Set<Area> areas) {
+        this.setAssignedAreas(areas);
+        return this;
+    }
+
+    public Inmate addAssignedAreas(Area area) {
+        this.assignedAreas.add(area);
+        area.getInmates().add(this);
+        return this;
+    }
+
+    public Inmate removeAssignedAreas(Area area) {
+        this.assignedAreas.remove(area);
+        area.getInmates().remove(this);
         return this;
     }
 
